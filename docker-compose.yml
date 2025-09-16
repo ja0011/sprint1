@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: mysql:8.0
+    env_file: .env
+    command: --default-authentication-plugin=caching_sha2_password
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  adminer:
+    image: adminer:latest
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "${ADMINER_PORT:-8080}:8080"
+
+volumes:
+  dbdata:
