@@ -5,21 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Settings</title>
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; }
+    body { 
+      margin: 0; 
+      font-family: Arial, sans-serif; }
+
+    /* Navbar */
     .navbar {
-      display: flex; justify-content: space-between; align-items: center;
-      background-color: #1C375C; padding: 10px 20px;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      background-color: #1C375C; 
+      padding: 10px 20px;
     }
-    .navbar .brand { color: white; font-size: 20px; text-decoration: none; }
-    .navbar ul { list-style: none; display: flex; gap: 15px; margin: 0; padding: 0; }
+    
+    .navbar .brand { 
+      color: white; 
+      font-size: 20px; 
+      text-decoration: none; }
+
+    .navbar ul { 
+      list-style: none; 
+      display: flex; 
+      gap: 15px;
+      margin: 0; 
+      padding: 0; }
+
     .navbar ul li a {
-      color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px;
+      color: white; 
+      text-decoration: none; 
+      padding: 8px 12px; 
+      border-radius: 5px;
     }
-    .navbar ul li a:hover { background-color: #555; }
-    .content { padding: 20px; }
+
+    .navbar ul li a:hover { 
+      background-color: #555; 
+    }
+    .content { 
+      padding: 20px; 
+    }
   </style>
 </head>
 <body>
+  <!-- Navbar -->
   <nav class="navbar">
     <img src="DC.jpg" class="logo" alt="Logo" style="height:40px;">
     <a href="index.html" class="brand"></a>
