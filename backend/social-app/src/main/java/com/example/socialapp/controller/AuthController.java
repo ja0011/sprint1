@@ -21,6 +21,13 @@ import jakarta.validation.constraints.NotBlank;
 @Validated
 public class AuthController {
 
+  @PostMapping("/logout")
+public ResponseEntity<?> logout() {
+  // When you add sessions/JWT, revoke here. For now, no-op is fine.
+  return ResponseEntity.ok().build();
+}
+
+
   private final UserRepository users;
   private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
