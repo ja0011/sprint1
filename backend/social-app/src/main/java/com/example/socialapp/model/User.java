@@ -7,46 +7,76 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "users")
+@Table(
+    name = "users",
+    indexes = {
+        @Index(name = "idx_users_username", columnList = "username", unique = true),
+        @Index(name = "idx_users_email", columnList = "email", unique = true)
+    }
+)
 public class User {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, unique = true, length = 40)
   @NotBlank
+  @Column(nullable = false, unique = true, length = 40)
   private String username;
 
-  @Column(nullable = false, unique = true, length = 120)
   @NotBlank
   @Email
+  @Column(nullable = false, unique = true, length = 120)
   private String email;
 
-  @Column(name = "password_hash", nullable = false, length = 100)
+  // IMPORTANT: maps to the DB column 'password_hash'
   @NotBlank
+  @Column(name = "password_hash", nullable = false, length = 100)
   private String passwordHash;
 
-  @Column(name = "created_at", nullable = false)
+  @Column(name = "created_at", nullable = false, updatable = false)
   private Instant createdAt = Instant.now();
 
-  // getters/setters
-  public Long getId() { return id; }
-  public void setId(Long id) { this.id = id; }
+  // --- Getters & Setters ---
+  public Long getId() {
+    return id;
+  }
 
-  public String getUsername() { return username; }
-  public void setUsername(String username) { this.username = username; }
+  public String getUsername() {
+    return username;
+  }
 
-  public String getEmail() { return email; }
-  public void setEmail(String email) { this.email = email; }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-  public String getPasswordHash() { return passwordHash; }
-  public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+  public String getEmail() {
+    return email;
+  }
 
-  public Instant getCreatedAt() { return createdAt; }
-  public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getPasswordHash() {
+    return passwordHash;
+  }
+
+  public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
+  }
+
+  public Instant getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Instant createdAt) {
+    this.createdAt = createdAt;
+  }
 }

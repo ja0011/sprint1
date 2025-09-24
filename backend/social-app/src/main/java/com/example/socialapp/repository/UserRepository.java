@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.socialapp.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+
   boolean existsByUsername(String username);
+
   boolean existsByEmail(String email);
+
   Optional<User> findByUsername(String username);
 
-    public Object findByEmail(String email);
+  Optional<User> findByEmail(String email);
 }
