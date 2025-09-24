@@ -43,6 +43,9 @@
     .navbar ul li a:hover { 
       background-color: #163058; 
     }
+    .content {
+      padding: 20px;
+    }
   </style>
 </head>
 <body>
@@ -61,6 +64,22 @@
   <div class="content">
     <h1>Home Page</h1>
     <p>Welcome to the home page.</p>
+
+    <!-- NEW: shows only if user logged in earlier -->
+    <p id="welcomeUser" style="display:none;">
+      Welcome back, <strong id="welcomeName"></strong>!
+    </p>
   </div>
+
+  <script>
+    // Minimal personalization: show name saved by login.html
+    (function () {
+      const name = localStorage.getItem('username');
+      if (name) {
+        document.getElementById('welcomeName').textContent = name;
+        document.getElementById('welcomeUser').style.display = 'block';
+      }
+    })();
+  </script>
 </body>
 </html>

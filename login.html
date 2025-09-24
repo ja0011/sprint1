@@ -124,13 +124,60 @@
   <div class="content">
     <div class="login-box">
       <h2>Login</h2>
-      <form action="profile.html" method="get">
+
+      <!-- Keep same visual form; just add names + JS handler -->
+      <form id="loginForm" novalidate>
         <input type="text" placeholder="Username" name="username" required>
         <input type="password" placeholder="Password" name="password" required>
         <button type="submit" class="login-btn">Login</button>
-        <button type="button" class="forgot-btn">Forgot Password?</button>
+        <button type="button" class="forgot-btn" id="forgotBtn">Forgot Password?</button>
       </form>
     </div>
   </div>
+
+  <script>
+    // Adjust if your backend is hosted elsewhere/port differs.
+    const API_BASE = "http://localhost:8081";
+
+    const form = document.getElementById('loginForm');
+    const forgotBtn = document.getElementById('forgotBtn');
+
+    forgotBtn.addEventListener('click', () => {
+      window.location.href = 'reset.html';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const fd = new FormData(form);
+      const username = (fd.get('username') || '').trim();
+      const password = (fd.get('password') || '');
+
+      if (!username || !password) {
+        alert('Please enter username and password.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const body = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          alert('Login failed: ' + (body.error || res.status));
+          return;
+        }
+
+        // Minimal "session": store username for profile page
+        localStorage.setItem('username', body.username || username);
+        window.location.href = 'profile.html';
+      } catch (err) {
+        alert('Network error. Is the backend running on :8081?');
+      }
+    });
+  </script>
 </body>
 </html>

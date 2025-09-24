@@ -60,6 +60,12 @@
     .login-box button:hover {
       background: #1C375C;
     }
+    /* minimal inline message style */
+    #regMsg {
+      display:none; margin-top:8px; padding:10px; border-radius:6px; font-size:14px;
+    }
+    #regMsg.ok { display:block; background:#e9f7ef; color:#1e8449; border:1px solid #c5e7d3; }
+    #regMsg.err{ display:block; background:#fdecea; color:#c0392b; border:1px solid #f5c6cb; }
   </style>
 </head>
 <body>
@@ -76,17 +82,69 @@
     </ul>
   </nav>
 
-  <!-- Login Form -->
+  <!-- Register Form -->
   <div class="content">
     <div class="login-box">
-        <h2>Create Account</h2>
-        <form>
-          <input type="text" placeholder="Name" required>
-          <input type="email" placeholder="Email" required>
-          <input type="password" placeholder="Password" required>
-          <button type="submit">Register</button>
-        </form>
-      </div>
+      <h2>Create Account</h2>
+      <!-- NEW: small message area -->
+      <div id="regMsg"></div>
+
+      <!-- (kept original structure) -->
+      <form id="registerForm">
+        <!-- NEW: add name= attributes -->
+        <input type="text" name="username" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Register</button>
+      </form>
+    </div>
   </div>
+
+  <script>
+    // Use your backend URL/port
+    const API_BASE = "http://localhost:8081";
+
+    const form = document.getElementById('registerForm');
+    const msg  = document.getElementById('regMsg');
+
+    function showMsg(text, ok=false){
+      msg.className = ok ? 'ok' : 'err';
+      msg.textContent = text;
+      msg.id = 'regMsg'; // keep id after class change
+      msg.style.display = 'block';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.style.display = 'none';
+
+      const fd = new FormData(form);
+      const username = (fd.get('username') || '').trim();
+      const email    = (fd.get('email') || '').trim();
+      const password = (fd.get('password') || '');
+
+      if (!username || !email || !password) {
+        showMsg('Please fill out all fields.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password })
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          showMsg(body.error ? `Error: ${body.error}` : `Error ${res.status}`);
+          return;
+        }
+        showMsg(`Account created for ${body.username || username}. Redirecting to login...`, true);
+        setTimeout(() => window.location.href = 'login.html', 800);
+      } catch (err) {
+        showMsg('Network error. Is the backend running on :8081?');
+      }
+    });
+  </script>
 </body>
 </html>
