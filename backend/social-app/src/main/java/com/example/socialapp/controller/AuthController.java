@@ -21,7 +21,10 @@ import jakarta.validation.constraints.NotBlank;
 @Validated
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://localhost:5500"})
+@CrossOrigin(origins = {
+  "http://127.0.0.1:5500", "http://localhost:5500",
+  "http://127.0.0.1:3000", "http://localhost:3000"
+})
 public class AuthController {
 
   private final UserRepository users;
