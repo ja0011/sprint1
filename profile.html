@@ -4,68 +4,117 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f5f5;
-      color: #333;
+      background-color: #f0f2f5;
+      font-family: Arial, sans-serif;
     }
-    /* Navbar */
+
+    /*Navbar*/
     .navbar {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 30px; background-color: #1C375C;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 100;
+      background-color: #003385;
     }
-    .navbar .brand { color: #fff; font-size: 24px; font-weight: bold; text-decoration: none; margin-left: 10px; }
-    .navbar ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
-    .navbar ul li a { color: #fff; text-decoration: none; padding: 8px 16px; border-radius: 8px; transition: 0.3s; }
-    .navbar ul li a:hover { background-color: #163058; }
+    .navbar .nav-link {
+      color: #ffffff; 
+    }
+    .navbar .nav-link:hover {
+    color: #000000;
+    text-shadow:
+      -1px -1px 0 #ffffff,
+       1px -1px 0 #ffffff,
+      -1px  1px 0 #ffffff,
+       1px  1px 0 #ffffff;
+      }
+    .navbar-brand img {
+      height: 40px;
+    }
+    .navbar-nav {
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
+
+    .navbar-nav .nav-item {
+      white-space: nowrap;
+    }
+    .navbar-nav .nav-link {
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+    }
 
     /* Profile Card */
     .profile-card {
-      max-width: 450px; background: #fff; margin: 50px auto; padding: 40px 30px;
-      border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
+      max-width: 450px;
+      margin: 50px auto;
+      padding: 40px 30px;
+      background-color: #fff;
+      border-radius: 25px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
     }
     .profile-card img {
-      width: 180px; height: 180px; border-radius: 50%; border: 4px solid #1C375C;
-      object-fit: cover; margin-bottom: 20px; transition: transform 0.3s, opacity 0.3s;
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #003385;
+      margin-bottom: 20px;
+      transition: transform 0.3s, opacity 0.3s;
     }
     .profile-card img:hover { transform: scale(1.05); }
-    .profile-card h2 { color: #1C375C; font-size: 28px; margin: 10px 0; }
-    .profile-card p { color: #555; font-size: 16px; margin: 10px 0; }
 
     /* Inputs */
     .profile-card input[type="text"], .profile-card input[type="file"] {
-      width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 12px; font-size: 16px; display: none;
+      width: 90%;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      display: none;
     }
 
     /* Buttons */
-    .button-container { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .button-container button { width: 90%; padding: 12px; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.3s, transform 0.2s; }
-    .edit-btn { background-color: #1C375C; color: #fff; }
-    .edit-btn:hover { background-color: #163058; transform: scale(1.03); }
+    .button-container button {
+      width: 90%;
+      margin-bottom: 10px;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .edit-btn { background-color: #003385; color: #fff; }
+    .edit-btn:hover { background-color: #0c0c0c; transform: scale(1.03); }
     .save-btn { background-color: #27ae60; color: #fff; display: none; }
     .save-btn:hover { background-color: #1e8449; transform: scale(1.03); }
     .logout-btn { background-color: #888; color: #fff; }
     .logout-btn:hover { background-color: #666; transform: scale(1.03); }
 
-    /* Banner */
-    .banner { background:#e8f5e9; color:#256029; padding:10px 14px; border-radius:10px; margin-bottom: 16px; display:none; }
+    .banner {
+      display: none;
+      background: #e8f5e9;
+      color: #256029;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
   </style>
 </head>
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar">
-    <img src="DC.jpg" class="logo" alt="Logo" style="height:40px;">
-    <a href="index.html" class="brand"></a>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="profile.html">Profile</a></li>
-      <li><a href="settings.html">Settings</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="register.html">Register</a></li>
+  <nav class="navbar navbar-dark px-3">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="DC.jpg" alt="Logo" width="105" height="100">
+    </a>
+  
+    <ul class="navbar-nav ms-auto d-flex flex-row mb-0">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+      <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
     </ul>
   </nav>
 
@@ -73,24 +122,22 @@
   <div class="profile-card">
     <div class="banner" id="loginBanner"></div>
 
-    <!-- Displayed profile info -->
     <img src="default-profile.png" alt="Profile Picture" id="profilePreview">
     <h2 id="displayName">Your Name</h2>
     <p id="displayBio">Your bio goes here. Share a little about yourself!</p>
 
-    <!-- Editable inputs -->
-    <input type="text" id="nameInput" placeholder="Update Name">
-    <input type="text" id="bioInput" placeholder="Update Bio">
-    <input type="file" name="profilePic" accept="image/*" id="profilePicInput">
+    <input type="text" id="nameInput" placeholder="Update Name" class="form-control mx-auto">
+    <input type="text" id="bioInput" placeholder="Update Bio" class="form-control mx-auto">
+    <input type="file" id="profilePicInput" accept="image/*" class="form-control mx-auto">
 
-    <!-- Buttons container -->
-    <div class="button-container">
+    <div class="button-container mt-3">
       <button class="edit-btn" id="editBtn">Edit Profile</button>
       <button class="save-btn" id="saveBtn">Save Changes</button>
       <button class="logout-btn" id="logoutBtn">Logout</button>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const API_BASE = "http://localhost:8081";
     console.log("[profile] script loaded");

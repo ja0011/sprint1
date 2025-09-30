@@ -11,12 +11,20 @@
       font-family: Arial, sans-serif;
     }
     /*Navbar*/
+    .navbar {
+      background-color: #003385;
+    }
     .navbar .nav-link {
-      color: #000108; 
+      color: #ffffff; 
     }
     .navbar .nav-link:hover {
-      color: #ffffff;
-    }
+    color: #000000;
+    text-shadow:
+      -1px -1px 0 #ffffff,
+       1px -1px 0 #ffffff,
+      -1px  1px 0 #ffffff,
+       1px  1px 0 #ffffff;
+      }
     .navbar-brand img {
       height: 40px;
     }
@@ -38,7 +46,7 @@
       width: 100px;
       height: 100px;
       object-fit: cover;
-      border: 2px solid #1877f2;
+      border: 2px solid #003385;
     }
     .feed-card {
       margin-bottom: 20px;
@@ -52,7 +60,7 @@
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-dark px-3" style="background-color:#0d6efd;">
+  <nav class="navbar navbar-dark px-3">
     <a class="navbar-brand d-flex align-items-center" href="index.html">
       <img src="DC.jpg" alt="Logo" width="105" height="100">
     </a>
