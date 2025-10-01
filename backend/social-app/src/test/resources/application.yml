@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create       # build tables from your entities for tests
+    show-sql: false
+
+# We don't need Flyway for the simple context load test.
+# (Your main app still uses Flyway; this is test-only.)
+flyway:
+  enabled: false
