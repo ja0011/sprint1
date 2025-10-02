@@ -40,6 +40,9 @@ public class User {
   @Column(name = "password_hash", nullable = false, length = 100)
   private String passwordHash;
 
+  @Column(name = "is_admin", nullable = false)
+  private boolean admin = false;
+
   @Column(name = "created_at", nullable = false, updatable = false)
   private Instant createdAt = Instant.now();
 
@@ -70,6 +73,14 @@ public class User {
 
   public void setPasswordHash(String passwordHash) {
     this.passwordHash = passwordHash;
+  }
+
+  public boolean isAdmin() {
+    return admin;
+  }
+
+  public void setAdmin(boolean admin) {
+    this.admin = admin;
   }
 
   public Instant getCreatedAt() {

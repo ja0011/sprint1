@@ -19,13 +19,13 @@
       color: #ffffff; 
     }
     .navbar .nav-link:hover {
-    color: #000000;
-    text-shadow:
-      -1px -1px 0 #ffffff,
-       1px -1px 0 #ffffff,
-      -1px  1px 0 #ffffff,
-       1px  1px 0 #ffffff;
-      }
+      color: #000000;
+      text-shadow:
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
+    }
     .navbar-brand img {
       height: 40px;
     }
@@ -70,6 +70,13 @@
     .login-btn:hover { background-color: #070707; }
     .forgot-btn { background-color: #888; color: #fff; }
     .forgot-btn:hover { background-color: #666; }
+    .admin-btn { background-color: #1b4f9c; color: #fff; }
+    .admin-btn:hover { background-color: #11366d; }
+
+    .modal-admin .modal-header,
+    .modal-admin .modal-footer {
+      border: none;
+    }
   </style>
 </head>
 <body>
@@ -84,9 +91,8 @@
       <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
       <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
       <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
-      <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+      <li class="nav-item"><a class="nav-link active" href="login.html">Login</a></li>
       <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-
     </ul>
   </nav>
 
@@ -99,16 +105,132 @@
         <input type="password" class="form-control" placeholder="Password" name="password" required>
         <button type="submit" class="btn login-btn">Login</button>
         <button type="button" id="forgotBtn" class="btn forgot-btn">Forgot Password?</button>
+        <button type="button" class="btn admin-btn" data-bs-toggle="modal" data-bs-target="#adminModal">Admin Portal</button>
       </form>
     </div>
   </div>
+
+  <!-- Admin Modal -->
+  <div class="modal fade modal-admin" id="adminModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Administrator Portal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="adminAuthSelector" class="btn-group w-100 mb-3" role="group">
+            <button type="button" id="adminTabLogin" class="btn btn-outline-primary active">Sign In</button>
+            <button type="button" id="adminTabRegister" class="btn btn-outline-primary">Register Admin</button>
+          </div>
+
+          <div id="adminLoginSection">
+            <p class="text-muted">Only Dallas College administrators with an <strong>@student.dcccd.edu</strong> email may sign in.</p>
+            <form id="adminLoginForm" class="row g-3" novalidate>
+              <div class="col-12">
+                <label for="adminEmail" class="form-label">Admin Email</label>
+                <input type="email" class="form-control" id="adminEmail" name="email" placeholder="name@student.dcccd.edu" required>
+              </div>
+              <div class="col-12">
+                <label for="adminPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="adminPassword" name="password" placeholder="Password" required>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100">Sign In</button>
+              </div>
+            </form>
+            <div id="adminLoginError" class="alert alert-danger mt-3 d-none" role="alert"></div>
+          </div>
+
+          <div id="adminRegisterSection" class="d-none">
+            <p class="text-muted">Create an administrator account using your Dallas College email.</p>
+            <form id="adminRegisterForm" class="row g-3" novalidate>
+              <div class="col-12">
+                <label for="adminRegUsername" class="form-label">Username</label>
+                <input type="text" class="form-control" id="adminRegUsername" name="username" placeholder="Preferred admin username" required>
+              </div>
+              <div class="col-12">
+                <label for="adminRegEmail" class="form-label">Admin Email</label>
+                <input type="email" class="form-control" id="adminRegEmail" name="email" placeholder="name@student.dcccd.edu" required>
+              </div>
+              <div class="col-12">
+                <label for="adminRegPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="adminRegPassword" name="password" placeholder="Create a password" required>
+              </div>
+              <div class="col-12">
+                <label for="adminRegPasswordConfirm" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="adminRegPasswordConfirm" name="passwordConfirm" placeholder="Repeat password" required>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100">Create Admin Account</button>
+              </div>
+            </form>
+            <div id="adminRegisterError" class="alert alert-danger mt-3 d-none" role="alert"></div>
+            <div id="adminRegisterSuccess" class="alert alert-success mt-3 d-none" role="alert"></div>
+          </div>
+
+          <div id="adminDashboardSection" class="d-none">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h5 class="mb-1">Registered Users</h5>
+                <small id="adminWelcome" class="text-muted"></small>
+              </div>
+              <div class="d-flex gap-2">
+                <button id="adminRefreshBtn" class="btn btn-outline-primary btn-sm">Refresh</button>
+                <button id="adminLogoutBtn" class="btn btn-outline-danger btn-sm">Log Out</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Created</th>
+                  </tr>
+                </thead>
+                <tbody id="adminUsersBody">
+                  <tr>
+                    <td colspan="5" class="text-center text-muted">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const API_BASE = 'http://localhost:8081';
+    const ADMIN_DOMAIN = '@student.dcccd.edu';
 
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('loginForm');
       const forgotBtn = document.getElementById('forgotBtn');
+      const adminModalEl = document.getElementById('adminModal');
+      const adminAuthSelector = document.getElementById('adminAuthSelector');
+      const adminTabLogin = document.getElementById('adminTabLogin');
+      const adminTabRegister = document.getElementById('adminTabRegister');
+      const adminLoginSection = document.getElementById('adminLoginSection');
+      const adminRegisterSection = document.getElementById('adminRegisterSection');
+      const adminDashboardSection = document.getElementById('adminDashboardSection');
+      const adminLoginForm = document.getElementById('adminLoginForm');
+      const adminRegisterForm = document.getElementById('adminRegisterForm');
+      const adminLoginError = document.getElementById('adminLoginError');
+      const adminRegisterError = document.getElementById('adminRegisterError');
+      const adminRegisterSuccess = document.getElementById('adminRegisterSuccess');
+      const adminUsersBody = document.getElementById('adminUsersBody');
+      const adminRefreshBtn = document.getElementById('adminRefreshBtn');
+      const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+      const adminWelcome = document.getElementById('adminWelcome');
+
+      let adminToken = null;
+      let currentAdminView = 'login';
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -138,8 +260,225 @@
       if (forgotBtn) {
         forgotBtn.addEventListener('click', () => window.location.href = 'reset.html');
       }
+
+      const adminModal = adminModalEl ? new bootstrap.Modal(adminModalEl) : null;
+
+      function setAdminView(view) {
+        currentAdminView = view;
+        const isLogin = view === 'login';
+        const isRegister = view === 'register';
+        const isDashboard = view === 'dashboard';
+
+        adminLoginSection.classList.toggle('d-none', !isLogin);
+        adminRegisterSection.classList.toggle('d-none', !isRegister);
+        adminDashboardSection.classList.toggle('d-none', !isDashboard);
+
+        adminTabLogin.classList.toggle('active', isLogin);
+        adminTabRegister.classList.toggle('active', isRegister);
+
+        if (!isLogin) {
+          adminLoginError.classList.add('d-none');
+        }
+        if (!isRegister) {
+          adminRegisterError.classList.add('d-none');
+          adminRegisterSuccess.classList.add('d-none');
+        }
+      }
+
+      function resetAdminModal() {
+        adminToken = null;
+        adminLoginForm.reset();
+        adminRegisterForm.reset();
+        adminUsersBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Loading...</td></tr>';
+        adminLoginError.classList.add('d-none');
+        adminRegisterError.classList.add('d-none');
+        adminRegisterSuccess.classList.add('d-none');
+        setAdminView('login');
+      }
+
+      if (adminModalEl) {
+        adminModalEl.addEventListener('hidden.bs.modal', resetAdminModal);
+      }
+
+      adminTabLogin?.addEventListener('click', () => {
+        if (currentAdminView !== 'dashboard') {
+          setAdminView('login');
+        }
+      });
+
+      adminTabRegister?.addEventListener('click', () => {
+        if (currentAdminView !== 'dashboard') {
+          setAdminView('register');
+        }
+      });
+
+      async function fetchUsers() {
+        if (!adminToken) return;
+        adminUsersBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Loading...</td></tr>';
+        try {
+          const res = await fetch(`${API_BASE}/api/admin/users`, {
+            headers: { 'X-Admin-Token': adminToken }
+          });
+          if (!res.ok) {
+            if (res.status === 401) {
+              adminLoginError.textContent = 'Session expired. Please sign in again.';
+              adminLoginError.classList.remove('d-none');
+              setAdminView('login');
+              adminToken = null;
+              return;
+            }
+            throw new Error('Failed to load users');
+          }
+          const users = await res.json();
+          if (!Array.isArray(users) || users.length === 0) {
+            adminUsersBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No users registered yet.</td></tr>';
+            return;
+          }
+          adminUsersBody.innerHTML = users.map(u => {
+            const role = u.admin ? '<span class="badge text-bg-primary">Admin</span>' : 'User';
+            const created = u.createdAt ? new Date(u.createdAt).toLocaleString() : '';
+            return `<tr><td>${u.id}</td><td>${u.username}</td><td>${u.email}</td><td>${role}</td><td>${created}</td></tr>`;
+          }).join('');
+        } catch (err) {
+          console.error('[admin] load users failed', err);
+          adminUsersBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Failed to load users.</td></tr>';
+        }
+      }
+
+      async function adminSignin(email, password) {
+        try {
+          const res = await fetch(`${API_BASE}/api/admin/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+          if (!res.ok) {
+            return { ok: false, status: res.status };
+          }
+          const data = await res.json();
+          adminToken = data.token;
+          adminWelcome.textContent = `Logged in as ${data.email}`;
+          setAdminView('dashboard');
+          await fetchUsers();
+          return { ok: true };
+        } catch (err) {
+          console.error('[admin] login failed', err);
+          return { ok: false, status: 0 };
+        }
+      }
+
+      adminLoginForm?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        adminLoginError.classList.add('d-none');
+
+        const fd = new FormData(adminLoginForm);
+        const email = (fd.get('email') || '').trim().toLowerCase();
+        const password = (fd.get('password') || '').trim();
+
+        if (!email || !password) {
+          adminLoginError.textContent = 'Please enter both email and password.';
+          adminLoginError.classList.remove('d-none');
+          return;
+        }
+        if (!email.endsWith(ADMIN_DOMAIN)) {
+          adminLoginError.textContent = `Admin access requires a ${ADMIN_DOMAIN} email address.`;
+          adminLoginError.classList.remove('d-none');
+          return;
+        }
+
+        const result = await adminSignin(email, password);
+        if (!result.ok) {
+          const msg = result.status === 403
+            ? `Only ${ADMIN_DOMAIN} emails may access the admin portal.`
+            : result.status === 0
+              ? 'Network error. Is the backend running on :8081?'
+              : 'Invalid admin credentials.';
+          adminLoginError.textContent = msg;
+          adminLoginError.classList.remove('d-none');
+        }
+      });
+
+      adminRegisterForm?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        adminRegisterError.classList.add('d-none');
+        adminRegisterSuccess.classList.add('d-none');
+
+        const fd = new FormData(adminRegisterForm);
+        const username = (fd.get('username') || '').trim().toLowerCase();
+        const email = (fd.get('email') || '').trim().toLowerCase();
+        const password = (fd.get('password') || '').trim();
+        const confirm = (fd.get('passwordConfirm') || '').trim();
+
+        if (!username || !email || !password || !confirm) {
+          adminRegisterError.textContent = 'All fields are required.';
+          adminRegisterError.classList.remove('d-none');
+          return;
+        }
+        if (!email.endsWith(ADMIN_DOMAIN)) {
+          adminRegisterError.textContent = `Admin access requires a ${ADMIN_DOMAIN} email address.`;
+          adminRegisterError.classList.remove('d-none');
+          return;
+        }
+        if (password.length < 6) {
+          adminRegisterError.textContent = 'Please choose a password with at least 6 characters.';
+          adminRegisterError.classList.remove('d-none');
+          return;
+        }
+        if (password !== confirm) {
+          adminRegisterError.textContent = 'Passwords do not match.';
+          adminRegisterError.classList.remove('d-none');
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_BASE}/api/admin/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password })
+          });
+          if (!res.ok) {
+            const message = res.status === 403
+              ? `Only ${ADMIN_DOMAIN} emails may register as administrators.`
+              : res.status === 400
+                ? 'Username or email already exists.'
+                : 'Unable to create admin account.';
+            adminRegisterError.textContent = message;
+            adminRegisterError.classList.remove('d-none');
+            return;
+          }
+
+          adminRegisterSuccess.textContent = 'Admin account created! Signing you in...';
+          adminRegisterSuccess.classList.remove('d-none');
+
+          const loginResult = await adminSignin(email, password);
+          if (!loginResult.ok) {
+            adminRegisterSuccess.textContent = 'Admin account created! Please sign in using your credentials.';
+            setAdminView('login');
+          }
+        } catch (err) {
+          console.error('[admin] register failed', err);
+          adminRegisterError.textContent = 'Network error. Is the backend running on :8081?';
+          adminRegisterError.classList.remove('d-none');
+        }
+      });
+
+      adminRefreshBtn?.addEventListener('click', fetchUsers);
+
+      adminLogoutBtn?.addEventListener('click', async () => {
+        try {
+          if (adminToken) {
+            await fetch(`${API_BASE}/api/admin/logout`, {
+              method: 'POST',
+              headers: { 'X-Admin-Token': adminToken }
+            });
+          }
+        } catch (_) {
+          /* ignore network errors on logout */
+        }
+        resetAdminModal();
+        adminModal?.hide();
+      });
     });
   </script>
 </body>
 </html>
-

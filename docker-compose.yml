@@ -4,7 +4,7 @@ services:
     env_file: .env
     command: --default-authentication-plugin=caching_sha2_password
     ports:
-      - "${MYSQL_PORT:-3306}:3306"
+      - "${MYSQL_HOST_PORT:-3306}:3306"
     volumes:
       - dbdata:/var/lib/mysql
     healthcheck:

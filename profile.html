@@ -11,21 +11,21 @@
       font-family: Arial, sans-serif;
     }
 
-    /*Navbar*/
+    /* Navbar */
     .navbar {
       background-color: #003385;
     }
     .navbar .nav-link {
-      color: #ffffff; 
+      color: #ffffff;
     }
     .navbar .nav-link:hover {
-    color: #000000;
-    text-shadow:
-      -1px -1px 0 #ffffff,
-       1px -1px 0 #ffffff,
-      -1px  1px 0 #ffffff,
-       1px  1px 0 #ffffff;
-      }
+      color: #000000;
+      text-shadow:
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
+    }
     .navbar-brand img {
       height: 40px;
     }
@@ -33,7 +33,6 @@
       flex-direction: row;
       flex-wrap: nowrap;
     }
-
     .navbar-nav .nav-item {
       white-space: nowrap;
     }
@@ -64,7 +63,8 @@
     .profile-card img:hover { transform: scale(1.05); }
 
     /* Inputs */
-    .profile-card input[type="text"], .profile-card input[type="file"] {
+    .profile-card input[type="text"],
+    .profile-card input[type="file"] {
       width: 90%;
       margin: 10px 0;
       padding: 12px;
@@ -104,48 +104,38 @@
 <body>
 
   <!-- Navbar -->
-<<<<<<< HEAD
-  <nav class="navbar">
-    <img src="images/DC.jpg" class="logo" alt="Logo" style="height:40px;">
-    <a href="index.html" class="brand"></a>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="profile.html">Profile</a></li>
-      <li><a href="settings.html">Settings</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="register.html">Register</a></li>
-=======
   <nav class="navbar navbar-dark px-3">
     <a class="navbar-brand d-flex align-items-center" href="index.html">
       <img src="images/DC.jpg" alt="Logo" width="105" height="100">
     </a>
-  
+
     <ul class="navbar-nav ms-auto d-flex flex-row mb-0">
       <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
       <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
       <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
       <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
       <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
->>>>>>> origin/main
     </ul>
   </nav>
 
   <!-- Profile Card -->
-  <div class="profile-card">
-    <div class="banner" id="loginBanner"></div>
+  <div class="container">
+    <div class="profile-card">
+      <div id="loginBanner" class="banner"></div>
+      <img id="profilePreview" src="images/default-pfp.png" alt="Profile Picture">
 
-    <img src="default-profile.png" alt="Profile Picture" id="profilePreview">
-    <h2 id="displayName">Your Name</h2>
-    <p id="displayBio">Your bio goes here. Share a little about yourself!</p>
+      <h2 id="displayName">Your Name</h2>
+      <p id="displayBio">Your bio goes here. Share a little about yourself!</p>
 
-    <input type="text" id="nameInput" placeholder="Update Name" class="form-control mx-auto">
-    <input type="text" id="bioInput" placeholder="Update Bio" class="form-control mx-auto">
-    <input type="file" id="profilePicInput" accept="image/*" class="form-control mx-auto">
+      <input type="text" id="nameInput" placeholder="Enter your name" value="">
+      <input type="text" id="bioInput" placeholder="Enter your bio" value="">
+      <input type="file" id="profilePicInput" accept="image/*">
 
-    <div class="button-container mt-3">
-      <button class="edit-btn" id="editBtn">Edit Profile</button>
-      <button class="save-btn" id="saveBtn">Save Changes</button>
-      <button class="logout-btn" id="logoutBtn">Logout</button>
+      <div class="button-container d-flex flex-column align-items-center">
+        <button class="edit-btn" id="editBtn">Edit Profile</button>
+        <button class="save-btn" id="saveBtn">Save Changes</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
     </div>
   </div>
 
@@ -176,7 +166,7 @@
       // Guard: must be logged in
       const username = localStorage.getItem('username');
       if (!username) {
-        console.warn("[profile] no username in localStorage → redirect to login");
+        console.warn("[profile] no username in localStorage => redirect to login");
         window.location.href = 'login.html';
         return;
       }
