@@ -4,6 +4,8 @@ import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,6 +24,11 @@ import jakarta.validation.constraints.NotBlank;
 )
 public class User {
 
+  // Add this enum at the top of the class (or create a separate file)
+  public enum Role {
+    USER, ADMIN
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -35,15 +42,19 @@ public class User {
   @Column(nullable = false, unique = true, length = 120)
   private String email;
 
-  // IMPORTANT: maps to the DB column 'password_hash'
   @NotBlank
   @Column(name = "password_hash", nullable = false, length = 100)
   private String passwordHash;
 
+  // NEW: Add role field
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, length = 20)
+  private Role role = Role.USER;
+
   @Column(name = "created_at", nullable = false, updatable = false)
   private Instant createdAt = Instant.now();
 
-  // --- Getters & Setters ---
+  // --- Existing Getters & Setters ---
   public Long getId() {
     return id;
   }
@@ -78,5 +89,14 @@ public class User {
 
   public void setCreatedAt(Instant createdAt) {
     this.createdAt = createdAt;
+  }
+
+  // NEW: Add role getter and setter
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
   }
 }

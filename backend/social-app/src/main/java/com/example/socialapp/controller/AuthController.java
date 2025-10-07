@@ -40,6 +40,7 @@ public class AuthController {
       @NotBlank @Email String email,
       @NotBlank String password
   ) {}
+  
   public record LoginReq(
       @NotBlank String username,
       @NotBlank String password
@@ -72,9 +73,16 @@ public class AuthController {
     u.setUsername(username);
     u.setEmail(email);
     u.setPasswordHash(encoder.encode(raw));
+    // Role defaults to USER in the entity
     users.save(u);
 
-    return ResponseEntity.ok(Map.of("id", u.getId(), "username", u.getUsername(), "email", u.getEmail()));
+    // UPDATED: Include role in response
+    return ResponseEntity.ok(Map.of(
+        "id", u.getId(), 
+        "username", u.getUsername(), 
+        "email", u.getEmail(),
+        "role", u.getRole().name()
+    ));
   }
 
   @PostMapping("/login")
@@ -82,7 +90,13 @@ public class AuthController {
     final String username = body.username().trim().toLowerCase();
     return users.findByUsername(username)
       .filter(u -> encoder.matches(body.password(), u.getPasswordHash()))
-      .<ResponseEntity<?>>map(u -> ResponseEntity.ok(Map.of("id", u.getId(), "username", u.getUsername(), "email", u.getEmail())))
+      // UPDATED: Include role in response
+      .<ResponseEntity<?>>map(u -> ResponseEntity.ok(Map.of(
+          "id", u.getId(), 
+          "username", u.getUsername(), 
+          "email", u.getEmail(),
+          "role", u.getRole().name()
+      )))
       .orElseGet(() -> ResponseEntity.status(401).body(Map.of("error","invalid_credentials")));
   }
 
