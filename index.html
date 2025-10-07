@@ -56,6 +56,9 @@
       position: sticky;
       top: 70px;
     }
+    .card-body img.rounded-circle {
+  border: 2px solid #003385;
+}
   </style>
 </head>
 <body>
@@ -101,22 +104,28 @@
           <div class="me-2 story"><img src="images/Students.jpg" alt="story"></div>
         </div>
 
-        <!-- Feed Post -->
-        <div class="card feed-card shadow-lg">
-          <div class="card-body">
-            <h6 class="card-title">User Name</h6>
-            <p class="card-text">This is a sample post. Geese almost attack me at richland college today. 😢</p>
-            <img src="images/geese.jpg" class="img-fluid rounded" alt="post">
-          </div>
-        </div>
+       <!-- Feed Post -->
+<div class="card feed-card shadow-lg">
+  <div class="card-body">
+    <div class="d-flex align-items-center mb-2">
+      <img src="images/user1.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
+      <h6 class="card-title mb-0">User Name</h6>
+    </div>
+    <p class="card-text mt-2">This is a sample post. Geese almost attack me at richland college today. 😢</p>
+    <img src="images/geese.jpg" class="img-fluid rounded" alt="post">
+  </div>
+</div>
 
-        <div class="card feed-card shadow-lg">
-          <div class="card-body">
-            <h6 class="card-title">Another User</h6>
-            <p class="card-text">This is a sample post. Can believe it over!!</p>
-            <img src="images/done.jpg" class="img-fluid rounded" alt="post">
-          </div>
-        </div>
+<div class="card feed-card shadow-lg">
+  <div class="card-body">
+    <div class="d-flex align-items-center mb-2">
+      <img src="images/user2.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
+      <h6 class="card-title mb-0">Another User</h6>
+    </div>
+    <p class="card-text mt-2">This is a sample post. Can believe it over!!</p>
+    <img src="images/done.jpg" class="img-fluid rounded" alt="post">
+  </div>
+</div>
         
     <!-- NEW: shows only if user logged in earlier -->
     <p id="welcomeUser" style="display:none;">

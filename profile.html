@@ -103,37 +103,57 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-dark px-3">
-    <a class="navbar-brand d-flex align-items-center" href="index.html">
-      <img src="images/DC.jpg" alt="Logo" width="105" height="100">
-    </a>
-  
-    <ul class="navbar-nav ms-auto d-flex flex-row mb-0">
-      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-      <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
-      <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-    </ul>
-  </nav>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark px-3">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="images/DC.jpg" alt="Logo" width="105" height="100">
+      </a>
+    
+      <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
+        <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+        <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
+        <li class="nav-item d-none" id="logoutItem">
+          <a class="nav-link text-danger fw-bold" href="#" id="logoutLink">Logout</a>
+        </li>
+      </ul>
+    </nav>
 
-  <!-- Profile Card -->
-  <div class="profile-card">
-    <div class="banner" id="loginBanner"></div>
+    <!-- Profile Dashboard -->
+    <div class="container mt-4" style="max-width: 750px;">
+      <div class="card shadow-lg p-4 position-relative">
+        <!-- Edit Button -->
+        <button id="editBtn" class="btn btn-sm btn-primary position-absolute top-0 start-0 m-3">
+          Edit Profile
+        </button>
 
-    <img src="default-profile.png" alt="Profile Picture" id="profilePreview">
-    <h2 id="displayName">Your Name</h2>
-    <p id="displayBio">Your bio goes here. Share a little about yourself!</p>
+      <!-- User Info + Post Box -->
+      <div class="d-flex align-items-start gap-3">
+        <img id="profilePreview" src="default-profile.png" alt="Profile" 
+             class="rounded-circle border border-2 border-primary" width="100" height="100">
 
-    <input type="text" id="nameInput" placeholder="Update Name" class="form-control mx-auto">
-    <input type="text" id="bioInput" placeholder="Update Bio" class="form-control mx-auto">
-    <input type="file" id="profilePicInput" accept="image/*" class="form-control mx-auto">
+        <div class="flex-grow-1">
+          <h4 id="displayName" class="mb-1">Your Name</h4>
+          <p id="displayBio" class="text-muted mb-3">Your bio goes here. Share a little about yourself!</p>
 
-    <div class="button-container mt-3">
-      <button class="edit-btn" id="editBtn">Edit Profile</button>
-      <button class="save-btn" id="saveBtn">Save Changes</button>
-      <button class="logout-btn" id="logoutBtn">Logout</button>
+          <!-- Post Box -->
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <textarea id="postContent" class="form-control mb-2" rows="3" 
+                        placeholder="What's on your mind?"></textarea>
+              <button id="postBtn" class="btn btn-primary w-100">Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Posts -->
+    <div class="mt-4">
+      <h5 class="text-center mb-3">My Posts</h5>
+      <div id="userPosts" class="d-flex flex-column gap-3"></div>
     </div>
   </div>
 
