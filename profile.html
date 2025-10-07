@@ -42,120 +42,164 @@
       padding-right: 0.8rem;
     }
 
-    /* Profile Card */
+    /* Profile Section */
     .profile-card {
-      max-width: 450px;
-      margin: 50px auto;
-      padding: 40px 30px;
+      max-width: 750px;
+      margin: 40px auto;
       background-color: #fff;
       border-radius: 25px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      text-align: center;
+      padding: 20px 30px;
     }
-    .profile-card img {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .profile-header img {
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
+      object-fit: cover;
       border: 4px solid #003385;
-      margin-bottom: 20px;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .profile-card img:hover { transform: scale(1.05); }
-
-    /* Inputs */
-    .profile-card input[type="text"], .profile-card input[type="file"] {
-      width: 90%;
-      margin: 10px 0;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      display: none;
     }
 
-    /* Buttons */
-    .button-container button {
-      width: 90%;
-      margin-bottom: 10px;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
+    #displayName {
+      font-size: 1.5rem;
       font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
+      margin: 0;
     }
-    .edit-btn { background-color: #003385; color: #fff; }
-    .edit-btn:hover { background-color: #0c0c0c; transform: scale(1.03); }
-    .save-btn { background-color: #27ae60; color: #fff; display: none; }
-    .save-btn:hover { background-color: #1e8449; transform: scale(1.03); }
-    .logout-btn { background-color: #888; color: #fff; }
-    .logout-btn:hover { background-color: #666; transform: scale(1.03); }
 
-    .banner {
+    /* Major / Minor / Year Row */
+    .details-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .details-row p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .details-row input,
+    .details-row select {
       display: none;
-      background: #e8f5e9;
-      color: #256029;
-      padding: 10px 14px;
-      border-radius: 10px;
-      margin-bottom: 16px;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    /* Bio */
+    .bio-section {
+      margin-top: 15px;
+    }
+    .bio-section p {
+      color: #444;
+      margin: 0;
+    }
+    #bioInput {
+      display: none;
+      width: 100%;
+      margin-top: 5px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+
+    /* Post box (separate card) */
+    .post-card {
+      max-width: 750px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      padding: 20px;
+    }
+
+    #postContent {
+      resize: vertical;
+    }
+
+    /* Edit/Save buttons */
+    #editBtn {
+      position: absolute;
+      top: 10px;
+      right: 100px;
+    }
+    #saveBtn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-dark px-3">
-      <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <img src="images/DC.jpg" alt="Logo" width="105" height="100">
-      </a>
-    
-      <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
-        <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
-        <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
-        <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
-        <li class="nav-item d-none" id="logoutItem">
-          <a class="nav-link text-danger fw-bold" href="#" id="logoutLink">Logout</a>
-        </li>
-      </ul>
-    </nav>
+   <!-- Navbar -->
+   <nav class="navbar navbar-dark px-3">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="images/DC.jpg" alt="Logo" width="105" height="100">
+    </a>
+  
+    <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+      <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
+      <li class="nav-item d-none" id="logoutItem">
+        <a class="nav-link text-danger fw-bold" href="#" id="logoutLink">Logout</a>
+      </li>
+    </ul>
+  </nav>
 
-    <!-- Profile Dashboard -->
-    <div class="container mt-4" style="max-width: 750px;">
-      <div class="card shadow-lg p-4 position-relative">
-        <!-- Edit Button -->
-        <button id="editBtn" class="btn btn-sm btn-primary position-absolute top-0 start-0 m-3">
-          Edit Profile
-        </button>
+  <!-- Profile Card -->
+  <div class="profile-card position-relative">
+    <button id="editBtn" class="btn btn-sm btn-primary">Edit</button>
+    <button id="saveBtn" class="btn btn-sm btn-success">Save</button>
 
-      <!-- User Info + Post Box -->
-      <div class="d-flex align-items-start gap-3">
-        <img id="profilePreview" src="default-profile.png" alt="Profile" 
-             class="rounded-circle border border-2 border-primary" width="100" height="100">
-
-        <div class="flex-grow-1">
-          <h4 id="displayName" class="mb-1">Your Name</h4>
-          <p id="displayBio" class="text-muted mb-3">Your bio goes here. Share a little about yourself!</p>
-
-          <!-- Post Box -->
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <textarea id="postContent" class="form-control mb-2" rows="3" 
-                        placeholder="What's on your mind?"></textarea>
-              <button id="postBtn" class="btn btn-primary w-100">Post</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="profile-header">
+      <img id="profilePreview" src="default-profile.png" alt="Profile Picture">
+      <h2 id="displayName">Your Name</h2>
     </div>
 
-    <!-- User Posts -->
-    <div class="mt-4">
-      <h5 class="text-center mb-3">My Posts</h5>
-      <div id="userPosts" class="d-flex flex-column gap-3"></div>
+    <div class="details-row">
+      <p id="displayMajor">Major:</p>
+      <input type="text" id="majorInput" placeholder="Major">
+
+      <p id="displayMinor">Minor:</p>
+      <input type="text" id="minorInput" placeholder="Minor">
+
+      <p id="displayYear">Graduation: -</p>
+      <select id="graduationYearSelect"></select>
+    </div>
+
+    <div class="bio-section">
+      <p id="displayBio">Your bio goes here. Share a little about yourself!</p>
+      <textarea id="bioInput" rows="3"></textarea>
     </div>
   </div>
+
+  <!-- Post Box -->
+  <div class="post-card">
+    <h5>Create a Post</h5>
+    <textarea id="postContent" class="form-control mb-2" rows="3" placeholder="What's on your mind?"></textarea>
+    <button id="postBtn" class="btn btn-primary w-100">Post</button>
+  </div>
+   <!-- User Posts -->
+   <div class="mt-4">
+    <h5 class="text-center mb-3">My Posts</h5>
+    <div id="userPosts" class="d-flex flex-column gap-3"></div>
+  </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
