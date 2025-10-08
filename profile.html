@@ -44,7 +44,7 @@
 
     /* Profile Card */
     .profile-card {
-      max-width: 450px;
+      max-width: 550px;
       margin: 50px auto;
       padding: 40px 30px;
       background-color: #fff;
@@ -52,25 +52,95 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       text-align: center;
     }
+    
+    /* Profile Picture */
+    .profile-picture-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    
     .profile-card img {
       width: 180px;
       height: 180px;
       object-fit: cover;
       border-radius: 50%;
       border: 4px solid #003385;
-      margin-bottom: 20px;
-      transition: transform 0.3s, opacity 0.3s;
+      transition: transform 0.3s;
     }
-    .profile-card img:hover { transform: scale(1.05); }
+    
+    .profile-card img:hover { 
+      transform: scale(1.05); 
+    }
 
-    /* Inputs */
-    .profile-card input[type="text"], .profile-card input[type="file"] {
-      width: 90%;
+    .upload-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 51, 133, 0.8);
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .profile-picture-container:hover .upload-overlay {
+      display: flex;
+    }
+
+    .upload-overlay:hover {
+      background: rgba(0, 51, 133, 0.9);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    /* Display Mode */
+    .profile-info {
+      text-align: left;
+      margin: 20px 0;
+    }
+    .profile-info .info-item {
+      margin: 12px 0;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .profile-info .info-label {
+      font-weight: bold;
+      color: #003385;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .profile-info .info-value {
+      color: #333;
+      font-size: 16px;
+    }
+
+    /* Edit Mode */
+    .edit-mode {
+      display: none;
+    }
+    .edit-mode input[type="text"], 
+    .edit-mode input[type="number"],
+    .edit-mode textarea {
+      width: 100%;
       margin: 10px 0;
       padding: 12px;
       border-radius: 12px;
       border: 1px solid #ccc;
-      display: none;
+    }
+    .edit-mode textarea {
+      resize: vertical;
+      min-height: 80px;
     }
 
     /* Buttons */
@@ -86,18 +156,30 @@
     }
     .edit-btn { background-color: #003385; color: #fff; }
     .edit-btn:hover { background-color: #0c0c0c; transform: scale(1.03); }
-    .save-btn { background-color: #27ae60; color: #fff; display: none; }
+    .save-btn { background-color: #27ae60; color: #fff; }
     .save-btn:hover { background-color: #1e8449; transform: scale(1.03); }
     .logout-btn { background-color: #888; color: #fff; }
     .logout-btn:hover { background-color: #666; transform: scale(1.03); }
 
     .banner {
-      display: none;
       background: #e8f5e9;
       color: #256029;
       padding: 10px 14px;
       border-radius: 10px;
       margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+    }
+
+    .upload-status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
     }
   </style>
 </head>
@@ -122,46 +204,85 @@
   <div class="profile-card">
     <div class="banner" id="loginBanner"></div>
 
-    <img src="default-profile.png" alt="Profile Picture" id="profilePreview">
-    <h2 id="displayName">Your Name</h2>
-    <p id="displayBio">Your bio goes here. Share a little about yourself!</p>
+    <div id="loadingState" class="loading">Loading profile...</div>
 
-    <input type="text" id="nameInput" placeholder="Update Name" class="form-control mx-auto">
-    <input type="text" id="bioInput" placeholder="Update Bio" class="form-control mx-auto">
-    <input type="file" id="profilePicInput" accept="image/*" class="form-control mx-auto">
+    <div id="profileContent" style="display: none;">
+      <!-- Profile Picture with Upload -->
+      <div class="profile-picture-container">
+        <img src="https://via.placeholder.com/180/003385/FFFFFF?text=Profile" alt="Profile Picture" id="profilePreview">
+        <div class="upload-overlay" id="uploadOverlay">
+          📷 Change Photo
+        </div>
+        <input type="file" id="profilePicInput" accept="image/*">
+      </div>
+      <div class="upload-status" id="uploadStatus"></div>
 
-    <div class="button-container mt-3">
-      <button class="edit-btn" id="editBtn">Edit Profile</button>
-      <button class="save-btn" id="saveBtn">Save Changes</button>
-      <button class="logout-btn" id="logoutBtn">Logout</button>
+      <!-- Display Mode -->
+      <div id="displayMode" class="profile-info">
+        <div class="info-item">
+          <span class="info-label">Username</span>
+          <span class="info-value" id="displayUsername">-</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Email</span>
+          <span class="info-value" id="displayEmail">-</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Bio</span>
+          <span class="info-value" id="displayBio">No bio yet</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Major</span>
+          <span class="info-value" id="displayMajor">Not specified</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Minor</span>
+          <span class="info-value" id="displayMinor">Not specified</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Graduation Year</span>
+          <span class="info-value" id="displayGradYear">Not specified</span>
+        </div>
+      </div>
+
+      <!-- Edit Mode -->
+      <div id="editMode" class="edit-mode">
+        <textarea id="bioInput" placeholder="Tell us about yourself..."></textarea>
+        <input type="text" id="majorInput" placeholder="Major (e.g., Computer Science)">
+        <input type="text" id="minorInput" placeholder="Minor (e.g., Mathematics)">
+        <input type="number" id="gradYearInput" placeholder="Graduation Year (e.g., 2025)" min="2020" max="2030">
+      </div>
+
+      <div class="button-container mt-3">
+        <button class="edit-btn" id="editBtn">Edit Profile</button>
+        <button class="save-btn" id="saveBtn" style="display: none;">Save Changes</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const API_BASE = "http://localhost:8081";
-    console.log("[profile] script loaded");
 
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log("[profile] DOM ready");
-
+    document.addEventListener('DOMContentLoaded', async () => {
       const editBtn = document.getElementById('editBtn');
       const saveBtn = document.getElementById('saveBtn');
       const logoutBtn = document.getElementById('logoutBtn');
 
-      const nameInput = document.getElementById('nameInput');
-      const bioInput = document.getElementById('bioInput');
-      const displayName = document.getElementById('displayName');
-      const displayBio = document.getElementById('displayBio');
-      const profilePicInput = document.getElementById('profilePicInput');
-      const profilePreview = document.getElementById('profilePreview');
+      const displayMode = document.getElementById('displayMode');
+      const editMode = document.getElementById('editMode');
+
       const loginBanner = document.getElementById('loginBanner');
+      const loadingState = document.getElementById('loadingState');
+      const profileContent = document.getElementById('profileContent');
+      
+      const profilePreview = document.getElementById('profilePreview');
+      const profilePicInput = document.getElementById('profilePicInput');
+      const uploadOverlay = document.getElementById('uploadOverlay');
+      const uploadStatus = document.getElementById('uploadStatus');
 
-      if (!editBtn || !saveBtn || !logoutBtn) {
-        console.error("[profile] Buttons not found in DOM");
-      }
-
-      // Guard: must be logged in
+      // Get logged-in username
       const username = localStorage.getItem('username');
       if (!username) {
         console.warn("[profile] no username in localStorage → redirect to login");
@@ -169,94 +290,159 @@
         return;
       }
 
-      // Banner shows who is logged in
       loginBanner.textContent = `Logged in as ${username}`;
-      loginBanner.style.display = 'block';
 
-      // Load profile from backend (best effort)
-      (async function loadProfile() {
+      // Load profile from backend
+      async function loadProfile() {
         try {
           const res = await fetch(`${API_BASE}/api/users/${encodeURIComponent(username)}`);
           if (res.ok) {
-            const u = await res.json();
-            displayName.textContent = u.username || username;
-            displayBio.textContent  = u.bio || 'Your bio goes here. Share a little about yourself!';
-            if (u.avatarUrl) profilePreview.src = u.avatarUrl;
-            console.log("[profile] loaded profile for", displayName.textContent);
+            const profile = await res.json();
+            
+            // Populate display fields
+            document.getElementById('displayUsername').textContent = profile.username || username;
+            document.getElementById('displayEmail').textContent = profile.email || '-';
+            document.getElementById('displayBio').textContent = profile.bio || 'No bio yet';
+            document.getElementById('displayMajor').textContent = profile.major || 'Not specified';
+            document.getElementById('displayMinor').textContent = profile.minor || 'Not specified';
+            document.getElementById('displayGradYear').textContent = profile.graduationYear || 'Not specified';
+
+            // Set profile picture
+            if (profile.profilePictureUrl) {
+              profilePreview.src = profile.profilePictureUrl;
+            }
+
+            // Pre-fill edit fields
+            document.getElementById('bioInput').value = profile.bio || '';
+            document.getElementById('majorInput').value = profile.major || '';
+            document.getElementById('minorInput').value = profile.minor || '';
+            document.getElementById('gradYearInput').value = profile.graduationYear || '';
+
+            loadingState.style.display = 'none';
+            profileContent.style.display = 'block';
           } else {
-            console.warn("[profile] GET /api/users/ failed", res.status);
+            throw new Error('Failed to load profile');
           }
         } catch (e) {
-          console.warn("[profile] GET /api/users/ network error", e);
+          console.error("[profile] Failed to load profile", e);
+          loadingState.textContent = 'Error loading profile. Is the backend running?';
         }
-      })();
+      }
+
+      await loadProfile();
+
+      // Profile Picture Upload
+      uploadOverlay.addEventListener('click', () => {
+        profilePicInput.click();
+      });
+
+      profilePicInput.addEventListener('change', async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          alert('File size must be less than 5MB');
+          return;
+        }
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          alert('Please upload an image file');
+          return;
+        }
+
+        // Show preview immediately
+        const reader = new FileReader();
+        reader.onload = () => { 
+          profilePreview.src = reader.result; 
+        };
+        reader.readAsDataURL(file);
+
+        // Upload to backend
+        uploadStatus.textContent = 'Uploading...';
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+          const res = await fetch(`${API_BASE}/api/users/${encodeURIComponent(username)}/profile-picture`, {
+            method: 'POST',
+            body: formData
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            uploadStatus.textContent = '✅ Profile picture updated!';
+            setTimeout(() => uploadStatus.textContent = '', 3000);
+            
+            // Reload profile to get the new URL
+            await loadProfile();
+          } else {
+            throw new Error('Upload failed');
+          }
+        } catch (e) {
+          console.error("[profile] Upload failed", e);
+          uploadStatus.textContent = '❌ Upload failed. Try again.';
+          setTimeout(() => uploadStatus.textContent = '', 3000);
+        }
+      });
 
       // Edit Profile
       editBtn.addEventListener('click', () => {
-        displayName.style.display = 'none';
-        displayBio.style.display = 'none';
-        profilePreview.style.opacity = 0.5;
-
-        nameInput.value = displayName.textContent;
-        bioInput.value  = displayBio.textContent;
-
-        nameInput.style.display = 'block';
-        bioInput.style.display = 'block';
-        profilePicInput.style.display = 'block';
-
+        displayMode.style.display = 'none';
+        editMode.style.display = 'block';
         editBtn.style.display = 'none';
         saveBtn.style.display = 'block';
       });
 
-      // Save changes (persist to backend)
+      // Save Changes
       saveBtn.addEventListener('click', async () => {
-        const newName = nameInput.value.trim() || username;
-        const newBio  = bioInput.value.trim();
+        const bio = document.getElementById('bioInput').value.trim();
+        const major = document.getElementById('majorInput').value.trim();
+        const minor = document.getElementById('minorInput').value.trim();
+        const gradYear = document.getElementById('gradYearInput').value;
 
         try {
           const res = await fetch(`${API_BASE}/api/users/${encodeURIComponent(username)}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: newName, bio: newBio })
+            body: JSON.stringify({
+              bio: bio || null,
+              major: major || null,
+              minor: minor || null,
+              graduationYear: gradYear ? parseInt(gradYear) : null
+            })
           });
+
           if (!res.ok) throw new Error('Save failed');
 
-          const u = await res.json();
-          displayName.textContent = u.username || newName;
-          displayBio.textContent  = u.bio || newBio;
-          localStorage.setItem('username', u.username || newName);
+          const updated = await res.json();
+
+          // Update display
+          document.getElementById('displayBio').textContent = updated.bio || 'No bio yet';
+          document.getElementById('displayMajor').textContent = updated.major || 'Not specified';
+          document.getElementById('displayMinor').textContent = updated.minor || 'Not specified';
+          document.getElementById('displayGradYear').textContent = updated.graduationYear || 'Not specified';
 
           // Exit edit mode
-          displayName.style.display = 'block';
-          displayBio.style.display = 'block';
-          profilePreview.style.opacity = 1;
-          nameInput.style.display = 'none';
-          bioInput.style.display = 'none';
-          profilePicInput.style.display = 'none';
+          editMode.style.display = 'none';
+          displayMode.style.display = 'block';
           saveBtn.style.display = 'none';
           editBtn.style.display = 'block';
 
-          console.log("[profile] saved profile for", displayName.textContent);
+          alert('Profile updated successfully!');
         } catch (e) {
           console.error("[profile] save failed", e);
           alert('Could not save profile. Is the backend running on :8081?');
         }
       });
 
-      // Preview profile picture (local only)
-      profilePicInput.addEventListener('change', (event) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = () => { profilePreview.src = reader.result; };
-        reader.readAsDataURL(file);
-      });
-
-      // LOGOUT
+      // Logout
       logoutBtn.addEventListener('click', async () => {
-        console.log("[profile] logout clicked");
         try { await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST' }); } catch (_) {}
         localStorage.removeItem('username');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userId');
         window.location.href = 'login.html';
       });
     });

@@ -24,7 +24,6 @@ import jakarta.validation.constraints.NotBlank;
 )
 public class User {
 
-  // Add this enum at the top of the class (or create a separate file)
   public enum Role {
     USER, ADMIN
   }
@@ -46,15 +45,30 @@ public class User {
   @Column(name = "password_hash", nullable = false, length = 100)
   private String passwordHash;
 
-  // NEW: Add role field
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, length = 20)
   private Role role = Role.USER;
 
+  // PROFILE FIELDS
+  @Column(length = 500)
+  private String bio;
+
+  @Column(name = "graduation_year")
+  private Integer graduationYear;
+
+  @Column(length = 100)
+  private String major;
+
+  @Column(length = 100)
+  private String minor;
+
+  @Column(name = "profile_picture_url", length = 255)
+  private String profilePictureUrl;
+
   @Column(name = "created_at", nullable = false, updatable = false)
   private Instant createdAt = Instant.now();
 
-  // --- Existing Getters & Setters ---
+  // GETTERS & SETTERS
   public Long getId() {
     return id;
   }
@@ -91,12 +105,51 @@ public class User {
     this.createdAt = createdAt;
   }
 
-  // NEW: Add role getter and setter
   public Role getRole() {
     return role;
   }
 
   public void setRole(Role role) {
     this.role = role;
+  }
+
+  public String getBio() {
+    return bio;
+  }
+
+  public void setBio(String bio) {
+    this.bio = bio;
+  }
+
+  public Integer getGraduationYear() {
+    return graduationYear;
+  }
+
+  public void setGraduationYear(Integer graduationYear) {
+    this.graduationYear = graduationYear;
+  }
+
+  public String getMajor() {
+    return major;
+  }
+
+  public void setMajor(String major) {
+    this.major = major;
+  }
+
+  public String getMinor() {
+    return minor;
+  }
+
+  public void setMinor(String minor) {
+    this.minor = minor;
+  }
+
+  public String getProfilePictureUrl() {
+    return profilePictureUrl;
+  }
+
+  public void setProfilePictureUrl(String profilePictureUrl) {
+    this.profilePictureUrl = profilePictureUrl;
   }
 }
