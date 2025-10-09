@@ -256,7 +256,7 @@
       <div class="button-container mt-3">
         <button class="edit-btn" id="editBtn">Edit Profile</button>
         <button class="save-btn" id="saveBtn" style="display: none;">Save Changes</button>
-        <button class="logout-btn" id="logoutBtn">Logout</button>
+        <button class="logout-btn" id="logoutButton">Logout</button>
       </div>
     </div>
   </div>
@@ -268,7 +268,7 @@
     document.addEventListener('DOMContentLoaded', async () => {
       const editBtn = document.getElementById('editBtn');
       const saveBtn = document.getElementById('saveBtn');
-      const logoutBtn = document.getElementById('logoutBtn');
+      const logoutButton = document.getElementById('logoutButton');
 
       const displayMode = document.getElementById('displayMode');
       const editMode = document.getElementById('editMode');
@@ -438,11 +438,8 @@
       });
 
       // Logout
-      logoutBtn.addEventListener('click', async () => {
-        try { await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST' }); } catch (_) {}
-        localStorage.removeItem('username');
-        localStorage.removeItem('userRole');
-        localStorage.removeId('userId');
+      logoutButton.addEventListener('click', () => {
+        localStorage.clear();
         window.location.href = 'login.html';
       });
     });
