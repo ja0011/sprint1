@@ -49,6 +49,9 @@ public class User {
   @Column(nullable = false, length = 20)
   private Role role = Role.USER;
 
+  @Column(nullable = false)
+  private Boolean active = true;
+
   // PROFILE FIELDS
   @Column(length = 500)
   private String bio;
@@ -111,6 +114,14 @@ public class User {
 
   public void setRole(Role role) {
     this.role = role;
+  }
+
+  public Boolean getActive() {
+    return active;
+  }
+
+  public void setActive(Boolean active) {
+    this.active = active;
   }
 
   public String getBio() {

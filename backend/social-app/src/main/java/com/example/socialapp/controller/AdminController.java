@@ -24,6 +24,7 @@ import com.example.socialapp.repository.UserRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Validated
 @RestController
@@ -48,6 +49,7 @@ public class AdminController {
       String username,
       String email,
       String role,
+      Boolean active,
       String createdAt
   ) {}
 
@@ -62,6 +64,10 @@ public class AdminController {
       @NotBlank String role  // "USER" or "ADMIN"
   ) {}
 
+  public record UpdateStatusRequest(
+      @NotNull Boolean active  // true or false
+  ) {}
+
   // ===== Endpoints =====
 
   // GET all users
@@ -73,6 +79,7 @@ public class AdminController {
             u.getUsername(),
             u.getEmail(),
             u.getRole().name(),
+            u.getActive(),
             u.getCreatedAt().toString()
         ))
         .collect(Collectors.toList());
@@ -87,6 +94,12 @@ public class AdminController {
       return ResponseEntity.status(404).body(Map.of("error", "user_not_found"));
     }
     
+    // Prevent deleting the admin account
+    User user = userRepository.findById(id).orElse(null);
+    if (user != null && "admin".equals(user.getUsername())) {
+      return ResponseEntity.status(403).body(Map.of("error", "cannot_delete_admin"));
+    }
+    
     userRepository.deleteById(id);
     return ResponseEntity.ok(Map.of("message", "User deleted successfully"));
   }
@@ -94,29 +107,27 @@ public class AdminController {
   // CREATE a new user (with optional role)
   @PostMapping("/users")
   public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserRequest request) {
-    String username = request.username().trim().toLowerCase();
-    String email = request.email().trim().toLowerCase();
-    
+    final String username = request.username().trim().toLowerCase();
+    final String email = request.email().trim().toLowerCase();
+
     if (userRepository.existsByUsername(username)) {
       return ResponseEntity.badRequest().body(Map.of("error", "username_taken"));
     }
-    
     if (userRepository.existsByEmail(email)) {
       return ResponseEntity.badRequest().body(Map.of("error", "email_taken"));
     }
-    
+
     User user = new User();
     user.setUsername(username);
     user.setEmail(email);
     user.setPasswordHash(passwordEncoder.encode(request.password()));
+    user.setActive(true); // New users are active by default
     
     // Set role (default to USER if not specified or invalid)
-    try {
-      if (request.role() != null && !request.role().isBlank()) {
-        user.setRole(Role.valueOf(request.role().toUpperCase()));
-      }
-    } catch (IllegalArgumentException e) {
-      // Invalid role, keep default USER
+    if ("ADMIN".equalsIgnoreCase(request.role())) {
+      user.setRole(Role.ADMIN);
+    } else {
+      user.setRole(Role.USER);
     }
     
     userRepository.save(user);
@@ -126,29 +137,67 @@ public class AdminController {
         user.getUsername(),
         user.getEmail(),
         user.getRole().name(),
+        user.getActive(),
         user.getCreatedAt().toString()
     ));
   }
 
-  // UPDATE user role
+  // UPDATE user role (promote/demote)
   @PatchMapping("/users/{id}/role")
-  public ResponseEntity<?> updateUserRole(@PathVariable Long id, @Valid @RequestBody UpdateRoleRequest request) {
-    User user = userRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("User not found"));
+  public ResponseEntity<?> updateUserRole(
+      @PathVariable Long id,
+      @Valid @RequestBody UpdateRoleRequest request) {
     
-    try {
-      user.setRole(Role.valueOf(request.role().toUpperCase()));
-      userRepository.save(user);
-      
-      return ResponseEntity.ok(new UserResponse(
-          user.getId(),
-          user.getUsername(),
-          user.getEmail(),
-          user.getRole().name(),
-          user.getCreatedAt().toString()
-      ));
-    } catch (IllegalArgumentException e) {
-      return ResponseEntity.badRequest().body(Map.of("error", "invalid_role"));
-    }
+    return userRepository.findById(id)
+        .<ResponseEntity<?>>map(user -> {
+          try {
+            Role newRole = Role.valueOf(request.role().toUpperCase());
+            user.setRole(newRole);
+            userRepository.save(user);
+            
+            return ResponseEntity.ok(new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRole().name(),
+                user.getActive(),
+                user.getCreatedAt().toString()
+            ));
+          } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest()
+                .body(Map.of("error", "invalid_role", "message", "Role must be USER or ADMIN"));
+          }
+        })
+        .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "user_not_found")));
+  }
+
+  // NEW: UPDATE user active status (suspend/reactivate)
+  @PatchMapping("/users/{id}/status")
+  public ResponseEntity<?> updateUserStatus(
+      @PathVariable Long id,
+      @Valid @RequestBody UpdateStatusRequest request) {
+    
+    return userRepository.findById(id)
+        .<ResponseEntity<?>>map(user -> {
+          // Prevent suspending the admin account
+          if ("admin".equals(user.getUsername()) && !request.active()) {
+            return ResponseEntity.status(403)
+                .body(Map.of("error", "cannot_suspend_admin", 
+                            "message", "The admin account cannot be suspended"));
+          }
+          
+          user.setActive(request.active());
+          userRepository.save(user);
+          
+          return ResponseEntity.ok(new UserResponse(
+              user.getId(),
+              user.getUsername(),
+              user.getEmail(),
+              user.getRole().name(),
+              user.getActive(),
+              user.getCreatedAt().toString()
+          ));
+        })
+        .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "user_not_found")));
   }
 }

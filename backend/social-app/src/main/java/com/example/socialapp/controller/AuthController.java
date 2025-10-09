@@ -73,10 +73,10 @@ public class AuthController {
     u.setUsername(username);
     u.setEmail(email);
     u.setPasswordHash(encoder.encode(raw));
+    u.setActive(true); // New users are active by default
     // Role defaults to USER in the entity
     users.save(u);
 
-    // UPDATED: Include role in response
     return ResponseEntity.ok(Map.of(
         "id", u.getId(), 
         "username", u.getUsername(), 
@@ -88,42 +88,47 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<?> login(@Valid @RequestBody LoginReq body){
     final String username = body.username().trim().toLowerCase();
-    return users.findByUsername(username)
-      .filter(u -> encoder.matches(body.password(), u.getPasswordHash()))
-      // UPDATED: Include role in response
-      .<ResponseEntity<?>>map(u -> ResponseEntity.ok(Map.of(
-          "id", u.getId(), 
-          "username", u.getUsername(), 
-          "email", u.getEmail(),
-          "role", u.getRole().name()
-      )))
-      .orElseGet(() -> ResponseEntity.status(401).body(Map.of("error","invalid_credentials")));
+    
+    // First, check if user exists and password matches
+    var userOpt = users.findByUsername(username);
+    if (userOpt.isEmpty()) {
+      return ResponseEntity.status(401).body(Map.of("error", "invalid_credentials"));
+    }
+    
+    User user = userOpt.get();
+    
+    // Check password
+    if (!encoder.matches(body.password(), user.getPasswordHash())) {
+      return ResponseEntity.status(401).body(Map.of("error", "invalid_credentials"));
+    }
+    
+    // Check if account is active
+    if (!user.getActive()) {
+      return ResponseEntity.status(403).body(Map.of(
+          "error", "account_suspended", 
+          "message", "Your account has been suspended. Please contact an administrator."
+      ));
+    }
+    
+    // All checks passed - return success
+    return ResponseEntity.ok(Map.of(
+        "id", user.getId(),
+        "username", user.getUsername(),
+        "email", user.getEmail(),
+        "role", user.getRole().name()
+    ));
   }
 
-  @PostMapping("/logout")
-  public ResponseEntity<?> logout() {
-    // No server session yet; once you add sessions/JWT, revoke here.
-    return ResponseEntity.ok().build();
-  }
-
-  @PostMapping("/reset-password")
-  public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetReq body) {
+  @PostMapping("/reset")
+  public ResponseEntity<?> reset(@Valid @RequestBody ResetReq body) {
     final String email = body.email().trim().toLowerCase();
-    final String newPassword = body.newPassword();
-
-    if (newPassword.length() < 6) {
-      return ResponseEntity.badRequest()
-          .body(Map.of("error", "weak_password", "hint", "Use at least 6 characters"));
-    }
-
-    java.util.Optional<User> optional = users.findByEmail(email);
-    if (optional.isPresent()) {
-      User u = optional.get();
-      u.setPasswordHash(encoder.encode(newPassword));
-      users.save(u);
-      return ResponseEntity.ok().build();
-    } else {
-      return ResponseEntity.badRequest().body(Map.of("error", "email_not_found"));
-    }
+    return users.findByEmail(email)
+      .<ResponseEntity<?>>map(u -> {
+        u.setPasswordHash(encoder.encode(body.newPassword()));
+        users.save(u);
+        return ResponseEntity.ok(Map.of("message", "password_reset_success"));
+      })
+      .orElseGet(() -> ResponseEntity.status(404)
+          .body(Map.of("error", "email_not_found")));
   }
 }

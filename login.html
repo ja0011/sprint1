@@ -123,6 +123,7 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ username, password })
           });
+          
           if (res.ok) {
             const data = await res.json();
             // Store username, role, and userId
@@ -136,10 +137,16 @@
             } else {
               window.location.href = 'profile.html';  // Regular user goes to profile
             }
+          } else if (res.status === 403) {
+            // Account is suspended
+            const errorData = await res.json();
+            alert(errorData.message || 'Your account has been suspended. Please contact an administrator.');
           } else {
+            // Invalid credentials
             alert('Invalid credentials.');
           }
-        } catch {
+        } catch (error) {
+          console.error('Login error:', error);
           alert('Network error. Is the backend running on :8081?');
         }
       });
