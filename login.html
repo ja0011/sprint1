@@ -130,6 +130,7 @@
             localStorage.setItem('username', data.username || username);
             localStorage.setItem('userRole', data.role || 'USER');
             localStorage.setItem('userId', data.id);
+            localStorage.setItem('currentUser', JSON.stringify(data));
             
             // Redirect based on role
             if (data.role === 'ADMIN') {

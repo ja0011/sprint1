@@ -24,7 +24,9 @@ public class SecurityConfig {
         .requestMatchers("/api/auth/**").permitAll()
         .requestMatchers("/api/users/**").permitAll()
         .requestMatchers("/api/admin/**").permitAll()
-        .requestMatchers("/images/**").permitAll()  // Allow access to uploaded images
+        .requestMatchers("/api/posts/**").permitAll()
+        .requestMatchers("/images/**").permitAll()
+        .requestMatchers("/uploads/**").permitAll()
         .anyRequest().authenticated()
       );
     return http.build();
