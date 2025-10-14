@@ -10,21 +10,22 @@
       background-color: #f0f2f5;
       font-family: Arial, sans-serif;
     }
-    /*Navbar*/
+
+    /* Navbar */
     .navbar {
       background-color: #003385;
     }
     .navbar .nav-link {
-      color: #ffffff; 
+      color: #ffffff;
     }
     .navbar .nav-link:hover {
-    color: #000000;
-    text-shadow:
-      -1px -1px 0 #ffffff,
-       1px -1px 0 #ffffff,
-      -1px  1px 0 #ffffff,
-       1px  1px 0 #ffffff;
-      }
+      color: #000000;
+      text-shadow:
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
+    }
     .navbar-brand img {
       height: 40px;
     }
@@ -32,7 +33,6 @@
       flex-direction: row;
       flex-wrap: nowrap;
     }
-
     .navbar-nav .nav-item {
       white-space: nowrap;
     }
@@ -41,6 +41,7 @@
       padding-right: 0.8rem;
     }
 
+    /* Story Circles */
     .story img {
       border-radius: 50%;
       width: 100px;
@@ -48,16 +49,11 @@
       object-fit: cover;
       border: 2px solid #003385;
     }
+
+    /* Feed + Post */
     .feed-card {
       margin-bottom: 20px;
       border-radius: 10px;
-    }
-    .sidebar {
-      position: sticky;
-      top: 70px;
-    }
-    .card-body img.rounded-circle {
-      border: 2px solid #003385;
     }
     .create-post-box {
       background: white;
@@ -65,31 +61,68 @@
       border-radius: 10px;
       margin-bottom: 20px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+    }
+    .create-post-box textarea {
+      width: 100%;
+      resize: none;
     }
     .btn-create-post {
       background-color: #003385;
       color: white;
       border: none;
       width: 100%;
-      padding: 12px;
-      text-align: left;
+      padding: 10px;
+      text-align: center;
       border-radius: 25px;
+      margin-top: 10px;
     }
     .btn-create-post:hover {
       background-color: #002266;
-      color: white;
     }
-    .post-image {
-      max-width: 100%;
-      border-radius: 8px;
+
+    /* Comments Section */
+    .comment-section {
       margin-top: 10px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
     }
+
+    .comment {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .comment-text {
+      font-size: 0.95rem;
+    }
+
+    .comment-actions button {
+      margin-right: 5px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    .comment-actions button:hover {
+      opacity: 0.9;
+    }
+
+    .post-actions button {
+      margin-right: 10px;
+    }
+
+    /* Timestamp */
     .post-timestamp {
       font-size: 0.85rem;
-      color: #65676b;
+      color: gray;
+      margin-left: 50px;
     }
   </style>
 </head>
+
 <body>
   <!-- Navbar -->
   <nav class="navbar navbar-dark px-3">
@@ -105,7 +138,7 @@
       <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
     </ul>
   </nav>
-  
+
   <!-- Layout -->
   <div class="container-fluid mt-3">
     <div class="row">
@@ -116,7 +149,7 @@
           <h6>Menu</h6>
           <ul class="nav flex-column">
             <li class="nav-item"><a href="#" class="nav-link">Friends</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Groups</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Clubs</a></li>
             <li class="nav-item"><a href="#" class="nav-link">Events</a></li>
           </ul>
         </div>
@@ -125,57 +158,113 @@
       <!-- Main Feed -->
       <div class="col-md-7">
         <!-- Stories -->
-        <div class="d-flex mb-3">
-            <h5>Stories</h5>
+        <div class="d-flex mb-3 align-items-center">
+          <h5 class="me-3">Stories</h5>
           <div class="me-2 story"><img src="images/campus.jpg" alt="story"></div>
           <div class="me-2 story"><img src="images/graduation.jpg" alt="story"></div>
           <div class="me-2 story"><img src="images/library.jpg" alt="story"></div>
           <div class="me-2 story"><img src="images/Students.jpg" alt="story"></div>
         </div>
 
-        <!-- Create Post Box (only shows when logged in) -->
-        <div class="create-post-box" id="createPostBox" style="display:none;">
+        <!-- Create Post Box -->
+        <div class="create-post-box">
           <h6 class="mb-3">Create a Post</h6>
-          <button class="btn btn-create-post" onclick="window.location.href='create-post.html'">
-            What's on your mind, <span id="createPostUsername"></span>?
-          </button>
+          <textarea class="form-control mb-2" rows="3" placeholder="What's on your mind?"></textarea>
+          <button class="btn-create-post">Post</button>
         </div>
 
-        <!-- Dynamic Posts Feed Container -->
+        <!-- Posts Feed -->
         <div id="postsFeed">
-          <!-- Dynamic posts will be loaded here -->
-        </div>
+          <!-- Example Post -->
+          <div class="card feed-card shadow-lg mb-3">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-1">
+                <img src="images/user1.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
+                <h6 class="card-title mb-0">User Name</h6>
+              </div>
+              <span class="post-timestamp">Posted 2 hours ago</span>
+              <p class="card-text mt-2">This is a sample post. Geese almost attacked me at Richland College today. 😢</p>
+              
+              <div class="post-actions">
+                <button class="btn btn-sm btn-outline-success">👍 Like</button>
+                <button class="btn btn-sm btn-outline-danger">👎 Dislike</button>
+                <button class="btn btn-sm btn-outline-secondary">✏️ Edit</button>
+                <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
+              </div>
 
-        <!-- Original Sample Posts -->
-        <div class="card feed-card shadow-lg">
-          <div class="card-body">
-            <div class="d-flex align-items-center mb-2">
-              <img src="images/user1.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
-              <h6 class="card-title mb-0">User Name</h6>
-            </div>
-            <p class="card-text mt-2">This is a sample post. Geese almost attack me at richland college today. 😢</p>
-            <img src="images/geese.jpg" class="img-fluid rounded" alt="post">
-          </div>
-        </div>
+              <!-- Comment Section -->
+              <div class="comment-section">
+                <!-- Comment Input Row -->
+                <div class="d-flex align-items-center mb-3">
+                  <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
+                  <button class="btn btn-sm btn-primary">Comment</button>
+                </div>
 
-        <div class="card feed-card shadow-lg">
-          <div class="card-body">
-            <div class="d-flex align-items-center mb-2">
-              <img src="images/user2.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
-              <h6 class="card-title mb-0">Another User</h6>
+                <!-- Example Comment -->
+                <div class="comment">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="images/default profile picture.jpg" alt="User" width="45" height="45" class="rounded-circle me-2">
+                    <div>
+                      <strong>User Name</strong><br>
+                      <span class="post-timestamp">Posted 1 hour ago</span><br>
+                      <span class="comment-text">This is an example comment!</span>
+                    </div>
+                  </div>
+                  <div class="mt-2 comment-actions">
+                    <button class="btn btn-sm btn-outline-success">👍 Like</button>
+                    <button class="btn btn-sm btn-outline-danger">👎 Dislike</button>
+                    <button class="btn btn-sm btn-outline-secondary">✏️ Edit</button>
+                    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p class="card-text mt-2">This is a sample post. Can believe it over!!</p>
-            <img src="images/done.jpg" class="img-fluid rounded" alt="post">
           </div>
-        </div>
-        
-        <!-- Welcome message -->
+
+          <!-- Another Sample Post -->
+          <div class="card feed-card shadow-lg mb-3">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-1">
+                <img src="images/user2.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
+                <h6 class="card-title mb-0">Different User</h6>
+              </div>
+              <span class="post-timestamp">Posted 5 hours ago</span>
+              <p class="card-text mt-2">This is another sample post. Can't believe it's over!! 🎓</p>
+
+              <div class="post-actions">
+                <button class="btn btn-sm btn-outline-success">👍 Like</button>
+                <button class="btn btn-sm btn-outline-danger">👎 Dislike</button>
+                <button class="btn btn-sm btn-outline-secondary">✏️ Edit</button>
+                <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
+              </div>
+
+              <!-- Comment Section -->
+              <div class="comment-section">
+                <div class="d-flex align-items-center mb-3">
+                  <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
+                  <button class="btn btn-sm btn-primary">Comment</button>
+                </div>
+
+                <div class="comment">
+                  <div class="d-flex align-items-center mb-2">
+                    <img src="images/default profile picture.jpg" alt="User" width="45" height="45" class="rounded-circle me-2">
+                    <div>
+                      <strong>Another Name</strong><br>
+                      <span class="post-timestamp">Posted 30 minutes ago</span><br>
+                      <span class="comment-text">This is an example comment!</span>
+                    </div>
+                  </div>
+                  <div class="mt-2 comment-actions">
+                    <button class="btn btn-sm btn-outline-success">👍 Like</button>
+                    <button class="btn btn-sm btn-outline-danger">👎 Dislike</button>
+                    <button class="btn btn-sm btn-outline-secondary">✏️ Edit</button>
+                    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
+                  </div>
+               <!-- Welcome message -->
         <p id="welcomeUser" style="display:none;">
           Welcome back, <strong id="welcomeName"></strong>!
         </p>
       </div>
-    </div>
-  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>

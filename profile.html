@@ -160,15 +160,20 @@
  
     /* Edit/Save buttons */
     #editBtn {
-      position: absolute;
-      top: 10px;
-      right: 100px;
+    position: absolute;
+    top: 10px;
+    right: 100px;
+    padding: 5px 15px;  
+    font-size: 1.1rem;
     }
+    
     #saveBtn {
       position: absolute;
       top: 10px;
       right: 20px;
       display: none;
+      padding: 5px 15px;  
+      font-size: 1.1rem;
     }
 
     /* User Posts Section */
@@ -188,6 +193,33 @@
     .post-timestamp {
       font-size: 0.85rem;
       color: #65676b;
+    }
+    .post-actions button {
+      margin-right: 10px;
+    }
+    /* Comments Section */
+    .comment-section {
+      margin-top: 10px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+    .comment {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .comment-text {
+      font-size: 0.95rem;
+    }
+    .comment-actions button {
+      margin-right: 5px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+    .comment-actions button:hover {
+      opacity: 0.9;
     }
 </style>
 </head>
@@ -249,15 +281,62 @@
 <div class="post-card">
 <h5>Create a Post</h5>
 <textarea id="postContent" class="form-control mb-2" rows="3" placeholder="What's on your mind?"></textarea>
-<input type="file" id="postImage" class="form-control mb-2" accept="image/*">
 <button id="postBtn" class="btn btn-primary w-100">Post</button>
 </div>
 
 <!-- User Posts -->
 <div class="post-card">
 <h5 class="text-center mb-3">My Posts</h5>
-<div id="userPosts"></div>
+
+<div id="userPosts">
+
+  <!-- Example Static Post -->
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="d-flex align-items-center mb-2">
+        <img src="images/default profile picture.jpg" alt="User" width="45" height="45" class="rounded-circle me-2">
+        <div>
+          <strong>Your Name</strong><br>
+          <span class="post-timestamp">Posted 2 hours ago</span>
+        </div>
+      </div>
+      <p>Excited to share that I just finished my web development project!</p>
+      <div class="post-actions">
+        <button class="btn btn-sm btn-outline-success" id="likePostBtn">👍 Like</button>
+        <button class="btn btn-sm btn-outline-danger" id="dislikePostBtn">👎 Dislike</button>
+        <button class="btn btn-sm btn-outline-secondary" id="editPostBtn">✏️ Edit</button>
+        <button class="btn btn-sm btn-outline-dark" id="deletePostBtn">🗑️ Delete</button>
+      
+            <!-- Comment Section -->
+<div class="comment-section">
+    <!-- Comment Input Row -->
+    <div class="d-flex align-items-center mb-3">
+      <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment..." id="commentInput">
+      <button class="btn btn-sm btn-primary" id="addCommentBtn">Comment</button>
+    </div>
+  
+    <!-- Example Comment -->
+    <div class="comment">
+      <div class="d-flex align-items-center mb-2">
+        <img src="images/default profile picture.jpg" alt="User" width="45" height="45" class="rounded-circle me-2">
+        <div>
+          <strong>Your Name</strong><br>
+          <span class="post-timestamp">Posted 1 hours ago</span><br>
+          <span class="comment-text">This is an example comment!</span>
+        </div>
+      </div>
+      <div class="mt-2 comment-actions d-flex justify-content-start">
+        <button class="btn btn-sm btn-outline-success me-2" id="likeCommentBtn">👍 Like</button>
+        <button class="btn btn-sm btn-outline-danger me-2" id="dislikeCommentBtn">👎 Dislike</button>
+        <button class="btn btn-sm btn-outline-secondary me-2" id="editCommentBtn">✏️ Edit</button>
+        <button class="btn btn-sm btn-outline-dark" id="deleteCommentBtn">🗑️ Delete</button>
+      </div>
+    </div>
+  </div>
+
 </div>
+</div>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script>
