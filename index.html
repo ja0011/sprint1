@@ -124,19 +124,21 @@
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-dark px-3">
-    <a class="navbar-brand d-flex align-items-center" href="index.html">
-      <img src="images/DC.jpg" alt="Logo" width="105" height="100">
-    </a>
-  
-    <ul class="navbar-nav ms-auto d-flex flex-row mb-0">
-      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-      <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
-      <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-    </ul>
+   <!-- Navbar -->
+<nav class="navbar navbar-dark px-3">
+  <a class="navbar-brand d-flex align-items-center" href="index.html">
+  <img src="images/DC.jpg" alt="Logo" width="105" height="100">
+  </a>
+  <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
+  <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+  <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
+  <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+  <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+  <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
+  <li class="nav-item d-none" id="logoutItem">
+  <a class="nav-link text-danger fw-bold" href="#" id="logoutLink">Logout</a>
+  </li>
+  </ul>
   </nav>
 
   <!-- Layout -->
@@ -182,7 +184,7 @@
                 <img src="images/user1.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
                 <h6 class="card-title mb-0">User Name</h6>
               </div>
-              <span class="post-timestamp">Posted 2 hours ago</span>
+              <span class="post-timestamp">10/14/2025 Posted 2 hours ago</span>
               <p class="card-text mt-2">This is a sample post. Geese almost attacked me at Richland College today. 😢</p>
               
               <div class="post-actions">
@@ -206,7 +208,7 @@
                     <img src="images/default profile picture.jpg" alt="User" width="45" height="45" class="rounded-circle me-2">
                     <div>
                       <strong>User Name</strong><br>
-                      <span class="post-timestamp">Posted 1 hour ago</span><br>
+                      <span class="post-timestamp">10/14/2025 Posted 1 hour ago</span><br>
                       <span class="comment-text">This is an example comment!</span>
                     </div>
                   </div>
@@ -228,7 +230,7 @@
                 <img src="images/user2.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
                 <h6 class="card-title mb-0">Different User</h6>
               </div>
-              <span class="post-timestamp">Posted 5 hours ago</span>
+              <span class="post-timestamp">10/13/2025 Posted 5 hours ago</span>
               <p class="card-text mt-2">This is another sample post. Can't believe it's over!! 🎓</p>
 
               <div class="post-actions">
@@ -250,7 +252,7 @@
                     <img src="images/default profile picture.jpg" alt="User" width="45" height="45" class="rounded-circle me-2">
                     <div>
                       <strong>Another Name</strong><br>
-                      <span class="post-timestamp">Posted 30 minutes ago</span><br>
+                      <span class="post-timestamp">10/13/2025 Posted 30 minutes ago</span><br>
                       <span class="comment-text">This is an example comment!</span>
                     </div>
                   </div>

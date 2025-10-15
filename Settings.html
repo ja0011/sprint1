@@ -100,19 +100,21 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-dark px-3">
-    <a class="navbar-brand d-flex align-items-center" href="index.html">
-      <img src="images/DC.jpg" alt="Logo" width="105" height="100">
-    </a>
-  
-    <ul class="navbar-nav ms-auto d-flex flex-row mb-0">
-      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-      <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
-      <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-    </ul>
+   <!-- Navbar -->
+<nav class="navbar navbar-dark px-3">
+  <a class="navbar-brand d-flex align-items-center" href="index.html">
+  <img src="images/DC.jpg" alt="Logo" width="105" height="100">
+  </a>
+  <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
+  <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+  <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
+  <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+  <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+  <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
+  <li class="nav-item d-none" id="logoutItem">
+  <a class="nav-link text-danger fw-bold" href="#" id="logoutLink">Logout</a>
+  </li>
+  </ul>
   </nav>
 
   <!-- Settings Card -->
