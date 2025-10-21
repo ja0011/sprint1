@@ -355,17 +355,78 @@
       }
     })(); 
 
-  // Like counter  
-  document.addEventListener('DOMContentLoaded', function() {
-    const likeButton = document.getElementById('likeButton');
-    const likeCountSpan = document.getElementById('likeCount');
-    let likeCount = 0; // Initialize the counter
+  // Like/Dislike counters per post/comment (class-based, scoped)
+  document.addEventListener('DOMContentLoaded', function () {
+    function normalizeButtons(container) {
+      // LIKE
+      let likeBtn = container.querySelector('.like-btn') || container.querySelector('#likeButton') || container.querySelector('.btn.btn-sm.btn-outline-success');
+      if (likeBtn) {
+        likeBtn.classList.add('like-btn');
+        if (likeBtn.id === 'likeButton') likeBtn.removeAttribute('id');
+      }
+      let likeCount = container.querySelector('.like-count') || container.querySelector('#likeCount');
+      if (!likeCount && likeBtn) {
+        likeCount = likeBtn.querySelector('span');
+      }
+      if (!likeCount && likeBtn) {
+        likeCount = document.createElement('span');
+        likeCount.textContent = '0';
+        likeBtn.append(' (', likeCount, ')');
+      }
+      if (likeCount) {
+        likeCount.classList.add('like-count');
+        if (likeCount.id === 'likeCount') likeCount.removeAttribute('id');
+      }
 
-    likeButton.addEventListener('click', function() {
-      likeCount++; // Increment the counter
-      likeCountSpan.textContent = likeCount; // Update the displayed count
-      const clickLike = true;
-    });
+      // DISLIKE
+      let dislikeBtn = container.querySelector('.dislike-btn') || container.querySelector('#dislikeButton') || container.querySelector('.btn.btn-sm.btn-outline-danger');
+      if (dislikeBtn) {
+        dislikeBtn.classList.add('dislike-btn');
+        if (dislikeBtn.id === 'dislikeButton') dislikeBtn.removeAttribute('id');
+      }
+      let dislikeCount = container.querySelector('.dislike-count') || container.querySelector('#dislikeCount');
+      if (!dislikeCount && dislikeBtn) {
+        dislikeCount = dislikeBtn.querySelector('span');
+      }
+      if (!dislikeCount && dislikeBtn) {
+        dislikeCount = document.createElement('span');
+        dislikeCount.textContent = '0';
+        dislikeBtn.append(' (', dislikeCount, ')');
+      }
+      if (dislikeCount) {
+        dislikeCount.classList.add('dislike-count');
+        if (dislikeCount.id === 'dislikeCount') dislikeCount.removeAttribute('id');
+      }
+
+      // Listeners (toggle between 0 and 1 per container)
+      if (likeBtn && likeCount && !likeBtn.dataset.bound) {
+        likeBtn.dataset.state = likeBtn.dataset.state || '0';
+        likeCount.textContent = likeBtn.dataset.state;
+        likeBtn.addEventListener('click', function () {
+          likeBtn.dataset.state = likeBtn.dataset.state === '1' ? '0' : '1';
+          likeCount.textContent = likeBtn.dataset.state;
+        });
+        likeBtn.dataset.bound = '1';
+      }
+      if (dislikeBtn && dislikeCount && !dislikeBtn.dataset.bound) {
+        dislikeBtn.dataset.state = dislikeBtn.dataset.state || '0';
+        dislikeCount.textContent = dislikeBtn.dataset.state;
+        dislikeBtn.addEventListener('click', function () {
+          dislikeBtn.dataset.state = dislikeBtn.dataset.state === '1' ? '0' : '1';
+          dislikeCount.textContent = dislikeBtn.dataset.state;
+        });
+        dislikeBtn.dataset.bound = '1';
+      }
+    }
+
+    const feed = document.getElementById('postsFeed') || document.body;
+    const initAll = () => document.querySelectorAll('.post-actions, .comment-actions').forEach(normalizeButtons);
+    initAll();
+    // Handle dynamically added posts (if backend fills later)
+    if (feed && window.MutationObserver) {
+      const observer = new MutationObserver(() => initAll());
+      observer.observe(feed, { childList: true, subtree: true });
+    }
   });
   </script>
 </body>
