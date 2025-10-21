@@ -357,16 +357,22 @@
 
   // Like counter  
   document.addEventListener('DOMContentLoaded', function() {
-    const likeButton = document.getElementById('likeButton');
-    const likeCountSpan = document.getElementById('likeCount');
-    let likeCount = 0; // Initialize the counter
+  const likeButton = document.getElementById('likeButton');
+  const likeCountSpan = document.getElementById('likeCount');
+  let likeCount = 0; // Initialize the counter
 
-    likeButton.addEventListener('click', function() {
-      likeCount++; // Increment the counter
-      likeCountSpan.textContent = likeCount; // Update the displayed count
-      const clickLike = true;
-    });
+
+  likeButton.addEventListener('click', function() {
+    if (likeCount === 0) {
+      likeCount++; // Increment the counter if it's 0 (like action)
+    } else {
+      likeCount--; // Decrement the counter if already liked (unlike action)
+    }
+    likeCountSpan.textContent = likeCount; // Update the displayed count
+
+
   });
+});
   </script>
 </body>
 </html>
