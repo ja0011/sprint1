@@ -372,6 +372,28 @@
 
 
   });
+
+  // Dislike counter (toggle 0/1 similar to like)
+  const dislikeButton = document.getElementById('dislikeButton') || document.querySelector('.btn.btn-sm.btn-outline-danger');
+  let dislikeCountSpan = document.getElementById('dislikeCount');
+  if (dislikeButton && !dislikeCountSpan) {
+    const span = document.createElement('span');
+    span.id = 'dislikeCount';
+    span.textContent = '0';
+    dislikeButton.append(' (', span, ')');
+    dislikeCountSpan = span;
+  }
+  let dislikeCount = 0;
+  if (dislikeButton && dislikeCountSpan) {
+    dislikeButton.addEventListener('click', function() {
+      if (dislikeCount === 0) {
+        dislikeCount++; // like action equivalent for dislikes
+      } else {
+        dislikeCount--; // unlike equivalent for dislikes
+      }
+      dislikeCountSpan.textContent = dislikeCount;
+    });
+  }
 });
   </script>
 </body>
