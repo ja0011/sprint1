@@ -80,6 +80,10 @@
     .btn-create-post:hover {
       background-color: #002266;
     }
+    .btn-create-post:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+    }
 
     /* Comments Section */
     .comment-section {
@@ -169,99 +173,23 @@
         </div>
 
         <!-- Create Post Box -->
-        <div class="create-post-box">
+        <div class="create-post-box" id="createPostBox">
           <h6 class="mb-3">Create a Post</h6>
-          <textarea class="form-control mb-2" rows="3" placeholder="What's on your mind?"></textarea>
-          <button class="btn-create-post">Post</button>
+          <textarea class="form-control mb-2" id="postContent" rows="3" placeholder="What's on your mind?"></textarea>
+          <div class="mb-2">
+            <label for="postImage" class="form-label text-muted small">📷 Add an image (optional)</label>
+            <input type="file" class="form-control form-control-sm" id="postImage" accept="image/*">
+          </div>
+          <button class="btn-create-post" onclick="createPost()">Post</button>
         </div>
 
         <!-- Posts Feed -->
         <div id="postsFeed">
-          <!-- Example Post -->
-          <div class="card feed-card shadow-lg mb-3">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-1">
-                <img src="images/user1.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
-                <h6 class="card-title mb-0">User Name</h6>
-              </div>
-              <span class="post-timestamp">10/14/2025 Posted 2 hours ago</span>
-              <p class="card-text mt-2">This is a sample post. Geese almost attacked me at Richland College today. 😢</p>
-              
-              <div class="post-actions">
-                <button class="btn btn-sm btn-outline-success" id="likeButton">👍 Like (<span id="likeCount">0</span>)</button>
-                <button class="btn btn-sm btn-outline-danger">👎 Dislike</button>
-                <button class="btn btn-sm btn-outline-secondary">✏️ Edit</button>
-                <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
-              </div>
-
-              <!-- Comment Section -->
-              <div class="comment-section">
-                <!-- Comment Input Row -->
-                <div class="d-flex align-items-center mb-3">
-                  <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
-                  <button class="btn btn-sm btn-primary">Comment</button>
-                </div>
-
-                <!-- Example Comment -->
-                <div class="comment">
-                  <div class="d-flex align-items-center mb-2">
-                    <img src="images/default profile picture.jpg" alt="User" width="45" height="45" class="rounded-circle me-2">
-                    <div>
-                      <strong>User Name</strong><br>
-                      <span class="post-timestamp">10/14/2025 Posted 1 hour ago</span><br>
-                      <span class="comment-text">This is an example comment!</span>
-                    </div>
-                  </div>
-                  <div class="mt-2 comment-actions">
-                    <button class="btn btn-sm btn-outline-success" id="likeButton">👍 Like (<span id="likeCount">0</span>)</button>
-                    <button class="btn btn-sm btn-outline-danger">👎 Dislike</button>
-                    <button class="btn btn-sm btn-outline-secondary">✏️ Edit</button>
-                    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- Backend Connection Status -->
+          <div id="backendStatus" class="alert alert-warning" style="display: none;">
+            <strong>⚠️ Backend Unavailable:</strong> The API server is not running. Showing example posts only. 
+            Like/dislike functionality requires the backend to be running on <code>localhost:8081</code>.
           </div>
-
-          <!-- Another Sample Post -->
-          <div class="card feed-card shadow-lg mb-3">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-1">
-                <img src="images/user2.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
-                <h6 class="card-title mb-0">Different User</h6>
-              </div>
-              <span class="post-timestamp">10/13/2025 Posted 5 hours ago</span>
-              <p class="card-text mt-2">This is another sample post. Can't believe it's over!! 🎓</p>
-
-              <div class="post-actions">
-                <button class="btn btn-sm btn-outline-success" id="likeButton">👍 Like (<span id="likeCount">0</span>)</button>
-                <button class="btn btn-sm btn-outline-danger">👎 Dislike</button>
-                <button class="btn btn-sm btn-outline-secondary">✏️ Edit</button>
-                <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
-              </div>
-
-              <!-- Comment Section -->
-              <div class="comment-section">
-                <div class="d-flex align-items-center mb-3">
-                  <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
-                  <button class="btn btn-sm btn-primary">Comment</button>
-                </div>
-
-                <div class="comment">
-                  <div class="d-flex align-items-center mb-2">
-                    <img src="images/default profile picture.jpg" alt="User" width="45" height="45" class="rounded-circle me-2">
-                    <div>
-                      <strong>Another Name</strong><br>
-                      <span class="post-timestamp">10/13/2025 Posted 30 minutes ago</span><br>
-                      <span class="comment-text">This is an example comment!</span>
-                    </div>
-                  </div>
-                  <div class="mt-2 comment-actions">
-                    <button class="btn btn-sm btn-outline-success" id="likeButton">👍 Like (<span id="likeCount">0</span>)</button>
-                    <button class="btn btn-sm btn-outline-danger">👎 Dislike</button>
-                    <button class="btn btn-sm btn-outline-secondary">✏️ Edit</button>
-                    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
-                  </div>
                <!-- Welcome message -->
         <p id="welcomeUser" style="display:none;">
           Welcome back, <strong id="welcomeName"></strong>!
@@ -277,21 +205,35 @@
     if (currentUser) {
       document.getElementById('welcomeName').textContent = currentUser.username;
       document.getElementById('welcomeUser').style.display = 'block';
-      document.getElementById('createPostBox').style.display = 'block';
-      document.getElementById('createPostUsername').textContent = currentUser.username;
+      const createPostBox = document.getElementById('createPostBox');
+      if (createPostBox) {
+        createPostBox.style.display = 'block';
+      }
+    } else {
+      // Hide create post box if not logged in
+      const createPostBox = document.getElementById('createPostBox');
+      if (createPostBox) {
+        createPostBox.style.display = 'none';
+      }
     }
 
     // Load dynamic posts
     async function loadPosts() {
       try {
-        const response = await fetch(`${API_URL}/posts`);
+        const userId = currentUser ? currentUser.id : null;
+        const url = userId ? `${API_URL}/posts?userId=${userId}` : `${API_URL}/posts`;
+        const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to load posts');
         
         const posts = await response.json();
         const feedContainer = document.getElementById('postsFeed');
         
+        // Hide backend status warning since connection is successful
+        const backendStatus = document.getElementById('backendStatus');
+        if (backendStatus) backendStatus.style.display = 'none';
+        
         if (posts.length === 0) {
-          feedContainer.innerHTML = '';
+          feedContainer.innerHTML = '<div class="alert alert-info">No posts yet. Be the first to post!</div>';
           return;
         }
 
@@ -299,9 +241,11 @@
           const postDate = new Date(post.createdAt);
           const timeAgo = getTimeAgo(postDate);
           const profilePic = post.userProfilePicture || 'images/default profile picture.jpg';
+          const isOwnPost = currentUser && currentUser.id === post.userId;
+          const canInteract = currentUser !== null;
           
           return `
-            <div class="card feed-card shadow-lg">
+            <div class="card feed-card shadow-lg" data-post-id="${post.id}">
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <img src="${profilePic}" alt="User Profile" class="rounded-circle me-2" width="40" height="40" onerror="this.src='images/default profile picture.jpg'">
@@ -312,6 +256,42 @@
                 </div>
                 ${post.content ? `<p class="card-text mt-2">${post.content}</p>` : ''}
                 ${post.imageUrl ? `<img src="http://localhost:8081${post.imageUrl}" class="post-image" alt="post image" onerror="this.style.display='none'">` : ''}
+                
+                <!-- Post Actions -->
+                <div class="post-actions mt-3">
+                  <button class="btn btn-sm ${post.userLiked ? 'btn-success' : 'btn-outline-success'} like-btn" 
+                          onclick="toggleLike(${post.id})" ${!canInteract ? 'disabled' : ''}>
+                    👍 Like (<span class="like-count">${post.likeCount}</span>)
+                  </button>
+                  <button class="btn btn-sm ${post.userDisliked ? 'btn-danger' : 'btn-outline-danger'} dislike-btn" 
+                          onclick="toggleDislike(${post.id})" ${!canInteract ? 'disabled' : ''}>
+                    👎 Dislike (<span class="dislike-count">${post.dislikeCount}</span>)
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary" onclick="toggleComments(${post.id})">
+                    💬 Comment (<span class="comment-count">${post.commentCount}</span>)
+                  </button>
+                  ${isOwnPost ? `
+                    <button class="btn btn-sm btn-outline-primary" onclick="editPost(${post.id}, '${post.content?.replace(/'/g, "\\'")}')">
+                      ✏️ Edit
+                    </button>
+                    <button class="btn btn-sm btn-outline-dark" onclick="deletePost(${post.id})">
+                      🗑️ Delete
+                    </button>
+                  ` : ''}
+                </div>
+
+                <!-- Comment Section -->
+                <div class="comment-section mt-3" id="comments-${post.id}" style="display: none;">
+                  ${canInteract ? `
+                    <div class="d-flex align-items-center mb-3">
+                      <input type="text" class="form-control form-control-sm me-2" 
+                             id="comment-input-${post.id}" placeholder="Write a comment...">
+                      <button class="btn btn-sm btn-primary" onclick="addComment(${post.id})">Post</button>
+                    </div>
+                  ` : '<p class="text-muted">Login to comment</p>'}
+                  
+                  <div id="comment-list-${post.id}"></div>
+                </div>
               </div>
             </div>
           `;
@@ -319,6 +299,31 @@
         
       } catch (error) {
         console.error('Error loading posts:', error);
+        
+        // Show backend unavailable warning
+        const backendStatus = document.getElementById('backendStatus');
+        if (backendStatus) {
+          backendStatus.style.display = 'block';
+        }
+        
+        // Show helpful message in feed
+        const feedContainer = document.getElementById('postsFeed');
+        feedContainer.innerHTML = `
+          <div class="alert alert-danger">
+            <h5>❌ Cannot Connect to Backend</h5>
+            <p><strong>Error:</strong> ${error.message}</p>
+            <p>The backend API server is not running or is not accessible at <code>http://localhost:8081</code></p>
+            <hr>
+            <h6>To fix this issue:</h6>
+            <ol>
+              <li>Make sure the backend server is running on port 8081</li>
+              <li>Check if Docker containers are running: <code>docker ps</code></li>
+              <li>Or start the backend manually with: <code>cd backend/social-app && mvn spring-boot:run</code></li>
+              <li>Verify the database is accessible</li>
+            </ol>
+            <button class="btn btn-primary mt-2" onclick="location.reload()">🔄 Retry Connection</button>
+          </div>
+        `;
       }
     }
 
@@ -343,6 +348,123 @@
       return "Just now";
     }
 
+    // ===== LIKE/DISLIKE FUNCTIONS =====
+    // These functions must be defined BEFORE loadPosts() is called
+    // so they're available when onclick handlers are created
+    
+    // Toggle Like
+    async function toggleLike(postId) {
+      console.log('toggleLike called for post:', postId);
+      
+      if (!currentUser) {
+        alert('Please login to like posts');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_URL}/posts/${postId}/like?userId=${currentUser.id}`, {
+          method: 'POST'
+        });
+        
+        if (!response.ok) throw new Error('Failed to toggle like');
+        
+        const data = await response.json();
+        console.log('Like response:', data);
+        updatePostStats(postId, data);
+      } catch (error) {
+        console.error('Error toggling like:', error);
+        
+        // Check if it's a connection error
+        if (error.message.includes('fetch') || error.message.includes('Failed')) {
+          alert('❌ Cannot connect to backend server!\n\n' +
+                'The API server at http://localhost:8081 is not responding.\n\n' +
+                'Please ensure:\n' +
+                '1. Backend server is running\n' +
+                '2. Database is accessible\n' +
+                '3. No firewall is blocking port 8081');
+        } else {
+          alert('Failed to like post: ' + error.message);
+        }
+      }
+    }
+
+    // Toggle Dislike
+    async function toggleDislike(postId) {
+      console.log('toggleDislike called for post:', postId);
+      
+      if (!currentUser) {
+        alert('Please login to dislike posts');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_URL}/posts/${postId}/dislike?userId=${currentUser.id}`, {
+          method: 'POST'
+        });
+        
+        if (!response.ok) throw new Error('Failed to toggle dislike');
+        
+        const data = await response.json();
+        console.log('Dislike response:', data);
+        updatePostStats(postId, data);
+      } catch (error) {
+        console.error('Error toggling dislike:', error);
+        
+        // Check if it's a connection error
+        if (error.message.includes('fetch') || error.message.includes('Failed')) {
+          alert('❌ Cannot connect to backend server!\n\n' +
+                'The API server at http://localhost:8081 is not responding.\n\n' +
+                'Please ensure:\n' +
+                '1. Backend server is running\n' +
+                '2. Database is accessible\n' +
+                '3. No firewall is blocking port 8081');
+        } else {
+          alert('Failed to dislike post: ' + error.message);
+        }
+      }
+    }
+
+    // Update post statistics in UI
+    function updatePostStats(postId, data) {
+      console.log('updatePostStats called for post:', postId, 'with data:', data);
+      
+      const postCard = document.querySelector(`[data-post-id="${postId}"]`);
+      if (!postCard) {
+        console.error('Post card not found for postId:', postId);
+        return;
+      }
+      
+      // Update like button and count
+      const likeBtn = postCard.querySelector('.like-btn');
+      const likeCount = postCard.querySelector('.like-count');
+      if (likeBtn && likeCount) {
+        likeCount.textContent = data.likeCount;
+        if (data.userLiked) {
+          likeBtn.classList.remove('btn-outline-success');
+          likeBtn.classList.add('btn-success');
+        } else {
+          likeBtn.classList.remove('btn-success');
+          likeBtn.classList.add('btn-outline-success');
+        }
+      }
+      
+      // Update dislike button and count
+      const dislikeBtn = postCard.querySelector('.dislike-btn');
+      const dislikeCount = postCard.querySelector('.dislike-count');
+      if (dislikeBtn && dislikeCount) {
+        dislikeCount.textContent = data.dislikeCount;
+        if (data.userDisliked) {
+          dislikeBtn.classList.remove('btn-outline-danger');
+          dislikeBtn.classList.add('btn-danger');
+        } else {
+          dislikeBtn.classList.remove('btn-danger');
+          dislikeBtn.classList.add('btn-outline-danger');
+        }
+      }
+    }
+
+    // ===== INITIALIZATION =====
+    
     // Load posts on page load
     loadPosts();
 
@@ -353,81 +475,244 @@
         document.getElementById('welcomeName').textContent = name;
         document.getElementById('welcomeUser').style.display = 'block';
       }
-    })(); 
+    })();
 
-  // Like/Dislike counters per post/comment (class-based, scoped)
-  document.addEventListener('DOMContentLoaded', function () {
-    function normalizeButtons(container) {
-      // LIKE
-      let likeBtn = container.querySelector('.like-btn') || container.querySelector('#likeButton') || container.querySelector('.btn.btn-sm.btn-outline-success');
-      if (likeBtn) {
-        likeBtn.classList.add('like-btn');
-        if (likeBtn.id === 'likeButton') likeBtn.removeAttribute('id');
-      }
-      let likeCount = container.querySelector('.like-count') || container.querySelector('#likeCount');
-      if (!likeCount && likeBtn) {
-        likeCount = likeBtn.querySelector('span');
-      }
-      if (!likeCount && likeBtn) {
-        likeCount = document.createElement('span');
-        likeCount.textContent = '0';
-        likeBtn.append(' (', likeCount, ')');
-      }
-      if (likeCount) {
-        likeCount.classList.add('like-count');
-        if (likeCount.id === 'likeCount') likeCount.removeAttribute('id');
-      }
-
-      // DISLIKE
-      let dislikeBtn = container.querySelector('.dislike-btn') || container.querySelector('#dislikeButton') || container.querySelector('.btn.btn-sm.btn-outline-danger');
-      if (dislikeBtn) {
-        dislikeBtn.classList.add('dislike-btn');
-        if (dislikeBtn.id === 'dislikeButton') dislikeBtn.removeAttribute('id');
-      }
-      let dislikeCount = container.querySelector('.dislike-count') || container.querySelector('#dislikeCount');
-      if (!dislikeCount && dislikeBtn) {
-        dislikeCount = dislikeBtn.querySelector('span');
-      }
-      if (!dislikeCount && dislikeBtn) {
-        dislikeCount = document.createElement('span');
-        dislikeCount.textContent = '0';
-        dislikeBtn.append(' (', dislikeCount, ')');
-      }
-      if (dislikeCount) {
-        dislikeCount.classList.add('dislike-count');
-        if (dislikeCount.id === 'dislikeCount') dislikeCount.removeAttribute('id');
-      }
-
-      // Listeners (toggle between 0 and 1 per container)
-      if (likeBtn && likeCount && !likeBtn.dataset.bound) {
-        likeBtn.dataset.state = likeBtn.dataset.state || '0';
-        likeCount.textContent = likeBtn.dataset.state;
-        likeBtn.addEventListener('click', function () {
-          likeBtn.dataset.state = likeBtn.dataset.state === '1' ? '0' : '1';
-          likeCount.textContent = likeBtn.dataset.state;
-        });
-        likeBtn.dataset.bound = '1';
-      }
-      if (dislikeBtn && dislikeCount && !dislikeBtn.dataset.bound) {
-        dislikeBtn.dataset.state = dislikeBtn.dataset.state || '0';
-        dislikeCount.textContent = dislikeBtn.dataset.state;
-        dislikeBtn.addEventListener('click', function () {
-          dislikeBtn.dataset.state = dislikeBtn.dataset.state === '1' ? '0' : '1';
-          dislikeCount.textContent = dislikeBtn.dataset.state;
-        });
-        dislikeBtn.dataset.bound = '1';
+    // Toggle comments visibility
+    async function toggleComments(postId) {
+      const commentsSection = document.getElementById(`comments-${postId}`);
+      if (!commentsSection) return;
+      
+      if (commentsSection.style.display === 'none') {
+        commentsSection.style.display = 'block';
+        await loadComments(postId);
+      } else {
+        commentsSection.style.display = 'none';
       }
     }
 
-    const feed = document.getElementById('postsFeed') || document.body;
-    const initAll = () => document.querySelectorAll('.post-actions, .comment-actions').forEach(normalizeButtons);
-    initAll();
-    // Handle dynamically added posts (if backend fills later)
-    if (feed && window.MutationObserver) {
-      const observer = new MutationObserver(() => initAll());
-      observer.observe(feed, { childList: true, subtree: true });
+    // Load comments for a post
+    async function loadComments(postId) {
+      try {
+        const response = await fetch(`${API_URL}/posts/${postId}/comments`);
+        if (!response.ok) throw new Error('Failed to load comments');
+        
+        const comments = await response.json();
+        const commentList = document.getElementById(`comment-list-${postId}`);
+        
+        if (comments.length === 0) {
+          commentList.innerHTML = '<p class="text-muted">No comments yet</p>';
+          return;
+        }
+        
+        commentList.innerHTML = comments.map(comment => {
+          const commentDate = new Date(comment.createdAt);
+          const timeAgo = getTimeAgo(commentDate);
+          const profilePic = comment.userProfilePicture || 'images/default profile picture.jpg';
+          const isOwnComment = currentUser && currentUser.id === comment.userId;
+          
+          return `
+            <div class="comment mb-3" data-comment-id="${comment.id}">
+              <div class="d-flex align-items-start">
+                <img src="${profilePic}" alt="User" width="40" height="40" 
+                     class="rounded-circle me-2" onerror="this.src='images/default profile picture.jpg'">
+                <div class="flex-grow-1">
+                  <div>
+                    <strong>${comment.username}</strong>
+                    <span class="text-muted ms-2" style="font-size: 0.85rem;">${timeAgo}</span>
+                  </div>
+                  <p class="mb-1">${comment.commentText}</p>
+                  ${isOwnComment ? `
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteComment(${comment.id}, ${postId})">
+                      Delete
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('Error loading comments:', error);
+      }
     }
-  });
+
+    // Add a new comment
+    async function addComment(postId) {
+      if (!currentUser) {
+        alert('Please login to comment');
+        return;
+      }
+      
+      const input = document.getElementById(`comment-input-${postId}`);
+      const commentText = input.value.trim();
+      
+      if (!commentText) {
+        alert('Comment cannot be empty');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_URL}/posts/${postId}/comments?userId=${currentUser.id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ commentText })
+        });
+        
+        if (!response.ok) throw new Error('Failed to add comment');
+        
+        input.value = '';
+        await loadComments(postId);
+        
+        // Update comment count
+        const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
+        if (commentCount) {
+          commentCount.textContent = parseInt(commentCount.textContent) + 1;
+        }
+      } catch (error) {
+        console.error('Error adding comment:', error);
+        alert('Failed to add comment');
+      }
+    }
+
+    // Delete a comment
+    async function deleteComment(commentId, postId) {
+      if (!currentUser) return;
+      
+      if (!confirm('Are you sure you want to delete this comment?')) return;
+      
+      try {
+        const response = await fetch(`${API_URL}/posts/comments/${commentId}?userId=${currentUser.id}`, {
+          method: 'DELETE'
+        });
+        
+        if (!response.ok) throw new Error('Failed to delete comment');
+        
+        await loadComments(postId);
+        
+        // Update comment count
+        const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
+        if (commentCount) {
+          commentCount.textContent = Math.max(0, parseInt(commentCount.textContent) - 1);
+        }
+      } catch (error) {
+        console.error('Error deleting comment:', error);
+        alert('Failed to delete comment');
+      }
+    }
+
+    // Edit and Delete post functions (placeholder - you can implement these)
+    function editPost(postId, content) {
+      // Implement edit functionality
+      console.log('Edit post:', postId, content);
+    }
+
+    async function deletePost(postId) {
+      if (!currentUser) return;
+      
+      if (!confirm('Are you sure you want to delete this post?')) return;
+      
+      try {
+        const response = await fetch(`${API_URL}/posts/${postId}?userId=${currentUser.id}`, {
+          method: 'DELETE'
+        });
+        
+        if (!response.ok) throw new Error('Failed to delete post');
+        
+        await loadPosts();
+      } catch (error) {
+        console.error('Error deleting post:', error);
+        alert('Failed to delete post');
+      }
+    }
+
+    // Create a new post
+    async function createPost() {
+      if (!currentUser) {
+        alert('Please login to create a post');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      const contentInput = document.getElementById('postContent');
+      const imageInput = document.getElementById('postImage');
+      const content = contentInput.value.trim();
+      const imageFile = imageInput.files[0];
+      
+      // Validate: at least content or image must be provided
+      if (!content && !imageFile) {
+        alert('Please write something or select an image to post');
+        return;
+      }
+      
+      try {
+        // Disable button to prevent double submission
+        const postButton = document.querySelector('.btn-create-post');
+        const originalText = postButton.textContent;
+        postButton.disabled = true;
+        postButton.textContent = 'Posting...';
+        
+        // Create FormData for multipart/form-data
+        const formData = new FormData();
+        formData.append('userId', currentUser.id);
+        
+        if (content) {
+          formData.append('content', content);
+        }
+        
+        if (imageFile) {
+          formData.append('image', imageFile);
+        }
+        
+        const response = await fetch(`${API_URL}/posts`, {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || 'Failed to create post');
+        }
+        
+        const newPost = await response.json();
+        console.log('Post created successfully:', newPost);
+        
+        // Clear inputs
+        contentInput.value = '';
+        imageInput.value = '';
+        
+        // Show success message
+        alert('✅ Post created successfully!');
+        
+        // Reload posts to show the new post
+        await loadPosts();
+        
+        // Re-enable button
+        postButton.disabled = false;
+        postButton.textContent = originalText;
+        
+      } catch (error) {
+        console.error('Error creating post:', error);
+        
+        // Re-enable button
+        const postButton = document.querySelector('.btn-create-post');
+        postButton.disabled = false;
+        postButton.textContent = 'Post';
+        
+        // Check if it's a connection error
+        if (error.message.includes('fetch') || error.message.includes('NetworkError')) {
+          alert('❌ Cannot connect to backend server!\n\n' +
+                'The API server at http://localhost:8081 is not responding.\n\n' +
+                'Please ensure:\n' +
+                '1. Backend server is running\n' +
+                '2. Database is accessible\n' +
+                '3. No firewall is blocking port 8081');
+        } else {
+          alert('Failed to create post: ' + error.message);
+        }
+      }
+    }
   </script>
 </body>
 </html>

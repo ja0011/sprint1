@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,14 +31,12 @@ import jakarta.validation.Valid;
 @Validated
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = {
-  "http://127.0.0.1:5500", "http://localhost:5500",
-  "http://127.0.0.1:3000", "http://localhost:3000"
-})
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
   private final UserRepository userRepository;
   private static final String UPLOAD_DIR = "target/classes/static/images/";
+  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
   public UserController(UserRepository userRepository) {
     this.userRepository = userRepository;
@@ -51,7 +51,7 @@ public class UserController {
       }
     } catch (Exception e) {
       System.err.println("[UserController] Could not create upload directory: " + e.getMessage());
-      e.printStackTrace();
+      logger.error("[UserController] Could not create upload directory", e);
     }
   }
 
@@ -178,13 +178,13 @@ public class UserController {
       ));
 
     } catch (IOException e) {
-      System.err.println("[UserController] IOException during upload: " + e.getMessage());
-      e.printStackTrace();
+      System.err.println("[UserController] File I/O error during upload: " + e.getMessage());
+      logger.error("File I/O error during upload", e);
       return ResponseEntity.status(500).body(Map.of("error", "upload_failed", "details", e.getMessage()));
-    } catch (Exception e) {
-      System.err.println("[UserController] Unexpected error during upload: " + e.getMessage());
-      e.printStackTrace();
-      return ResponseEntity.status(500).body(Map.of("error", "upload_failed", "details", e.getMessage()));
+    } catch (RuntimeException e) {
+      System.err.println("[UserController] User not found: " + e.getMessage());
+      logger.error("User not found during upload", e);
+      return ResponseEntity.status(404).body(Map.of("error", "user_not_found", "details", e.getMessage()));
     }
   }
 }

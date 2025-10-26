@@ -28,6 +28,9 @@ import com.example.socialapp.model.Post;
 import com.example.socialapp.model.User;
 import com.example.socialapp.repository.PostRepository;
 import com.example.socialapp.repository.UserRepository;
+import com.example.socialapp.service.PostCommentService;
+import com.example.socialapp.service.PostDislikeService;
+import com.example.socialapp.service.PostLikeService;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -39,11 +42,19 @@ public class PostController {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PostLikeService postLikeService;
+    private final PostDislikeService postDislikeService;
+    private final PostCommentService postCommentService;
     private static final String UPLOAD_DIR = "target/classes/static/images/posts/";
 
-    public PostController(PostRepository postRepository, UserRepository userRepository) {
+    public PostController(PostRepository postRepository, UserRepository userRepository,
+                         PostLikeService postLikeService, PostDislikeService postDislikeService,
+                         PostCommentService postCommentService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.postLikeService = postLikeService;
+        this.postDislikeService = postDislikeService;
+        this.postCommentService = postCommentService;
         
         try {
             File uploadDir = new File(UPLOAD_DIR);
@@ -67,8 +78,31 @@ public class PostController {
         String content,
         String imageUrl,
         Instant createdAt,
-        Instant updatedAt
+        Instant updatedAt,
+        long likeCount,
+        long dislikeCount,
+        long commentCount,
+        boolean userLiked,
+        boolean userDisliked
     ) {}
+
+    private PostResponse mapToResponse(Post post, Long currentUserId) {
+        return new PostResponse(
+            post.getId(),
+            post.getUser().getId(),
+            post.getUser().getUsername(),
+            post.getUser().getProfilePictureUrl(),
+            post.getContent(),
+            post.getImageUrl(),
+            post.getCreatedAt(),
+            post.getUpdatedAt(),
+            postLikeService.getLikeCount(post.getId()),
+            postDislikeService.getDislikeCount(post.getId()),
+            postCommentService.getCommentCount(post.getId()),
+            currentUserId != null ? postLikeService.hasUserLiked(post.getId(), currentUserId) : false,
+            currentUserId != null ? postDislikeService.hasUserDisliked(post.getId(), currentUserId) : false
+        );
+    }
 
     @PostMapping
     public ResponseEntity<?> createPost(
@@ -107,16 +141,7 @@ public class PostController {
             Post post = new Post(user, content, imageUrl);
             post = postRepository.save(post);
 
-            PostResponse response = new PostResponse(
-                post.getId(),
-                user.getId(),
-                user.getUsername(),
-                user.getProfilePictureUrl(),
-                post.getContent(),
-                post.getImageUrl(),
-                post.getCreatedAt(),
-                post.getUpdatedAt()
-            );
+            PostResponse response = mapToResponse(post, userId);
 
             System.out.println("[PostController] Post created successfully with ID: " + post.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -130,38 +155,23 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostResponse>> getAllPosts() {
+    public ResponseEntity<List<PostResponse>> getAllPosts(
+            @RequestParam(value = "userId", required = false) Long userId) {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponse> response = posts.stream()
-                .map(post -> new PostResponse(
-                    post.getId(),
-                    post.getUser().getId(),
-                    post.getUser().getUsername(),
-                    post.getUser().getProfilePictureUrl(),
-                    post.getContent(),
-                    post.getImageUrl(),
-                    post.getCreatedAt(),
-                    post.getUpdatedAt()
-                ))
+                .map(post -> mapToResponse(post, userId))
                 .collect(Collectors.toList());
         
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<PostResponse>> getUserPosts(@PathVariable Long userId) {
+    public ResponseEntity<List<PostResponse>> getUserPosts(
+            @PathVariable Long userId,
+            @RequestParam(value = "currentUserId", required = false) Long currentUserId) {
         List<Post> posts = postRepository.findByUserIdOrderByCreatedAtDesc(userId);
         List<PostResponse> response = posts.stream()
-                .map(post -> new PostResponse(
-                    post.getId(),
-                    post.getUser().getId(),
-                    post.getUser().getUsername(),
-                    post.getUser().getProfilePictureUrl(),
-                    post.getContent(),
-                    post.getImageUrl(),
-                    post.getCreatedAt(),
-                    post.getUpdatedAt()
-                ))
+                .map(post -> mapToResponse(post, currentUserId))
                 .collect(Collectors.toList());
         
         return ResponseEntity.ok(response);
@@ -186,16 +196,7 @@ public class PostController {
             post.setUpdatedAt(Instant.now());
             post = postRepository.save(post);
 
-            PostResponse response = new PostResponse(
-                post.getId(),
-                post.getUser().getId(),
-                post.getUser().getUsername(),
-                post.getUser().getProfilePictureUrl(),
-                post.getContent(),
-                post.getImageUrl(),
-                post.getCreatedAt(),
-                post.getUpdatedAt()
-            );
+            PostResponse response = mapToResponse(post, userId);
 
             return ResponseEntity.ok(response);
             
