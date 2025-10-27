@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #003385;
+    }
+    .navbar .nav-link {
+      color: #ffffff;
+    }
+    .navbar .nav-link:hover {
+      color: #000000;
+      text-shadow:
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
+    }
+    .navbar-brand img {
+      height: 40px;
+    }
+    .navbar-nav {
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
+    .navbar-nav .nav-item {
+      white-space: nowrap;
+    }
+    .navbar-nav .nav-link {
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+    }
+
+    /* Search Bar Styles */
+    .search-container {
+      position: relative;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+    .search-input {
+      width: 250px;
+      padding: 0.375rem 0.75rem;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      background-color: #f0f2f5;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: #003385;
+      background-color: white;
+    }
+    .search-button {
+      background-color: #003385;
+      color: white;
+      border: none;
+      padding: 0.375rem 1rem;
+      border-radius: 20px;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+    .search-button:hover {
+      background-color: #002266;
+    }
+    .search-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 250px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-top: 5px;
+      max-height: 300px;
+      overflow-y: auto;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
+      display: none;
+    }
+    .search-dropdown.show {
+      display: block;
+    }
+    .search-result-item {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f2f5;
+      display: flex;
+      align-items: center;
+    }
+    .search-result-item:hover {
+      background-color: #f0f2f5;
+    }
+    .search-result-item img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+    .search-result-item .username {
+      font-weight: 500;
+      color: #003385;
+    }
+    .search-no-results {
+      padding: 15px;
+      text-align: center;
+      color: #666;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .profile-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .profile-picture {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #003385;
+      margin-bottom: 15px;
+    }
+    .profile-username {
+      font-size: 28px;
+      font-weight: bold;
+      color: #003385;
+      margin-bottom: 5px;
+    }
+    .profile-email {
+      color: #666;
+      margin-bottom: 20px;
+    }
+    .profile-section {
+      margin-top: 20px;
+    }
+    .profile-section h5 {
+      color: #003385;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    .profile-field {
+      margin-bottom: 15px;
+    }
+    .profile-field label {
+      font-weight: bold;
+      color: #555;
+      display: block;
+      margin-bottom: 5px;
+    }
+    .profile-field p {
+      color: #333;
+      margin: 0;
+    }
+    .not-found {
+      text-align: center;
+      padding: 50px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark px-3">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="images/DC.jpg" alt="Logo" width="105" height="100">
+    </a>
+    
+    <!-- Search Container -->
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search users...">
+      <button class="search-button" onclick="performSearch()">Search</button>
+      <div id="searchDropdown" class="search-dropdown"></div>
+    </div>
+
+    <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="Settings.html">Settings</a></li>
+      <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
+      <li class="nav-item d-none" id="logoutItem">
+        <a class="nav-link text-danger fw-bold" href="#" id="logoutLink">Logout</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Profile Content -->
+  <div class="container">
+    <div id="profileContent" class="profile-card">
+      <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Loading profile...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const API_URL = 'http://localhost:8081/api';
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+
+    // Update navbar based on login status
+    if (currentUser) {
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('registerLink').style.display = 'none';
+      document.getElementById('logoutItem').classList.remove('d-none');
+    }
+
+    // Logout functionality
+    document.getElementById('logoutLink')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.removeItem('currentUser');
+      window.location.href = 'login.html';
+    });
+
+    // Get username from URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+
+    if (!username) {
+      document.getElementById('profileContent').innerHTML = `
+        <div class="not-found">
+          <h3>No user specified</h3>
+          <p>Please provide a username in the URL.</p>
+          <a href="index.html" class="btn btn-primary">Go to Home</a>
+        </div>
+      `;
+    } else {
+      loadUserProfile(username);
+    }
+
+    // Load user profile
+    async function loadUserProfile(username) {
+      try {
+        const response = await fetch(`${API_URL}/users/${username}`);
+        
+        if (!response.ok) {
+          throw new Error('User not found');
+        }
+
+        const user = await response.json();
+        displayProfile(user);
+      } catch (error) {
+        console.error('Error loading profile:', error);
+        document.getElementById('profileContent').innerHTML = `
+          <div class="not-found">
+            <h3>User not found</h3>
+            <p>The user "${username}" could not be found.</p>
+            <a href="index.html" class="btn btn-primary">Go to Home</a>
+          </div>
+        `;
+      }
+    }
+
+    // Display profile
+    function displayProfile(user) {
+      const profilePic = user.profilePictureUrl || 'images/default profile picture.jpg';
+      
+      document.getElementById('profileContent').innerHTML = `
+        <div class="profile-header">
+          <img src="${profilePic}" alt="Profile Picture" class="profile-picture" onerror="this.src='images/default profile picture.jpg'">
+          <h2 class="profile-username">${user.username}</h2>
+          <p class="profile-email">${user.email}</p>
+        </div>
+
+        <div class="profile-section">
+          <h5>About</h5>
+          <div class="profile-field">
+            <label>Bio</label>
+            <p>${user.bio || 'No bio provided'}</p>
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h5>Academic Information</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="profile-field">
+                <label>Major</label>
+                <p>${user.major || 'Not specified'}</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="profile-field">
+                <label>Minor</label>
+                <p>${user.minor || 'Not specified'}</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="profile-field">
+                <label>Graduation Year</label>
+                <p>${user.graduationYear || 'Not specified'}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ===== SEARCH FUNCTIONALITY =====
+    let searchTimeout;
+    const searchInput = document.getElementById('searchInput');
+    const searchDropdown = document.getElementById('searchDropdown');
+
+    // Live search on input
+    searchInput.addEventListener('input', function() {
+      clearTimeout(searchTimeout);
+      const query = this.value.trim();
+
+      if (query.length < 2) {
+        searchDropdown.classList.remove('show');
+        return;
+      }
+
+      searchTimeout = setTimeout(() => {
+        performLiveSearch(query);
+      }, 300); // Debounce 300ms
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-container')) {
+        searchDropdown.classList.remove('show');
+      }
+    });
+
+    // Perform live search
+    async function performLiveSearch(query) {
+      try {
+        const userId = currentUser ? currentUser.id : null;
+        const url = `${API_URL}/users/search?query=${encodeURIComponent(query)}${userId ? '&currentUserId=' + userId : ''}`;
+        
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Search failed');
+
+        const results = await response.json();
+        displaySearchResults(results);
+      } catch (error) {
+        console.error('Search error:', error);
+        searchDropdown.innerHTML = '<div class="search-no-results">Search error occurred</div>';
+        searchDropdown.classList.add('show');
+      }
+    }
+
+    // Display search results in dropdown
+    function displaySearchResults(results) {
+      if (results.length === 0) {
+        searchDropdown.innerHTML = '<div class="search-no-results">No users found</div>';
+      } else {
+        searchDropdown.innerHTML = results.map(user => {
+          const profilePic = user.profilePictureUrl || 'images/default profile picture.jpg';
+          return `
+            <div class="search-result-item" onclick="navigateToProfile('${user.username}')">
+              <img src="${profilePic}" alt="${user.username}" onerror="this.src='images/default profile picture.jpg'">
+              <span class="username">${user.username}</span>
+            </div>
+          `;
+        }).join('');
+      }
+      searchDropdown.classList.add('show');
+    }
+
+    // Perform search (button click or enter key)
+    function performSearch() {
+      const query = searchInput.value.trim();
+      if (query.length >= 2) {
+        performLiveSearch(query);
+      }
+    }
+
+    // Handle Enter key in search input
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    // Navigate to user profile
+    function navigateToProfile(username) {
+      window.location.href = `user-profile.html?username=${encodeURIComponent(username)}`;
+    }
+  </script>
+</body>
+</html>

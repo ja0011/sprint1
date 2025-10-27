@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +74,13 @@ public class UserController {
       Integer graduationYear,
       String major,
       String minor
+  ) {}
+
+  public record UserSearchResult(
+      Long id,
+      String username,
+      String profilePictureUrl,
+      String role
   ) {}
 
   // ===== Endpoints =====
@@ -185,6 +194,65 @@ public class UserController {
       System.err.println("[UserController] User not found: " + e.getMessage());
       logger.error("User not found during upload", e);
       return ResponseEntity.status(404).body(Map.of("error", "user_not_found", "details", e.getMessage()));
+    }
+  }
+
+  // SEARCH users with role-based filtering
+  @GetMapping("/search")
+  public ResponseEntity<?> searchUsers(
+      @RequestParam String query,
+      @RequestParam(required = false) Long currentUserId) {
+    
+    System.out.println("[UserController] Search request - query: " + query + ", currentUserId: " + currentUserId);
+    
+    if (query == null || query.trim().isEmpty()) {
+      return ResponseEntity.ok(List.of());
+    }
+
+    try {
+      // Get all matching users
+      List<User> allMatches = userRepository.searchByUsername(query.trim());
+      
+      // Apply role-based filtering
+      List<User> filteredUsers = allMatches;
+      
+      if (currentUserId != null) {
+        // Get the current user's role
+        User currentUser = userRepository.findById(currentUserId).orElse(null);
+        
+        if (currentUser != null) {
+          // If USER, filter out ADMIN accounts
+          if (currentUser.getRole() == User.Role.USER) {
+            filteredUsers = allMatches.stream()
+                .filter(u -> u.getRole() != User.Role.ADMIN)
+                .collect(Collectors.toList());
+            System.out.println("[UserController] USER role - filtered out ADMIN accounts");
+          }
+          // If ADMIN, show all users (no filtering needed)
+          else if (currentUser.getRole() == User.Role.ADMIN) {
+            System.out.println("[UserController] ADMIN role - showing all users");
+          }
+        }
+      }
+      
+      // Convert to search result DTOs
+      List<UserSearchResult> results = filteredUsers.stream()
+          .map(u -> new UserSearchResult(
+              u.getId(),
+              u.getUsername(),
+              u.getProfilePictureUrl(),
+              u.getRole().toString()
+          ))
+          .limit(10) // Limit to 10 results
+          .collect(Collectors.toList());
+      
+      System.out.println("[UserController] Returning " + results.size() + " search results");
+      return ResponseEntity.ok(results);
+      
+    } catch (Exception e) {
+      System.err.println("[UserController] Error during search: " + e.getMessage());
+      logger.error("Error during user search", e);
+      return ResponseEntity.status(500).body(Map.of("error", "search_failed"));
     }
   }
 }
