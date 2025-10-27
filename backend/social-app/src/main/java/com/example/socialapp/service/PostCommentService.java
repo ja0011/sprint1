@@ -70,10 +70,19 @@ public class PostCommentService {
         PostComment comment = postCommentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
 
-        // Only the comment owner can delete their comment
-        if (!comment.getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can only delete your own comments");
+        // Get the current user to check their role
+        User currentUser = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Allow deletion if user is the comment owner OR has ADMIN role
+        boolean isOwner = comment.getUser().getId().equals(userId);
+        boolean isAdmin = currentUser.getRole() == User.Role.ADMIN;
+        
+        if (!isOwner && !isAdmin) {
+            throw new RuntimeException("You can only delete your own comments unless you are an admin");
         }
+
+        System.out.println("[PostCommentService] Delete authorized - isOwner: " + isOwner + ", isAdmin: " + isAdmin);
 
         postCommentRepository.delete(comment);
     }

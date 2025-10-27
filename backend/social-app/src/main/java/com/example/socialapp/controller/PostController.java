@@ -215,10 +215,20 @@ public class PostController {
             Post post = postRepository.findById(postId)
                     .orElseThrow(() -> new RuntimeException("Post not found"));
 
-            if (!post.getUser().getId().equals(userId)) {
+            // Get the current user to check their role
+            User currentUser = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            // Allow deletion if user is the post owner OR has ADMIN role
+            boolean isOwner = post.getUser().getId().equals(userId);
+            boolean isAdmin = currentUser.getRole() == User.Role.ADMIN;
+            
+            if (!isOwner && !isAdmin) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body("You can only delete your own posts");
+                        .body("You can only delete your own posts unless you are an admin");
             }
+
+            System.out.println("[PostController] Delete authorized - isOwner: " + isOwner + ", isAdmin: " + isAdmin);
 
             // Delete the image file if it exists
             if (post.getImageUrl() != null && !post.getImageUrl().isEmpty()) {

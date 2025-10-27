@@ -325,6 +325,8 @@
           const timeAgo = getTimeAgo(postDate);
           const profilePic = post.userProfilePicture || 'images/default profile picture.jpg';
           const isOwnPost = currentUser && currentUser.id === post.userId;
+          const isAdmin = currentUser && currentUser.role === 'ADMIN';
+          const canDelete = isOwnPost || isAdmin;
           const canInteract = currentUser !== null;
           
           return `
@@ -357,8 +359,10 @@
                     <button class="btn btn-sm btn-outline-primary" onclick="editPost(${post.id}, '${post.content?.replace(/'/g, "\\'")}')">
                       ✏️ Edit
                     </button>
+                  ` : ''}
+                  ${canDelete ? `
                     <button class="btn btn-sm btn-outline-dark" onclick="deletePost(${post.id})">
-                      🗑️ Delete
+                      🗑️ Delete${isAdmin && !isOwnPost ? ' (Admin)' : ''}
                     </button>
                   ` : ''}
                 </div>
@@ -592,6 +596,8 @@
           const timeAgo = getTimeAgo(commentDate);
           const profilePic = comment.userProfilePicture || 'images/default profile picture.jpg';
           const isOwnComment = currentUser && currentUser.id === comment.userId;
+          const isAdmin = currentUser && currentUser.role === 'ADMIN';
+          const canDeleteComment = isOwnComment || isAdmin;
           
           return `
             <div class="comment mb-3" data-comment-id="${comment.id}">
@@ -604,9 +610,9 @@
                     <span class="text-muted ms-2" style="font-size: 0.85rem;">${timeAgo}</span>
                   </div>
                   <p class="mb-1">${comment.commentText}</p>
-                  ${isOwnComment ? `
+                  ${canDeleteComment ? `
                     <button class="btn btn-sm btn-outline-danger" onclick="deleteComment(${comment.id}, ${postId})">
-                      Delete
+                      Delete${isAdmin && !isOwnComment ? ' (Admin)' : ''}
                     </button>
                   ` : ''}
                 </div>
