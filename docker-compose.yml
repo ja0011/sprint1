@@ -13,6 +13,22 @@ services:
       timeout: 3s
       retries: 20
 
+  backend:
+    image: maven:3.9-eclipse-temurin-17
+    working_dir: /app
+    volumes:
+      - ./backend/social-app:/app
+      - maven-repo:/root/.m2
+    env_file: .env
+    environment:
+      DB_HOST: ${DB_HOST:-mysql}
+    command: mvn -DskipTests spring-boot:run
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "${BACKEND_PORT:-8081}:8081"
+
   adminer:
     image: adminer:latest
     depends_on:
@@ -23,3 +39,4 @@ services:
 
 volumes:
   dbdata:
+  maven-repo:

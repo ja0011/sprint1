@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flagged Reports </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar { 
+        background-color: #003385; 
+    }
+    .navbar .nav-link { 
+        color: #ffffff; 
+    }
+    .navbar .nav-link:hover {
+      color: #000000;
+      text-shadow:
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
+    }
+    .navbar-brand img {
+      height: 40px;
+    }
+    .navbar-nav {
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
+    .navbar-nav .nav-item {
+      white-space: nowrap;
+    }
+    .navbar-nav .nav-link {
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+    }
+
+    .dashboard-card {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 30px 25px;
+      background-color: #fff;
+      border-radius: 25px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+
+    .admin-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    th, td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+    th { background-color: #f1f5ff; color: #003385; font-weight: bold; }
+    tr:hover { background-color: #f9f9f9; }
+
+    .badge {
+      border-radius: 8px;
+      padding: 4px 10px;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .badge-pending { background-color: #f39c12; }
+    .badge-approved { background-color: #27ae60; }
+    .badge-rejected { background-color: #e74c3c; }
+
+    .btn-action {
+      border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer;
+      font-size: 13px; margin-right: 5px; transition: 0.2s; color: white;
+    }
+    .btn-approve { background-color: #27ae60; }
+    .btn-reject { background-color: #e67e22; }
+    .btn-delete { background-color: #e74c3c; }
+    .btn-action:hover { transform: scale(1.05); }
+
+    select { max-width: 250px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark px-3">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+    <img src="images/DC.jpg" alt="Logo" width="105" height="100">
+    </a>
+    <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
+    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+    <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+    <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
+    <li class="nav-item d-none" id="logoutItem">
+    <a class="nav-link text-danger fw-bold" href="#" id="logoutLink">Logout</a>
+    </li>
+    </ul>
+    </nav>
+
+  <div class="dashboard-card">
+    <div class="admin-banner">🚩 Flagged Reports </div>
+
+    <div class="mb-3">
+      <label for="statusFilter" class="form-label fw-bold">Filter by Status:</label>
+      <select id="statusFilter" class="form-select">
+        <option value="ALL">All</option>
+        <option value="PENDING">Pending</option>
+        <option value="APPROVED">Approved</option>
+        <option value="REJECTED">Rejected</option>
+      </select>
+    </div>
+
+    <table id="reportsTable" class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Reported By</th>
+          <th>Reported User</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Timestamp</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="reportsTableBody"></tbody>
+    </table>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const API_BASE = 'http://localhost:8081';
+
+    const userRole = localStorage.getItem('userRole');
+    const username = localStorage.getItem('username');
+
+    if (!username || userRole !== 'ADMIN') {
+      alert('Access denied. Admin privileges required.');
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('adminBanner').textContent = `🔒 Admin Dashboard - Logged in as ${username}`;
+
+    async function loadUsers() {
+      const loadingState = document.getElementById('loadingState');
+      const emptyState = document.getElementById('emptyState');
+      const usersTable = document.getElementById('usersTable');
+      const tbody = document.getElementById('usersTableBody');
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/users`);
+        if (!res.ok) throw new Error('Failed to fetch users');
+
+        const users = await res.json();
+        
+        loadingState.style.display = 'none';
+        
+        if (users.length === 0) {
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        usersTable.style.display = 'table';
+        tbody.innerHTML = users.map((user, index) => `
+          <tr>
+            <td>${index + 1}</td>
+            <td><strong>${user.username}</strong></td>
+            <td>${user.email}</td>
+            <td>
+              <span class="badge-${user.role.toLowerCase()}">${user.role}</span>
+            </td>
+            <td>
+              <span class="badge-${user.active ? 'active' : 'suspended'}">
+                ${user.active ? 'Active' : 'Suspended'}
+              </span>
+            </td>
+            <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+            <td>
+              <button class="btn-toggle-role" onclick="toggleRole(${user.id}, '${user.role}', '${user.username}')">
+                ${user.role === 'ADMIN' ? 'Demote' : 'Promote'}
+              </button>
+              ${user.active 
+                ? `<button class="btn-suspend" onclick="suspendUser(${user.id}, '${user.username}')">Suspend</button>`
+                : `<button class="btn-reactivate" onclick="reactivateUser(${user.id}, '${user.username}')">Reactivate</button>`
+              }
+              <button class="btn-delete" onclick="deleteUser(${user.id}, '${user.username}')">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+
+      } catch (error) {
+        console.error('Error loading users:', error);
+        loadingState.textContent = 'Error loading users. Is the backend running?';
+      }
+    }
+
+    async function toggleRole(userId, currentRole, username) {
+      const newRole = currentRole === 'ADMIN' ? 'USER' : 'ADMIN';
+      const action = newRole === 'ADMIN' ? 'promote' : 'demote';
+      
+      if (!confirm(`Are you sure you want to ${action} ${username} to ${newRole}?`)) {
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/users/${userId}/role`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ role: newRole })
+        });
+
+        if (res.ok) {
+          alert(`${username} has been ${action}d to ${newRole}`);
+          loadUsers();
+        } else {
+          alert('Failed to update role');
+        }
+      } catch (error) {
+        console.error('Error updating role:', error);
+        alert('Network error. Is the backend running?');
+      }
+    }
+
+    async function suspendUser(userId, username) {
+      if (!confirm(`Are you sure you want to suspend ${username}? They will not be able to log in.`)) {
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/users/${userId}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ active: false })
+        });
+
+        if (res.ok) {
+          alert(`${username} has been suspended`);
+          loadUsers();
+        } else {
+          alert('Failed to suspend user');
+        }
+      } catch (error) {
+        console.error('Error suspending user:', error);
+        alert('Network error. Is the backend running?');
+      }
+    }
+
+    async function reactivateUser(userId, username) {
+      if (!confirm(`Are you sure you want to reactivate ${username}?`)) {
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/users/${userId}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ active: true })
+        });
+
+        if (res.ok) {
+          alert(`${username} has been reactivated`);
+          loadUsers();
+        } else {
+          alert('Failed to reactivate user');
+        }
+      } catch (error) {
+        console.error('Error reactivating user:', error);
+        alert('Network error. Is the backend running?');
+      }
+    }
+
+    async function deleteUser(userId, username) {
+      if (!confirm(`Are you sure you want to delete user "${username}"? This cannot be undone.`)) {
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/users/${userId}`, {
+          method: 'DELETE'
+        });
+
+        if (res.ok) {
+          alert(`User "${username}" has been deleted`);
+          loadUsers();
+        } else {
+          alert('Failed to delete user');
+        }
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        alert('Network error. Is the backend running?');
+      }
+    }
+
+    loadUsers();
+  </script>
+ 
+</body>
+</html>
