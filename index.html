@@ -197,7 +197,63 @@
     .post-timestamp {
       font-size: 0.85rem;
       color: gray;
-      margin-left: 50px;
+      margin-left: 10px;
+    }
+
+    /* Static post styles */
+    .static-comment {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .static-comment-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .static-comment-header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 8px;
+      object-fit: cover;
+    }
+
+    .static-comment-header strong {
+      font-size: 0.95rem;
+    }
+
+    .static-comment-header .text-muted {
+      font-size: 0.85rem;
+      margin-left: 8px;
+    }
+
+    .static-comment-text {
+      font-size: 0.95rem;
+      margin-left: 40px;
+      margin-bottom: 8px;
+    }
+
+    .static-comment-actions {
+      margin-left: 40px;
+    }
+
+    .static-comment-actions button {
+      font-size: 0.8rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      margin-right: 5px;
+    }
+
+    /* Post image styling */
+    .post-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -268,16 +324,138 @@
 
         <!-- Posts Feed -->
         <div id="postsFeed">
-          <!-- Backend Connection Status -->
-          <div id="backendStatus" class="alert alert-warning" style="display: none;">
-            <strong>⚠️ Backend Unavailable:</strong> The API server is not running. Showing example posts only. 
-            Like/dislike functionality requires the backend to be running on <code>localhost:8081</code>.
+          <!-- Welcome message -->
+          <p id="welcomeUser" style="display:none;">
+            Welcome back, <strong id="welcomeName"></strong>!
+          </p>
+
+          <!-- Static Post 1 -->
+          <div class="card feed-card shadow-lg">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <img src="images/default profile picture.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
+                <div>
+                  <h6 class="card-title mb-0">User Name</h6>
+                  <span class="post-timestamp">10/13/2025 Posted 2 hours ago</span>
+                </div>
+              </div>
+              <p class="card-text mt-2">This is a sample post. Geese almost attacked me at Richland College today. 😭</p>
+              <img src="images/geese.jpg" class="post-image" alt="Geese at campus">
+              
+              <!-- Post Actions -->
+              <div class="post-actions mt-3">
+                <button class="btn btn-sm btn-outline-success" onclick="alert('Login to interact with posts')">
+                  👍 Like (0)
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="alert('Login to interact with posts')">
+                  👎 Dislike (0)
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="toggleStaticComments('post1')">
+                  💬 Comment (1)
+                </button>
+                <button class="btn btn-sm btn-outline-primary">
+                  ✏️ Edit
+                </button>
+                <button class="btn btn-sm btn-outline-dark">
+                  🗑️ Delete
+                </button>
+              </div>
+
+              <!-- Comment Section -->
+              <div class="comment-section mt-3" id="comments-post1" style="display: none;">
+                <div class="d-flex align-items-center mb-3">
+                  <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
+                  <button class="btn btn-sm btn-primary" onclick="alert('Login to comment')">Comment</button>
+                </div>
+                
+                <!-- Static Comment -->
+                <div class="static-comment">
+                  <div class="static-comment-header">
+                    <img src="images/default profile picture.jpg" alt="User">
+                    <div>
+                      <strong>User Name</strong>
+                      <span class="text-muted">10/14/2025 Posted 1 hour ago</span>
+                    </div>
+                  </div>
+                  <p class="static-comment-text mb-1">This is an example comment!</p>
+                  <div class="static-comment-actions">
+                    <button class="btn btn-sm btn-outline-warning">👍 Like (0)</button>
+                    <button class="btn btn-sm btn-outline-danger">👎 Dislike (0)</button>
+                    <button class="btn btn-sm btn-outline-primary">✏️ Edit</button>
+                    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-               <!-- Welcome message -->
-        <p id="welcomeUser" style="display:none;">
-          Welcome back, <strong id="welcomeName"></strong>!
-        </p>
+
+          <!-- Static Post 2 -->
+          <div class="card feed-card shadow-lg">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <img src="images/default profile picture.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
+                <div>
+                  <h6 class="card-title mb-0">Different User</h6>
+                  <span class="post-timestamp">10/13/2025 Posted 5 hours ago</span>
+                </div>
+              </div>
+              <p class="card-text mt-2">This is another sample post. Can't believe it's over!!! 😭</p>
+              <img src="images/graduation.jpg" class="post-image" alt="Graduation ceremony">
+              
+              <!-- Post Actions -->
+              <div class="post-actions mt-3">
+                <button class="btn btn-sm btn-outline-success" onclick="alert('Login to interact with posts')">
+                  👍 Like (0)
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="alert('Login to interact with posts')">
+                  👎 Dislike (0)
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="toggleStaticComments('post2')">
+                  💬 Comment (1)
+                </button>
+                <button class="btn btn-sm btn-outline-primary">
+                  ✏️ Edit
+                </button>
+                <button class="btn btn-sm btn-outline-dark">
+                  🗑️ Delete
+                </button>
+              </div>
+
+              <!-- Comment Section -->
+              <div class="comment-section mt-3" id="comments-post2" style="display: none;">
+                <div class="d-flex align-items-center mb-3">
+                  <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
+                  <button class="btn btn-sm btn-primary" onclick="alert('Login to comment')">Comment</button>
+                </div>
+                
+                <!-- Static Comment -->
+                <div class="static-comment">
+                  <div class="static-comment-header">
+                    <img src="images/default profile picture.jpg" alt="User">
+                    <div>
+                      <strong>Another Name</strong>
+                      <span class="text-muted">10/13/2025 Posted 30 minutes ago</span>
+                    </div>
+                  </div>
+                  <p class="static-comment-text mb-1">This is an example comment!</p>
+                  <div class="static-comment-actions">
+                    <button class="btn btn-sm btn-outline-warning">👍 Like (0)</button>
+                    <button class="btn btn-sm btn-outline-danger">👎 Dislike (0)</button>
+                    <button class="btn btn-sm btn-outline-primary">✏️ Edit</button>
+                    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
+                  </div>
+                  <div class="mt-2 ms-4" style="font-size: 0.9rem;">
+                    <span style="color: #666;">Welcome back, <strong>admin</strong>!</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -300,6 +478,16 @@
       }
     }
 
+    // Toggle static comments
+    function toggleStaticComments(postId) {
+      const commentsSection = document.getElementById(`comments-${postId}`);
+      if (commentsSection.style.display === 'none') {
+        commentsSection.style.display = 'block';
+      } else {
+        commentsSection.style.display = 'none';
+      }
+    }
+
     // Load dynamic posts
     async function loadPosts() {
       try {
@@ -311,16 +499,12 @@
         const posts = await response.json();
         const feedContainer = document.getElementById('postsFeed');
         
-        // Hide backend status warning since connection is successful
-        const backendStatus = document.getElementById('backendStatus');
-        if (backendStatus) backendStatus.style.display = 'none';
-        
         if (posts.length === 0) {
-          feedContainer.innerHTML = '<div class="alert alert-info">No posts yet. Be the first to post!</div>';
-          return;
+          return; // Keep static posts visible
         }
 
-        feedContainer.innerHTML = posts.map(post => {
+        // Append dynamic posts after static posts
+        const dynamicPostsHTML = posts.map(post => {
           const postDate = new Date(post.createdAt);
           const timeAgo = getTimeAgo(postDate);
           const profilePic = post.userProfilePicture || 'images/default profile picture.jpg';
@@ -384,33 +568,11 @@
           `;
         }).join('');
         
+        feedContainer.innerHTML += dynamicPostsHTML;
+        
       } catch (error) {
         console.error('Error loading posts:', error);
-        
-        // Show backend unavailable warning
-        const backendStatus = document.getElementById('backendStatus');
-        if (backendStatus) {
-          backendStatus.style.display = 'block';
-        }
-        
-        // Show helpful message in feed
-        const feedContainer = document.getElementById('postsFeed');
-        feedContainer.innerHTML = `
-          <div class="alert alert-danger">
-            <h5>❌ Cannot Connect to Backend</h5>
-            <p><strong>Error:</strong> ${error.message}</p>
-            <p>The backend API server is not running or is not accessible at <code>http://localhost:8081</code></p>
-            <hr>
-            <h6>To fix this issue:</h6>
-            <ol>
-              <li>Make sure the backend server is running on port 8081</li>
-              <li>Check if Docker containers are running: <code>docker ps</code></li>
-              <li>Or start the backend manually with: <code>cd backend/social-app && mvn spring-boot:run</code></li>
-              <li>Verify the database is accessible</li>
-            </ol>
-            <button class="btn btn-primary mt-2" onclick="location.reload()">🔄 Retry Connection</button>
-          </div>
-        `;
+        // Silently fail - static posts remain visible
       }
     }
 
@@ -436,13 +598,9 @@
     }
 
     // ===== LIKE/DISLIKE FUNCTIONS =====
-    // These functions must be defined BEFORE loadPosts() is called
-    // so they're available when onclick handlers are created
     
     // Toggle Like
     async function toggleLike(postId) {
-      console.log('toggleLike called for post:', postId);
-      
       if (!currentUser) {
         alert('Please login to like posts');
         return;
@@ -456,29 +614,14 @@
         if (!response.ok) throw new Error('Failed to toggle like');
         
         const data = await response.json();
-        console.log('Like response:', data);
         updatePostStats(postId, data);
       } catch (error) {
         console.error('Error toggling like:', error);
-        
-        // Check if it's a connection error
-        if (error.message.includes('fetch') || error.message.includes('Failed')) {
-          alert('❌ Cannot connect to backend server!\n\n' +
-                'The API server at http://localhost:8081 is not responding.\n\n' +
-                'Please ensure:\n' +
-                '1. Backend server is running\n' +
-                '2. Database is accessible\n' +
-                '3. No firewall is blocking port 8081');
-        } else {
-          alert('Failed to like post: ' + error.message);
-        }
       }
     }
 
     // Toggle Dislike
     async function toggleDislike(postId) {
-      console.log('toggleDislike called for post:', postId);
-      
       if (!currentUser) {
         alert('Please login to dislike posts');
         return;
@@ -492,34 +635,16 @@
         if (!response.ok) throw new Error('Failed to toggle dislike');
         
         const data = await response.json();
-        console.log('Dislike response:', data);
         updatePostStats(postId, data);
       } catch (error) {
         console.error('Error toggling dislike:', error);
-        
-        // Check if it's a connection error
-        if (error.message.includes('fetch') || error.message.includes('Failed')) {
-          alert('❌ Cannot connect to backend server!\n\n' +
-                'The API server at http://localhost:8081 is not responding.\n\n' +
-                'Please ensure:\n' +
-                '1. Backend server is running\n' +
-                '2. Database is accessible\n' +
-                '3. No firewall is blocking port 8081');
-        } else {
-          alert('Failed to dislike post: ' + error.message);
-        }
       }
     }
 
     // Update post statistics in UI
     function updatePostStats(postId, data) {
-      console.log('updatePostStats called for post:', postId, 'with data:', data);
-      
       const postCard = document.querySelector(`[data-post-id="${postId}"]`);
-      if (!postCard) {
-        console.error('Post card not found for postId:', postId);
-        return;
-      }
+      if (!postCard) return;
       
       // Update like button and count
       const likeBtn = postCard.querySelector('.like-btn');
@@ -661,7 +786,6 @@
         }
       } catch (error) {
         console.error('Error adding comment:', error);
-        alert('Failed to add comment');
       }
     }
 
@@ -687,13 +811,11 @@
         }
       } catch (error) {
         console.error('Error deleting comment:', error);
-        alert('Failed to delete comment');
       }
     }
 
-    // Edit and Delete post functions (placeholder - you can implement these)
+    // Edit and Delete post functions
     function editPost(postId, content) {
-      // Implement edit functionality
       console.log('Edit post:', postId, content);
     }
 
@@ -712,7 +834,6 @@
         await loadPosts();
       } catch (error) {
         console.error('Error deleting post:', error);
-        alert('Failed to delete post');
       }
     }
 
@@ -729,20 +850,17 @@
       const content = contentInput.value.trim();
       const imageFile = imageInput.files[0];
       
-      // Validate: at least content or image must be provided
       if (!content && !imageFile) {
         alert('Please write something or select an image to post');
         return;
       }
       
       try {
-        // Disable button to prevent double submission
         const postButton = document.querySelector('.btn-create-post');
         const originalText = postButton.textContent;
         postButton.disabled = true;
         postButton.textContent = 'Posting...';
         
-        // Create FormData for multipart/form-data
         const formData = new FormData();
         formData.append('userId', currentUser.id);
         
@@ -765,41 +883,23 @@
         }
         
         const newPost = await response.json();
-        console.log('Post created successfully:', newPost);
         
-        // Clear inputs
         contentInput.value = '';
         imageInput.value = '';
         
-        // Show success message
         alert('✅ Post created successfully!');
         
-        // Reload posts to show the new post
         await loadPosts();
         
-        // Re-enable button
         postButton.disabled = false;
         postButton.textContent = originalText;
         
       } catch (error) {
         console.error('Error creating post:', error);
         
-        // Re-enable button
         const postButton = document.querySelector('.btn-create-post');
         postButton.disabled = false;
         postButton.textContent = 'Post';
-        
-        // Check if it's a connection error
-        if (error.message.includes('fetch') || error.message.includes('NetworkError')) {
-          alert('❌ Cannot connect to backend server!\n\n' +
-                'The API server at http://localhost:8081 is not responding.\n\n' +
-                'Please ensure:\n' +
-                '1. Backend server is running\n' +
-                '2. Database is accessible\n' +
-                '3. No firewall is blocking port 8081');
-        } else {
-          alert('Failed to create post: ' + error.message);
-        }
       }
     }
 
@@ -808,7 +908,6 @@
     const searchInput = document.getElementById('searchInput');
     const searchDropdown = document.getElementById('searchDropdown');
 
-    // Live search on input
     searchInput.addEventListener('input', function() {
       clearTimeout(searchTimeout);
       const query = this.value.trim();
@@ -820,17 +919,15 @@
 
       searchTimeout = setTimeout(() => {
         performLiveSearch(query);
-      }, 300); // Debounce 300ms
+      }, 300);
     });
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
       if (!e.target.closest('.search-container')) {
         searchDropdown.classList.remove('show');
       }
     });
 
-    // Perform live search
     async function performLiveSearch(query) {
       try {
         const userId = currentUser ? currentUser.id : null;
@@ -848,7 +945,6 @@
       }
     }
 
-    // Display search results in dropdown
     function displaySearchResults(results) {
       if (results.length === 0) {
         searchDropdown.innerHTML = '<div class="search-no-results">No users found</div>';
@@ -866,7 +962,6 @@
       searchDropdown.classList.add('show');
     }
 
-    // Perform search (button click or enter key)
     function performSearch() {
       const query = searchInput.value.trim();
       if (query.length >= 2) {
@@ -874,14 +969,12 @@
       }
     }
 
-    // Handle Enter key in search input
     searchInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         performSearch();
       }
     });
 
-    // Navigate to user profile
     function navigateToProfile(username) {
       window.location.href = `user-profile.html?username=${encodeURIComponent(username)}`;
     }
