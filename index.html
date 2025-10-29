@@ -189,8 +189,19 @@
       opacity: 0.9;
     }
 
+    .post-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
     .post-actions button {
-      margin-right: 10px;
+      margin-right: 0;
+    }
+
+    .post-actions .btn-group {
+      margin-left: 0;
     }
 
     /* Timestamp */
@@ -359,6 +370,13 @@
                 <button class="btn btn-sm btn-outline-dark">
                   🗑️ Delete
                 </button>
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="flagPost('post1','Inappropriate'); return false;">Inappropriate</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="flagPost('post1','Harmful'); return false;">Harmful</a></li>
+                  </ul>
+                </div>
               </div>
 
               <!-- Comment Section -->
@@ -419,6 +437,13 @@
                 <button class="btn btn-sm btn-outline-dark">
                   🗑️ Delete
                 </button>
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="flagPost('post2','Inappropriate'); return false;">Inappropriate</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="flagPost('post2','Harmful'); return false;">Harmful</a></li>
+                  </ul>
+                </div>
               </div>
 
               <!-- Comment Section -->
@@ -549,6 +574,13 @@
                       🗑️ Delete${isAdmin && !isOwnPost ? ' (Admin)' : ''}
                     </button>
                   ` : ''}
+                  <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Inappropriate'); return false;">Inappropriate</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Harmful'); return false;">Harmful</a></li>
+                    </ul>
+                  </div>
                 </div>
 
                 <!-- Comment Section -->
@@ -595,6 +627,11 @@
       if (interval > 1) return Math.floor(interval) + " minutes ago";
       
       return "Just now";
+    }
+
+    function flagPost(postId, reason) {
+      const postLabel = postId ? `Post ${postId}` : 'This post';
+      alert(`${postLabel} flagged as ${reason}. (UI only)`);
     }
 
     // ===== LIKE/DISLIKE FUNCTIONS =====
