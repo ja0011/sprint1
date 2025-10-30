@@ -160,6 +160,14 @@
       cursor: not-allowed;
     }
 
+    .follow-btn {
+      margin-left: 0.2rem;
+    }
+
+    #follow {
+      display:inline-block;
+    }
+
     /* Comments Section */
     .comment-section {
       margin-top: 10px;
@@ -413,7 +421,8 @@
               <div class="d-flex align-items-center mb-2">
                 <img src="images/default profile picture.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
                 <div>
-                  <h6 class="card-title mb-0">Different User</h6>
+                  <h6 class="card-title mb-0" id="follow">Different User</h6> <button class="btn follow-btn btn-sm btn-outline-success" id="follow">Follow 👤+</button> 
+                  <!--<button class="btn follow-btn btn-sm btn-outline-danger" id="follow">Unfollow 👤-</button>-->
                   <span class="post-timestamp">10/13/2025 Posted 5 hours ago</span>
                 </div>
               </div>
