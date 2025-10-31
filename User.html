@@ -191,6 +191,21 @@
       padding: 40px;
       color: #888;
     }
+
+    .dev-warning {
+      background-color: #fff3cd;
+      border: 2px solid #ffc107;
+      color: #856404;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .static-user-row {
+      background-color: #f8f9fa;
+    }
   </style>
 </head>
 <body>
@@ -213,6 +228,10 @@
   </nav>
 
   <div class="dashboard-card">
+    <div class="dev-warning" id="devWarning" style="display: none;">
+      ⚠️ Development Mode - Admin restrictions disabled
+    </div>
+
     <div class="admin-banner" id="adminBanner">
       🔒 Admin Dashboard
     </div>
@@ -251,63 +270,135 @@
     const userRole = localStorage.getItem('userRole');
     const username = localStorage.getItem('username');
 
+    // REMOVED ADMIN CHECK FOR DEVELOPMENT
     if (!username || userRole !== 'ADMIN') {
-      alert('Access denied. Admin privileges required.');
-      window.location.href = 'login.html';
+      console.warn('[user.html] Not logged in as admin - showing page for development');
+      document.getElementById('devWarning').style.display = 'block';
+      document.getElementById('adminBanner').textContent = '🔒 Admin Dashboard - Development Mode';
+      
+      // Show login/register links, hide logout
+      document.getElementById('loginLink').style.display = 'block';
+      document.getElementById('registerLink').style.display = 'block';
+      document.getElementById('logoutItem').classList.add('d-none');
+    } else {
+      document.getElementById('adminBanner').textContent = `🔒 Admin Dashboard - Logged in as ${username}`;
+      
+      // Show logout, hide login/register
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('registerLink').style.display = 'none';
+      document.getElementById('logoutItem').classList.remove('d-none');
     }
 
-    document.getElementById('adminBanner').textContent = `🔒 Admin Dashboard - Logged in as ${username}`;
+    // Static example users (frontend only) - ALWAYS DISPLAYED
+    const staticUsers = [
+      {
+        id: 'static1',
+        username: 'jsmith',
+        email: 'jsmith@student.dallascollege.edu',
+        role: 'USER',
+        active: true,
+        createdAt: '2025-10-15T10:00:00Z'
+      },
+      {
+        id: 'static2',
+        username: 'mjohnson',
+        email: 'mjohnson@student.dallascollege.edu',
+        role: 'ADMIN',
+        active: true,
+        createdAt: '2025-10-20T14:30:00Z'
+      },
+      {
+        id: 'static3',
+        username: 'kwilliams',
+        email: 'kwilliams@student.dallascollege.edu',
+        role: 'USER',
+        active: false,
+        createdAt: '2025-10-22T09:15:00Z'
+      }
+    ];
 
-    async function loadUsers() {
+    function displayUsers(realUsers = []) {
       const loadingState = document.getElementById('loadingState');
       const emptyState = document.getElementById('emptyState');
       const usersTable = document.getElementById('usersTable');
       const tbody = document.getElementById('usersTableBody');
 
+      loadingState.style.display = 'none';
+      emptyState.style.display = 'none';
+      usersTable.style.display = 'table';
+      
+      // Generate static users HTML
+      const staticUsersHTML = staticUsers.map((user, index) => `
+        <tr class="static-user-row">
+          <td>${index + 1}</td>
+          <td><strong>${user.username}</strong></td>
+          <td>${user.email}</td>
+          <td>
+            <span class="badge-${user.role.toLowerCase()}">${user.role}</span>
+          </td>
+          <td>
+            <span class="badge-${user.active ? 'active' : 'suspended'}">
+              ${user.active ? 'Active' : 'Suspended'}
+            </span>
+          </td>
+          <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+          <td>
+            <button class="btn-toggle-role" onclick="alert('This is a static example user')">
+              ${user.role === 'ADMIN' ? 'Demote' : 'Promote'}
+            </button>
+            ${user.active 
+              ? `<button class="btn-suspend" onclick="alert('This is a static example user')">Suspend</button>`
+              : `<button class="btn-reactivate" onclick="alert('This is a static example user')">Reactivate</button>`
+            }
+            <button class="btn-delete" onclick="alert('This is a static example user')">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+      
+      // Generate real users HTML
+      const realUsersHTML = realUsers.map((user, index) => `
+        <tr>
+          <td>${staticUsers.length + index + 1}</td>
+          <td><strong>${user.username}</strong></td>
+          <td>${user.email}</td>
+          <td>
+            <span class="badge-${user.role.toLowerCase()}">${user.role}</span>
+          </td>
+          <td>
+            <span class="badge-${user.active ? 'active' : 'suspended'}">
+              ${user.active ? 'Active' : 'Suspended'}
+            </span>
+          </td>
+          <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+          <td>
+            <button class="btn-toggle-role" onclick="toggleRole(${user.id}, '${user.role}', '${user.username}')">
+              ${user.role === 'ADMIN' ? 'Demote' : 'Promote'}
+            </button>
+            ${user.active 
+              ? `<button class="btn-suspend" onclick="suspendUser(${user.id}, '${user.username}')">Suspend</button>`
+              : `<button class="btn-reactivate" onclick="reactivateUser(${user.id}, '${user.username}')">Reactivate</button>`
+            }
+            <button class="btn-delete" onclick="deleteUser(${user.id}, '${user.username}')">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+      
+      // Combine static and real users
+      tbody.innerHTML = staticUsersHTML + realUsersHTML;
+    }
+
+    async function loadUsers() {
       try {
         const res = await fetch(`${API_BASE}/api/admin/users`);
         if (!res.ok) throw new Error('Failed to fetch users');
 
         const users = await res.json();
-        
-        loadingState.style.display = 'none';
-        
-        if (users.length === 0) {
-          emptyState.style.display = 'block';
-          return;
-        }
-
-        usersTable.style.display = 'table';
-        tbody.innerHTML = users.map((user, index) => `
-          <tr>
-            <td>${index + 1}</td>
-            <td><strong>${user.username}</strong></td>
-            <td>${user.email}</td>
-            <td>
-              <span class="badge-${user.role.toLowerCase()}">${user.role}</span>
-            </td>
-            <td>
-              <span class="badge-${user.active ? 'active' : 'suspended'}">
-                ${user.active ? 'Active' : 'Suspended'}
-              </span>
-            </td>
-            <td>${new Date(user.createdAt).toLocaleDateString()}</td>
-            <td>
-              <button class="btn-toggle-role" onclick="toggleRole(${user.id}, '${user.role}', '${user.username}')">
-                ${user.role === 'ADMIN' ? 'Demote' : 'Promote'}
-              </button>
-              ${user.active 
-                ? `<button class="btn-suspend" onclick="suspendUser(${user.id}, '${user.username}')">Suspend</button>`
-                : `<button class="btn-reactivate" onclick="reactivateUser(${user.id}, '${user.username}')">Reactivate</button>`
-              }
-              <button class="btn-delete" onclick="deleteUser(${user.id}, '${user.username}')">Delete</button>
-            </td>
-          </tr>
-        `).join('');
+        displayUsers(users);
 
       } catch (error) {
         console.error('Error loading users:', error);
-        loadingState.textContent = 'Error loading users. Is the backend running?';
+        // STILL DISPLAY STATIC USERS EVEN IF BACKEND FAILS
+        displayUsers([]);
       }
     }
 
@@ -406,6 +497,21 @@
         console.error('Error deleting user:', error);
         alert('Network error. Is the backend running?');
       }
+    }
+
+    // Logout functionality
+    const logoutLink = document.getElementById('logoutLink');
+    if (logoutLink) {
+      logoutLink.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try { 
+          await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST' }); 
+        } catch (_) {}
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userRole');
+        window.location.href = 'login.html';
+      });
     }
 
     loadUsers();
