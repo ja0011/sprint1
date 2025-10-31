@@ -474,22 +474,23 @@
       const loginLink = document.getElementById('loginLink');
       const registerLink = document.getElementById('registerLink');
  
-      // Guard: must be logged in
+      // REMOVED LOGIN GUARD FOR DEVELOPMENT
       const userStr = localStorage.getItem('currentUser');
-      if (!userStr) {
-        console.warn("[profile] no currentUser in localStorage → redirect to login");
-        alert('Please login first');
-        window.location.href = 'login.html';
-        return;
+      if (userStr) {
+        currentUser = JSON.parse(userStr);
+        console.log("[profile] Current user:", currentUser);
+        
+        // Show logout, hide login/register
+        logoutItem.classList.remove('d-none');
+        loginLink.style.display = 'none';
+        registerLink.style.display = 'none';
+      } else {
+        console.warn("[profile] No user logged in - showing default profile for development");
+        // Keep login/register visible, hide logout
+        logoutItem.classList.add('d-none');
+        loginLink.style.display = 'block';
+        registerLink.style.display = 'block';
       }
-
-      currentUser = JSON.parse(userStr);
-      console.log("[profile] Current user:", currentUser);
-
-      // Show logout, hide login/register
-      logoutItem.classList.remove('d-none');
-      loginLink.style.display = 'none';
-      registerLink.style.display = 'none';
 
       // Populate graduation year dropdown
       const currentYear = new Date().getFullYear();
@@ -500,44 +501,59 @@
         graduationYearSelect.appendChild(option);
       }
  
-      // Load profile from backend
-      (async function loadProfile() {
-        try {
-          const res = await fetch(`${API_BASE}/api/users/${currentUser.username}`);
-          if (res.ok) {
-            const user = await res.json();
-            currentUser = user; // Update with full data
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            
-            displayName.textContent = user.username || 'Your Name';
-            displayBio.textContent = user.bio || 'Your bio goes here. Share a little about yourself!';
-            displayMajor.textContent = user.major ? `Major: ${user.major}` : 'Major: -';
-            displayMinor.textContent = user.minor ? `Minor: ${user.minor}` : 'Minor: -';
-            displayYear.textContent = user.graduationYear ? `Graduation: ${user.graduationYear}` : 'Graduation: -';
-            
-            if (user.profilePictureUrl) {
-              profilePreview.src = user.profilePictureUrl;
+      // Load profile from backend (only if logged in)
+      if (currentUser) {
+        (async function loadProfile() {
+          try {
+            const res = await fetch(`${API_BASE}/api/users/${currentUser.username}`);
+            if (res.ok) {
+              const user = await res.json();
+              currentUser = user; // Update with full data
+              localStorage.setItem('currentUser', JSON.stringify(user));
+              
+              displayName.textContent = user.username || 'Your Name';
+              displayBio.textContent = user.bio || 'Your bio goes here. Share a little about yourself!';
+              displayMajor.textContent = user.major ? `Major: ${user.major}` : 'Major: -';
+              displayMinor.textContent = user.minor ? `Minor: ${user.minor}` : 'Minor: -';
+              displayYear.textContent = user.graduationYear ? `Graduation: ${user.graduationYear}` : 'Graduation: -';
+              
+              if (user.profilePictureUrl) {
+                profilePreview.src = user.profilePictureUrl;
+              }
+              
+              console.log("[profile] loaded profile for", user.username);
+            } else {
+              console.warn("[profile] GET /api/users/ failed", res.status);
             }
-            
-            console.log("[profile] loaded profile for", user.username);
-          } else {
-            console.warn("[profile] GET /api/users/ failed", res.status);
+          } catch (e) {
+            console.warn("[profile] GET /api/users/ network error", e);
           }
-        } catch (e) {
-          console.warn("[profile] GET /api/users/ network error", e);
-        }
-      })();
+        })();
+      }
 
       // Profile Picture Upload
       profilePicOverlay.addEventListener('click', () => {
+        if (!currentUser) {
+          alert('Please login to change profile picture');
+          return;
+        }
         profilePicInput.click();
       });
 
       profilePreview.addEventListener('click', () => {
+        if (!currentUser) {
+          alert('Please login to change profile picture');
+          return;
+        }
         profilePicInput.click();
       });
 
       profilePicInput.addEventListener('change', async (e) => {
+        if (!currentUser) {
+          alert('Please login to change profile picture');
+          return;
+        }
+        
         const file = e.target.files[0];
         if (!file) return;
 
@@ -581,8 +597,13 @@
         }
       });
 
-      // Load user's posts
+      // Load user's posts (only if logged in)
       async function loadUserPosts() {
+        if (!currentUser) {
+          document.getElementById('userPosts').innerHTML = '<p class="text-center text-muted">Please login to view your posts</p>';
+          return;
+        }
+        
         try {
           const res = await fetch(`${API_BASE}/api/posts/user/${currentUser.id}`);
           if (!res.ok) throw new Error('Failed to load posts');
@@ -642,6 +663,11 @@
 
       // Make deletePost global
       window.deletePost = async function(postId) {
+        if (!currentUser) {
+          alert('Please login to delete posts');
+          return;
+        }
+        
         if (!confirm('Are you sure you want to delete this post?')) return;
         
         try {
@@ -665,6 +691,11 @@
  
       // Edit Profile
       editBtn.addEventListener('click', () => {
+        if (!currentUser) {
+          alert('Please login to edit profile');
+          return;
+        }
+        
         displayMajor.style.display = 'none';
         displayMinor.style.display = 'none';
         displayYear.style.display = 'none';
@@ -686,6 +717,11 @@
  
       // Save Profile changes
       saveBtn.addEventListener('click', async () => {
+        if (!currentUser) {
+          alert('Please login to save profile');
+          return;
+        }
+        
         const updatedData = {
           bio: bioInput.value.trim(),
           major: majorInput.value.trim(),
@@ -735,8 +771,13 @@
 
       // Create Post
       postBtn.addEventListener('click', async () => {
+        if (!currentUser) {
+          alert('Please login to create posts');
+          return;
+        }
+        
         const content = postContent.value.trim();
-        const imageFile = postImage.files[0];
+        const imageFile = postImage ? postImage.files[0] : null;
 
         if (!content && !imageFile) {
           alert('Please write something or select an image');
@@ -758,7 +799,7 @@
 
           alert('Post created successfully!');
           postContent.value = '';
-          postImage.value = '';
+          if (postImage) postImage.value = '';
           loadUserPosts();
         } catch (error) {
           console.error('Error creating post:', error);
