@@ -294,6 +294,8 @@
   <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
   <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
   <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
+  <li class="nav-item"><a class="nav-link" href="user.html">Users</a></li>
+  <li class="nav-item"><a class="nav-link" href="flagged-content.html">Flagged</a></li>
   <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
   <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
   <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
@@ -638,9 +640,60 @@
       return "Just now";
     }
 
-    function flagPost(postId, reason) {
-      const postLabel = postId ? `Post ${postId}` : 'This post';
-      alert(`${postLabel} flagged as ${reason}. (UI only)`);
+    // Flag Post Functionality - sends data as URL parameters
+    async function flagPost(postId, reason) {
+        if (!currentUser) {
+            alert('Please login to flag posts');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/flags?postId=${postId}&userId=${currentUser.id}&reason=${encodeURIComponent(reason)}`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to flag post');
+            }
+
+            alert(`Post flagged as ${reason} successfully!`);
+            loadPosts();
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error: ' + error.message);
+        }
+    }
+
+    // Check if a post is flagged - with error handling
+    async function checkIfPostFlagged(postId) {
+        try {
+            const response = await fetch(`${API_URL}/flags/post/${postId}`);
+
+            if (!response.ok) {
+                return { flagged: false };
+            }
+
+            const text = await response.text();
+            if (!text || text.trim() === '') {
+                return { flagged: false };
+            }
+
+            try {
+                const data = JSON.parse(text);
+                return data;
+            } catch (e) {
+                console.error('Error parsing flag check response:', e);
+                return { flagged: false };
+            }
+
+        } catch (error) {
+            console.error('Error checking flag status:', error);
+            return { flagged: false };
+        }
     }
 
     // ===== LIKE/DISLIKE FUNCTIONS =====
