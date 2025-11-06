@@ -266,10 +266,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const API_BASE = 'http://localhost:8081';
-
+  
     const userRole = localStorage.getItem('userRole');
     const username = localStorage.getItem('username');
-
+  
     // REMOVED ADMIN CHECK FOR DEVELOPMENT
     if (!username || userRole !== 'ADMIN') {
       console.warn('[user.html] Not logged in as admin - showing page for development');
@@ -288,7 +288,7 @@
       document.getElementById('registerLink').style.display = 'none';
       document.getElementById('logoutItem').classList.remove('d-none');
     }
-
+  
     // Static example users (frontend only) - ALWAYS DISPLAYED
     const staticUsers = [
       {
@@ -316,18 +316,18 @@
         createdAt: '2025-10-22T09:15:00Z'
       }
     ];
-
+  
     function displayUsers(realUsers = []) {
       const loadingState = document.getElementById('loadingState');
       const emptyState = document.getElementById('emptyState');
       const usersTable = document.getElementById('usersTable');
       const tbody = document.getElementById('usersTableBody');
-
+  
       loadingState.style.display = 'none';
       emptyState.style.display = 'none';
       usersTable.style.display = 'table';
       
-      // Generate static users HTML
+       // Generate static users HTML
       const staticUsersHTML = staticUsers.map((user, index) => `
         <tr class="static-user-row">
           <td>${index + 1}</td>
@@ -351,11 +351,12 @@
               : `<button class="btn-reactivate" onclick="alert('This is a static example user')">Reactivate</button>`
             }
             <button class="btn-delete" onclick="alert('This is a static example user')">Delete</button>
+            <a href="AdminReset.html?id=${encodeURIComponent(user.id)}&name=${encodeURIComponent(user.username)}&email=${encodeURIComponent(user.email)}" class="btn btn-primary btn-sm mt-1">Admin Reset Password</a>
           </td>
         </tr>
       `).join('');
       
-      // Generate real users HTML
+       // Generate real users HTML
       const realUsersHTML = realUsers.map((user, index) => `
         <tr>
           <td>${staticUsers.length + index + 1}</td>
@@ -379,14 +380,15 @@
               : `<button class="btn-reactivate" onclick="reactivateUser(${user.id}, '${user.username}')">Reactivate</button>`
             }
             <button class="btn-delete" onclick="deleteUser(${user.id}, '${user.username}')">Delete</button>
+            <a href="AdminReset.html?id=${encodeURIComponent(user.id)}&name=${encodeURIComponent(user.username)}&email=${encodeURIComponent(user.email)}" class="btn btn-primary btn-sm mt-1">Admin Reset Password</a>
           </td>
         </tr>
       `).join('');
-      
-      // Combine static and real users
+
+       // Combine static and real users
       tbody.innerHTML = staticUsersHTML + realUsersHTML;
     }
-
+  
     async function loadUsers() {
       try {
         const res = await fetch(`${API_BASE}/api/admin/users`);
@@ -397,7 +399,7 @@
 
       } catch (error) {
         console.error('Error loading users:', error);
-        // STILL DISPLAY STATIC USERS EVEN IF BACKEND FAILS
+         // STILL DISPLAY STATIC USERS EVEN IF BACKEND FAILS
         displayUsers([]);
       }
     }
@@ -498,8 +500,8 @@
         alert('Network error. Is the backend running?');
       }
     }
-
-    // Logout functionality
+  
+      // Logout functionality
     const logoutLink = document.getElementById('logoutLink');
     if (logoutLink) {
       logoutLink.addEventListener('click', async (e) => {
@@ -513,8 +515,8 @@
         window.location.href = 'login.html';
       });
     }
-
+  
     loadUsers();
-  </script>
+  </script>  
 </body>
 </html>
