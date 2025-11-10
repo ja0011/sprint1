@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script type="text/javascript" nonce="ffb57a5d58fa46e883b61de7142" src="//local.adguard.org?ts=1762799034039&amp;type=content-script&amp;dmn=apps.abacus.ai&amp;url=https%3A%2F%2Fapps.abacus.ai%2Fapi%2FdownloadAgentAttachment%3FdeploymentId%3D13914165be%26attachmentId%3D2564ad1f-63cc-4f41-85a5-1cdbfd834267&amp;app=msedge.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=0"></script><script type="text/javascript" nonce="ffb57a5d58fa46e883b61de7142" src="//local.adguard.org?ts=1762799034039&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       background-color: #f0f2f5;
@@ -531,10 +531,10 @@
         const url = userId ? `${API_URL}/posts?userId=${userId}` : `${API_URL}/posts`;
         const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to load posts');
-        
+
         const posts = await response.json();
         const feedContainer = document.getElementById('postsFeed');
-        
+
         if (posts.length === 0) {
           return; // Keep static posts visible
         }
@@ -548,20 +548,30 @@
           const isAdmin = currentUser && currentUser.role === 'ADMIN';
           const canDelete = isOwnPost || isAdmin;
           const canInteract = currentUser !== null;
-          
+
+          // Show follow button only if not own post
+          const showFollowButton = currentUser && !isOwnPost;
+
           return `
             <div class="card feed-card shadow-lg" data-post-id="${post.id}">
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <img src="${profilePic}" alt="User Profile" class="rounded-circle me-2" width="40" height="40" onerror="this.src='images/default profile picture.jpg'">
                   <div>
-                    <h6 class="card-title mb-0">${post.username}</h6>
+                    <h6 class="card-title mb-0 d-inline">${post.username}</h6>
+                    ${showFollowButton ? `
+                      <button class="btn follow-btn btn-sm btn-outline-success ms-2 follow-btn-${post.userId}" 
+                              onclick="toggleFollow(${post.userId}, '${post.username}', this)">
+                        Follow 👤+
+                      </button>
+                    ` : ''}
+                    <br>
                     <span class="post-timestamp">${timeAgo}</span>
                   </div>
                 </div>
                 ${post.content ? `<p class="card-text mt-2">${post.content}</p>` : ''}
                 ${post.imageUrl ? `<img src="http://localhost:8081${post.imageUrl}" class="post-image" alt="post image" onerror="this.style.display='none'">` : ''}
-                
+
                 <!-- Post Actions -->
                 <div class="post-actions mt-3">
                   <button class="btn btn-sm ${post.userLiked ? 'btn-success' : 'btn-outline-success'} like-btn" 
@@ -603,16 +613,25 @@
                       <button class="btn btn-sm btn-primary" onclick="addComment(${post.id})">Post</button>
                     </div>
                   ` : '<p class="text-muted">Login to comment</p>'}
-                  
+
                   <div id="comment-list-${post.id}"></div>
                 </div>
               </div>
             </div>
           `;
         }).join('');
-        
+
         feedContainer.innerHTML += dynamicPostsHTML;
-        
+
+        // Check follow status for all follow buttons
+        if (currentUser) {
+          const followButtons = document.querySelectorAll('[class*="follow-btn-"]');
+          followButtons.forEach(button => {
+            const userId = button.className.match(/follow-btn-(\d+)/)[1];
+            checkFollowStatus(userId, button);
+          });
+        }
+
       } catch (error) {
         console.error('Error loading posts:', error);
         // Silently fail - static posts remain visible
@@ -937,6 +956,92 @@
     }
 
     // Create a new post
+
+    // ===== Follow/Unfollow Functions =====
+
+    async function toggleFollow(userId, username, buttonElement) {
+      if (!currentUser) {
+        alert('Please login to follow users');
+        return;
+      }
+
+      const isFollowing = buttonElement.classList.contains('btn-danger');
+      const endpoint = isFollowing ? 'unfollow' : 'follow';
+
+      try {
+        const response = await fetch(`${API_URL}/users/${userId}/${endpoint}?followerId=${currentUser.id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) throw new Error(`Failed to ${endpoint} user`);
+
+        const data = await response.json();
+
+        // Update button state
+        if (isFollowing) {
+          buttonElement.classList.remove('btn-danger');
+          buttonElement.classList.add('btn-outline-success');
+          buttonElement.innerHTML = 'Follow 👤+';
+        } else {
+          buttonElement.classList.remove('btn-outline-success');
+          buttonElement.classList.add('btn-danger');
+          buttonElement.innerHTML = 'Unfollow 👤-';
+        }
+
+        // Update follower counts if on profile page
+        await updateFollowerCounts(userId);
+
+      } catch (error) {
+        console.error(`Error ${endpoint}ing user:`, error);
+        alert(`Failed to ${endpoint} user`);
+      }
+    }
+
+    async function checkFollowStatus(userId, buttonElement) {
+      if (!currentUser) return;
+
+      try {
+        const response = await fetch(`${API_URL}/users/${userId}/is-following?followerId=${currentUser.id}`);
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        if (data.isFollowing) {
+          buttonElement.classList.remove('btn-outline-success');
+          buttonElement.classList.add('btn-danger');
+          buttonElement.innerHTML = 'Unfollow 👤-';
+        }
+      } catch (error) {
+        console.error('Error checking follow status:', error);
+      }
+    }
+
+    async function updateFollowerCounts(userId) {
+      try {
+        const followerResponse = await fetch(`${API_URL}/users/${userId}/followers/count`);
+        const followerData = await followerResponse.json();
+
+        const followingResponse = await fetch(`${API_URL}/users/${userId}/following/count`);
+        const followingData = await followingResponse.json();
+
+        // Update counts on profile page if elements exist
+        const followerElement = document.getElementById('displayFollowers');
+        const followingElement = document.getElementById('displayFollowing');
+
+        if (followerElement) {
+          followerElement.textContent = `Followers: ${followerData.count}`;
+        }
+        if (followingElement) {
+          followingElement.textContent = `Following: ${followingData.count}`;
+        }
+      } catch (error) {
+        console.error('Error updating follower counts:', error);
+      }
+    }
+
     async function createPost() {
       if (!currentUser) {
         alert('Please login to create a post');

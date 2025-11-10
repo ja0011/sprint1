@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.socialapp.model.User;
 import com.example.socialapp.repository.UserRepository;
+import com.example.socialapp.service.UserFollowService;
 
 import jakarta.validation.Valid;
 
@@ -37,11 +38,13 @@ import jakarta.validation.Valid;
 public class UserController {
 
   private final UserRepository userRepository;
+  private final UserFollowService userFollowService;
   private static final String UPLOAD_DIR = "target/classes/static/images/";
   private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-  public UserController(UserRepository userRepository) {
+  public UserController(UserRepository userRepository, UserFollowService userFollowService) {
     this.userRepository = userRepository;
+    this.userFollowService = userFollowService;
     // Create images directory if it doesn't exist
     try {
       File uploadDir = new File(UPLOAD_DIR);
@@ -254,5 +257,82 @@ public class UserController {
       logger.error("Error during user search", e);
       return ResponseEntity.status(500).body(Map.of("error", "search_failed"));
     }
+  }
+
+  // ===== Follow/Unfollow Endpoints =====
+
+  // Follow a user
+  @PostMapping("/{userId}/follow")
+  public ResponseEntity<?> followUser(
+      @PathVariable Long userId,
+      @RequestParam Long followerId) {
+    
+    System.out.println("[UserController] Follow request - follower: " + followerId + ", followed: " + userId);
+    
+    boolean success = userFollowService.followUser(followerId, userId);
+    
+    if (success) {
+      return ResponseEntity.ok(Map.of(
+          "message", "Successfully followed user",
+          "isFollowing", true,
+          "followerCount", userFollowService.getFollowerCount(userId),
+          "followingCount", userFollowService.getFollowingCount(followerId)
+      ));
+    } else {
+      return ResponseEntity.badRequest().body(Map.of(
+          "error", "Cannot follow user (already following or self-follow)"
+      ));
+    }
+  }
+
+  // Unfollow a user
+  @PostMapping("/{userId}/unfollow")
+  public ResponseEntity<?> unfollowUser(
+      @PathVariable Long userId,
+      @RequestParam Long followerId) {
+    
+    System.out.println("[UserController] Unfollow request - follower: " + followerId + ", followed: " + userId);
+    
+    boolean success = userFollowService.unfollowUser(followerId, userId);
+    
+    if (success) {
+      return ResponseEntity.ok(Map.of(
+          "message", "Successfully unfollowed user",
+          "isFollowing", false,
+          "followerCount", userFollowService.getFollowerCount(userId),
+          "followingCount", userFollowService.getFollowingCount(followerId)
+      ));
+    } else {
+      return ResponseEntity.badRequest().body(Map.of(
+          "error", "Cannot unfollow user (not following)"
+      ));
+    }
+  }
+
+  // Check if a user is following another user
+  @GetMapping("/{userId}/is-following")
+  public ResponseEntity<?> isFollowing(
+      @PathVariable Long userId,
+      @RequestParam Long followerId) {
+    
+    boolean isFollowing = userFollowService.isFollowing(followerId, userId);
+    
+    return ResponseEntity.ok(Map.of(
+        "isFollowing", isFollowing
+    ));
+  }
+
+  // Get follower count
+  @GetMapping("/{userId}/followers/count")
+  public ResponseEntity<?> getFollowerCount(@PathVariable Long userId) {
+    long count = userFollowService.getFollowerCount(userId);
+    return ResponseEntity.ok(Map.of("count", count));
+  }
+
+  // Get following count
+  @GetMapping("/{userId}/following/count")
+  public ResponseEntity<?> getFollowingCount(@PathVariable Long userId) {
+    long count = userFollowService.getFollowingCount(userId);
+    return ResponseEntity.ok(Map.of("count", count));
   }
 }
