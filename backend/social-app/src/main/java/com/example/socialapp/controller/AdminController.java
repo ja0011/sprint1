@@ -68,6 +68,10 @@ public class AdminController {
       @NotNull Boolean active  // true or false
   ) {}
 
+  public record AdminResetPasswordRequest(
+      @NotBlank String newPassword
+  ) {}
+
   // ===== Endpoints =====
 
   // GET all users
@@ -171,7 +175,7 @@ public class AdminController {
         .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "user_not_found")));
   }
 
-  // NEW: UPDATE user active status (suspend/reactivate)
+  // UPDATE user active status (suspend/reactivate)
   @PatchMapping("/users/{id}/status")
   public ResponseEntity<?> updateUserStatus(
       @PathVariable Long id,
@@ -199,5 +203,34 @@ public class AdminController {
           ));
         })
         .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "user_not_found")));
+  }
+
+  // NEW: ADMIN RESET PASSWORD - Reset any user's password by ID
+  @PostMapping("/users/{id}/reset-password")
+  public ResponseEntity<?> adminResetPassword(
+      @PathVariable Long id,
+      @Valid @RequestBody AdminResetPasswordRequest request) {
+    
+    // Validate password length
+    if (request.newPassword().length() < 6) {
+      return ResponseEntity.badRequest()
+          .body(Map.of("error", "password_too_short", 
+                      "message", "Password must be at least 6 characters"));
+    }
+    
+    return userRepository.findById(id)
+        .<ResponseEntity<?>>map(user -> {
+          // Hash and update the password
+          user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
+          userRepository.save(user);
+          
+          return ResponseEntity.ok(Map.of(
+              "message", "Password reset successfully",
+              "username", user.getUsername()
+          ));
+        })
+        .orElseGet(() -> ResponseEntity.status(404)
+            .body(Map.of("error", "user_not_found", 
+                        "message", "User not found")));
   }
 }

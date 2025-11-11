@@ -81,6 +81,11 @@
       background-color: #000000;
       transform: scale(1.03);
     }
+    .reset-card button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
 
     /* Message */
     #resetMsg {
@@ -124,9 +129,93 @@
       margin-bottom: 20px;
       border: 1px solid #dee2e6;
     }
+
+    /* Dev Warning */
+    #devWarning {
+      display: none;
+      background: #fff3cd;
+      color: #856404;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ffeaa7;
+      font-size: 14px;
+    }
+
+    /* Access Denied Box */
+    #accessDenied {
+      display: none;
+      background: #f8d7da;
+      color: #721c24;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #f5c6cb;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    /* Dashboard Message (Pop-up style) */
+    #dashboardMessage {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      min-width: 400px;
+      padding: 20px 30px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      animation: slideDown 0.4s ease-out;
+    }
+
+    #dashboardMessage.success {
+      background: #d4edda;
+      color: #155724;
+      border: 2px solid #c3e6cb;
+    }
+
+    #dashboardMessage.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 2px solid #f5c6cb;
+    }
+
+    @keyframes slideDown {
+      from {
+        top: -100px;
+        opacity: 0;
+      }
+      to {
+        top: 20px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        top: 20px;
+        opacity: 1;
+      }
+      to {
+        top: -100px;
+        opacity: 0;
+      }
+    }
+
+    #dashboardMessage.hiding {
+      animation: slideUp 0.4s ease-out;
+    }
   </style>
 </head>
 <body>
+
+  <!-- Dashboard Message Pop-up -->
+  <div id="dashboardMessage"></div>
 
   <!-- Navbar -->
   <nav class="navbar navbar-dark px-3">
@@ -147,7 +236,17 @@
   
   <!-- Reset Password Card -->
   <div class="reset-card">
-    <h2>Reset Password</h2>
+    <h2>Admin Reset Password</h2>
+
+    <!-- Development Warning -->
+    <div id="devWarning">
+      ⚠️ <strong>Development Mode:</strong> You are not logged in as an admin. In production, this page would be restricted.
+    </div>
+
+    <!-- Access Denied (for non-admin users) -->
+    <div id="accessDenied">
+      🚫 Only admins can change passwords.
+    </div>
 
     <!-- User Information Display -->
     <div id="userInfo"></div>
@@ -155,16 +254,35 @@
     <div id="resetMsg"></div>
 
     <form id="resetForm" novalidate>
-      <input type="password" name="newpassword" placeholder="New Password" required>
-      <input type="password" name="confirmpassword" placeholder="Confirm Password" required>
-      <button type="submit">Reset Password</button>
+      <input type="password" name="newpassword" id="newpassword" placeholder="New Password" required>
+      <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
+      <button type="submit" id="submitBtn">Reset Password</button>
     </form>
 
-    <p class="back-link"><a href="User.html">Back to Admin</a></p>
+    <p class="back-link"><a href="User.html">Back to Admin Dashboard</a></p>
   </div>
   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    const API_BASE = 'http://localhost:8081';
+    
+    // Function to show dashboard message
+    function showDashboardMessage(message, type) {
+      const msgDiv = document.getElementById('dashboardMessage');
+      msgDiv.textContent = message;
+      msgDiv.className = type; // 'success' or 'error'
+      msgDiv.style.display = 'block';
+      
+      // Auto-hide after 4 seconds
+      setTimeout(() => {
+        msgDiv.classList.add('hiding');
+        setTimeout(() => {
+          msgDiv.style.display = 'none';
+          msgDiv.classList.remove('hiding');
+        }, 400);
+      }, 4000);
+    }
+
     // Function to get URL parameters
     function getQueryParams() {
       const params = {};
@@ -180,20 +298,150 @@
     const user = getQueryParams();
     const userInfoDiv = document.getElementById('userInfo');
     
-    if (user.id || user.name || user.email) {
+    if (user.id && user.name && user.email) {
       userInfoDiv.innerHTML = `
-        <h5 class="text-primary mb-2">User Information</h5>
-        <p><strong>ID:</strong> ${user.id || 'N/A'}</p>
-        <p><strong>Name:</strong> ${user.name || 'N/A'}</p>
-        <p><strong>Email:</strong> ${user.email || 'N/A'}</p>
+        <h5 class="text-primary mb-2">Resetting Password For:</h5>
+        <p><strong>ID:</strong> ${user.id}</p>
+        <p><strong>Username:</strong> ${user.name}</p>
+        <p class="mb-0"><strong>Email:</strong> ${user.email}</p>
       `;
     } else {
-      userInfoDiv.innerHTML = `<p class="text-danger">No user selected. Please return to Admin page.</p>`;
+      userInfoDiv.innerHTML = `<p class="text-danger">⚠️ No user selected. Please return to Admin Dashboard and select a user.</p>`;
+      document.getElementById('submitBtn').disabled = true;
     }
 
-  
-
+    // Check if user is logged in as admin
+    const userRole = localStorage.getItem('userRole');
+    const username = localStorage.getItem('username');
+    
+    // Check if logged in as regular USER (not admin, not unauthenticated)
+    if (username && userRole === 'USER') {
+      // Logged in as USER - show access denied and redirect
+      console.warn('[AdminReset.html] Logged in as USER - access denied');
+      document.getElementById('accessDenied').style.display = 'block';
+      document.getElementById('resetForm').style.display = 'none';
       
+      // Show dashboard message
+      showDashboardMessage('Only admins can change passwords.', 'error');
+      
+      // Redirect after 3 seconds
+      setTimeout(() => {
+        window.location.href = 'User.html';
+      }, 3000);
+      
+    } else if (!username || userRole !== 'ADMIN') {
+      // Not logged in or not admin - show dev warning
+      console.warn('[AdminReset.html] Not logged in as admin - showing dev warning');
+      document.getElementById('devWarning').style.display = 'block';
+      
+      // Show login/register links, hide logout
+      document.getElementById('loginLink').style.display = 'block';
+      document.getElementById('registerLink').style.display = 'block';
+      document.getElementById('logoutItem').classList.add('d-none');
+    } else {
+      // User is logged in as admin
+      document.getElementById('loginLink').style.display = 'none';
+      document.getElementById('registerLink').style.display = 'none';
+      document.getElementById('logoutItem').classList.remove('d-none');
+    }
+
+    // Logout functionality
+    document.getElementById('logoutLink')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.clear();
+      window.location.href = 'login.html';
+    });
+
+    // Handle form submission
+    document.getElementById('resetForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const newPassword = document.getElementById('newpassword').value.trim();
+      const confirmPassword = document.getElementById('confirmpassword').value.trim();
+      const resetMsg = document.getElementById('resetMsg');
+      const submitBtn = document.getElementById('submitBtn');
+
+      // Clear previous messages
+      resetMsg.className = '';
+      resetMsg.style.display = 'none';
+      resetMsg.textContent = '';
+
+      // Validation
+      if (!newPassword || !confirmPassword) {
+        resetMsg.className = 'err';
+        resetMsg.textContent = '❌ Please fill in both password fields.';
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        resetMsg.className = 'err';
+        resetMsg.textContent = '❌ Password must be at least 6 characters long.';
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        resetMsg.className = 'err';
+        resetMsg.textContent = '❌ Passwords do not match.';
+        return;
+      }
+
+      // Check if user ID exists
+      if (!user.id) {
+        resetMsg.className = 'err';
+        resetMsg.textContent = '❌ No user selected. Please return to Admin Dashboard.';
+        return;
+      }
+
+      // Disable button during request
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Resetting...';
+
+      try {
+        // Make API call to reset password
+        const response = await fetch(`${API_BASE}/api/admin/users/${user.id}/reset-password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            newPassword: newPassword
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Success - Show dashboard message
+          showDashboardMessage('Password changed successfully.', 'success');
+          
+          // Clear form
+          document.getElementById('resetForm').reset();
+          
+          // Redirect after 3 seconds
+          setTimeout(() => {
+            window.location.href = 'User.html';
+          }, 3000);
+        } else {
+          // Error from server
+          resetMsg.className = 'err';
+          if (data.error === 'user_not_found') {
+            resetMsg.textContent = '❌ User not found.';
+          } else if (data.error === 'password_too_short') {
+            resetMsg.textContent = '❌ Password must be at least 6 characters.';
+          } else {
+            resetMsg.textContent = `❌ ${data.message || 'Failed to reset password. Please try again.'}`;
+          }
+        }
+      } catch (error) {
+        console.error('Reset password error:', error);
+        resetMsg.className = 'err';
+        resetMsg.textContent = '❌ Network error. Please check if the backend server is running.';
+      } finally {
+        // Re-enable button
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Reset Password';
+      }
+    });
   </script>
 </body>
 </html>
