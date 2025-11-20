@@ -4,240 +4,354 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script type="text/javascript" nonce="cb00747402c2440d801bc051d74" src="//local.adguard.org?ts=1763666942399&amp;type=content-script&amp;dmn=apps.abacus.ai&amp;url=https%3A%2F%2Fapps.abacus.ai%2Fapi%2FdownloadAgentAttachment%3FdeploymentId%3D13914165be%26attachmentId%3D717dbce2-d67f-4b23-86d2-806532153d9f&amp;app=msedge.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script><script type="text/javascript" nonce="cb00747402c2440d801bc051d74" src="//local.adguard.org?ts=1763666942399&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/dark-mode.css">
   <style>
     body {
-      background-color: #f0f2f5;
-      font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
     }
 
     /* Navbar */
     .navbar {
-      background-color: #003385;
+    background-color: #003385;
     }
     .navbar .nav-link {
-      color: #ffffff;
+    color: #ffff;
     }
     .navbar .nav-link:hover {
-      color: #000000;
-      text-shadow:
-        -1px -1px 0 #ffffff,
-         1px -1px 0 #ffffff,
-        -1px  1px 0 #ffffff,
-         1px  1px 0 #ffffff;
+    color: #0000;
+    text-shadow:
+    -1px -1px 0 #ffff,
+    1px -1px 0 #ffff,
+    -1px  1px 0 #ffff,
+    1px  1px 0 #ffff;
     }
     .navbar-brand img {
-      height: 40px;
+    height: 40px;
     }
     .navbar-nav {
-      flex-direction: row;
-      flex-wrap: nowrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
     }
     .navbar-nav .nav-item {
-      white-space: nowrap;
+    white-space: nowrap;
     }
     .navbar-nav .nav-link {
-      padding-left: 0.8rem;
-      padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
     }
 
     /* Search Bar Styles */
     .search-container {
-      position: relative;
-      margin-left: 1rem;
-      margin-right: 1rem;
+    position: relative;
+    margin-left: 1rem;
+    margin-right: 1rem;
     }
     .search-input {
-      width: 250px;
-      padding: 0.375rem 0.75rem;
-      border-radius: 20px;
-      border: 1px solid #ddd;
-      background-color: #f0f2f5;
+    width: 250px;
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: #f0f2f5;
     }
     .search-input:focus {
-      outline: none;
-      border-color: #003385;
-      background-color: white;
+    outline: none;
+    border-color: #003385;
+    background-color: white;
     }
     .search-button {
-      background-color: #003385;
-      color: white;
-      border: none;
-      padding: 0.375rem 1rem;
-      border-radius: 20px;
-      margin-left: 0.5rem;
-      cursor: pointer;
+    background-color: #003385;
+    color: white;
+    border: none;
+    padding: 0.375rem 1rem;
+    border-radius: 20px;
+    margin-left: 0.5rem;
+    cursor: pointer;
     }
     .search-button:hover {
-      background-color: #002266;
+    background-color: #002266;
     }
     .search-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 250px;
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin-top: 5px;
-      max-height: 300px;
-      overflow-y: auto;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      z-index: 1000;
-      display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 250px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: none;
     }
     .search-dropdown.show {
-      display: block;
+    display: block;
     }
     .search-result-item {
-      padding: 10px 15px;
-      cursor: pointer;
-      border-bottom: 1px solid #f0f2f5;
-      display: flex;
-      align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f2f5;
+    display: flex;
+    align-items: center;
     }
     .search-result-item:hover {
-      background-color: #f0f2f5;
+    background-color: #f0f2f5;
     }
     .search-result-item img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-right: 10px;
-      object-fit: cover;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
     }
     .search-result-item .username {
-      font-weight: 500;
-      color: #003385;
+    font-weight: 500;
+    color: #003385;
     }
     .search-no-results {
-      padding: 15px;
-      text-align: center;
-      color: #666;
+    padding: 15px;
+    text-align: center;
+    color: #666;
     }
 
-    /* Profile Card */
+    /* Profile Section */
     .profile-card {
-      max-width: 800px;
-      margin: 60px auto;
-      padding: 30px;
-      background-color: #fff;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    max-width: 750px;
+    margin: 40px auto;
+    background-color: #fff;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 20px 30px;
     }
+
     .profile-header {
-      text-align: center;
-      margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
     }
-    .profile-picture {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #003385;
-      margin-bottom: 15px;
+
+    .profile-pic-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
     }
-    .profile-username {
-      font-size: 28px;
-      font-weight: bold;
-      color: #003385;
-      margin-bottom: 5px;
+
+    .profile-header img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #003385;
     }
-    .profile-email {
-      color: #666;
-      margin-bottom: 20px;
+
+    #displayName {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
     }
-    .profile-section {
-      margin-top: 20px;
+
+    #displayFollowers {
+    font-size: 1rem;
+    margin-left: 0.2rem;
     }
-    .profile-section h5 {
-      color: #003385;
-      margin-bottom: 15px;
-      font-weight: bold;
+
+    #displayFollowing {
+    font-size: 1rem;
+    margin-left: 2rem;
     }
-    .profile-field {
-      margin-bottom: 15px;
+
+    .same {
+    display:inline-block;
     }
-    .profile-field label {
-      font-weight: bold;
-      color: #555;
-      display: block;
-      margin-bottom: 5px;
+
+    .follow-btn {
+    margin-top: 0.5rem;
     }
-    .profile-field p {
-      color: #333;
-      margin: 0;
+
+    /* Major / Minor / Year Row */
+    .details-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
     }
+
+    .details-row p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #555;
+    }
+
+    /* Bio */
+    .bio-section {
+    margin-top: 15px;
+    }
+    .bio-section p {
+    color: #444;
+    margin: 0;
+    }
+
+    /* User Posts Section */
+    .user-post-card {
+    max-width: 750px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    padding: 20px;
+    }
+    .post-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+    }
+    .post-timestamp {
+    font-size: 0.85rem;
+    color: #65676b;
+    }
+    .post-actions button {
+    margin-right: 10px;
+    }
+
+    /* Comments Section */
+    .comment-section {
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    }
+    .comment {
+    background-color: #ffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    }
+    .comment-text {
+    font-size: 0.95rem;
+    }
+    .comment-actions button {
+    margin-right: 5px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    }
+    .comment-actions button:hover {
+    opacity: 0.9;
+    }
+
     .not-found {
-      text-align: center;
-      padding: 50px;
-      color: #666;
+    text-align: center;
+    padding: 50px;
+    color: #666;
     }
   </style>
 </head>
 <body>
   <script>
     (function() {
-      if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-      }
+    if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    }
     })();
   </script>
+
   <!-- Navbar -->
   <nav class="navbar navbar-dark px-3">
     <a class="navbar-brand d-flex align-items-center" href="index.html">
-      <img src="images/DC.jpg" alt="Logo" width="105" height="100">
+    <img src="images/DC.jpg" alt="Logo" width="105" height="100">
     </a>
-    
+
     <!-- Search Container -->
     <div class="search-container">
-      <input type="text" id="searchInput" class="search-input" placeholder="Search users...">
-      <button class="search-button" onclick="performSearch()">Search</button>
-      <div id="searchDropdown" class="search-dropdown"></div>
+    <input type="text" id="searchInput" class="search-input" placeholder="Search users...">
+    <button class="search-button" onclick="performSearch()">Search</button>
+    <div id="searchDropdown" class="search-dropdown"></div>
     </div>
 
     <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
-      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-      <li class="nav-item"><a class="nav-link" href="Settings.html">Settings</a></li>
-      <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
-      <li class="nav-item d-none" id="logoutItem">
-        <a class="nav-link text-danger fw-bold" href="#" id="logoutLink">Logout</a>
-      </li>
+    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="Settings.html">Settings</a></li>
+    <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+    <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
+    <li class="nav-item d-none" id="logoutItem">
+    <a class="nav-link text-danger fw-bold" href="#" id="logoutLink">Logout</a>
+    </li>
     </ul>
   </nav>
 
-  <!-- Profile Content -->
-  <div class="container">
-    <div id="profileContent" class="profile-card">
-      <div class="text-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <p class="mt-2">Loading profile...</p>
-      </div>
+  <!-- Profile Card -->
+  <div class="profile-card position-relative" id="profileCard" style="display: none;">
+    <div class="profile-header">
+    <div class="profile-pic-container">
+    <img id="profilePreview" src="images/default profile picture.jpg" alt="Profile Picture">
+    </div>
+    <div>
+    <h2 id="displayName">User Name</h2>
+    <p id="displayFollowers" class="same">Followers: 0</p>
+    <p id="displayFollowing" class="same">Following: 0</p>
+    <button class="btn follow-btn btn-sm btn-outline-success" id="followButton" onclick="toggleFollowProfile()">
+    Follow 👤+
+    </button>
+    </div>
+    </div>
+
+    <div class="details-row">
+    <p id="displayMajor">Major: -</p>
+    <p id="displayMinor">Minor: -</p>
+    <p id="displayYear">Graduation: -</p>
+    </div>
+
+    <div class="bio-section">
+    <p id="displayBio">Your bio goes here. Share a little about yourself!</p>
+    </div>
+  </div>
+
+  <!-- User Posts -->
+  <div class="user-post-card" id="userPostsCard" style="display: none;">
+    <h5 class="text-center mb-3" id="postsTitle">Posts</h5>
+    <div id="userPosts">
+    <p class="text-center text-muted">Loading posts...</p>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="container" id="loadingContainer">
+    <div class="profile-card">
+    <div class="text-center">
+    <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading profile...</p>
+    </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    const API_BASE = 'http://localhost:8081';
     const API_URL = 'http://localhost:8081/api';
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+    let profileUser = null;
 
     // Update navbar based on login status
     if (currentUser) {
-      document.getElementById('loginLink').style.display = 'none';
-      document.getElementById('registerLink').style.display = 'none';
-      document.getElementById('logoutItem').classList.remove('d-none');
+    document.getElementById('loginLink').style.display = 'none';
+    document.getElementById('registerLink').style.display = 'none';
+    document.getElementById('logoutItem').classList.remove('d-none');
     }
 
     // Logout functionality
-    document.getElementById('logoutLink')?.addEventListener('click', function(e) {
-      e.preventDefault();
-      localStorage.removeItem('currentUser');
-      window.location.href = 'login.html';
+    document.getElementById('logoutLink')?.addEventListener('click', async function(e) {
+    e.preventDefault();
+    try { 
+    await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST' }); 
+    } catch (_) {}
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('username');
+    window.location.href = 'login.html';
     });
 
     // Get username from URL parameter
@@ -245,166 +359,656 @@
     const username = urlParams.get('username');
 
     if (!username) {
-      document.getElementById('profileContent').innerHTML = `
-        <div class="not-found">
-          <h3>No user specified</h3>
-          <p>Please provide a username in the URL.</p>
-          <a href="index.html" class="btn btn-primary">Go to Home</a>
-        </div>
-      `;
+    // Show static UI for frontend developers
+    displayStaticProfile();
     } else {
-      loadUserProfile(username);
+    loadUserProfile(username);
+    }
+
+    // Display static profile for frontend developers (no backend access)
+    function displayStaticProfile() {
+    // Static profile data
+    const staticUser = {
+    username: 'Sample User',
+    bio: 'This is a sample bio for frontend development. Passionate about coding and design!',
+    major: 'Computer Science',
+    minor: 'Mathematics',
+    graduationYear: '2025',
+    profilePictureUrl: 'images/default profile picture.jpg'
+    };
+
+    document.getElementById('profilePreview').src = staticUser.profilePictureUrl;
+    document.getElementById('displayName').textContent = staticUser.username;
+    document.getElementById('displayBio').textContent = staticUser.bio;
+    document.getElementById('displayMajor').textContent = `Major: ${staticUser.major}`;
+    document.getElementById('displayMinor').textContent = `Minor: ${staticUser.minor}`;
+    document.getElementById('displayYear').textContent = `Graduation: ${staticUser.graduationYear}`;
+    document.getElementById('displayFollowers').textContent = 'Followers: 245';
+    document.getElementById('displayFollowing').textContent = 'Following: 180';
+    document.getElementById('postsTitle').textContent = `${staticUser.username}'s Posts`;
+
+    // Hide loading, show profile
+    document.getElementById('loadingContainer').style.display = 'none';
+    document.getElementById('profileCard').style.display = 'block';
+    document.getElementById('userPostsCard').style.display = 'block';
+
+    // Display static posts
+    displayStaticPosts();
+    }
+
+    // Display static posts for frontend developers
+    function displayStaticPosts() {
+    const postsContainer = document.getElementById('userPosts');
+    const canInteract = currentUser !== null;
+
+    const staticPosts = [
+    {
+    id: 1,
+    content: 'Just finished my final project for Software Engineering! 🎉 So proud of what our team accomplished.',
+    imageUrl: null,
+    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+    likeCount: 42,
+    dislikeCount: 1,
+    commentCount: 8,
+    userLiked: false,
+    userDisliked: false
+    },
+    {
+    id: 2,
+    content: 'Beautiful day on campus! ☀️',
+    imageUrl: null,
+    createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+    likeCount: 67,
+    dislikeCount: 0,
+    commentCount: 12,
+    userLiked: false,
+    userDisliked: false
+    }
+    ];
+
+    postsContainer.innerHTML = staticPosts.map(post => {
+    const timeAgo = getTimeAgo(post.createdAt);
+
+    return `
+    <div class="card mb-3" data-post-id="${post.id}">
+    <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start">
+    <span class="post-timestamp">${timeAgo}</span>
+    </div>
+    ${post.content ? `<p class="mt-2">${post.content}</p>` : ''}
+    ${post.imageUrl ? `<img src="${API_BASE}${post.imageUrl}" class="post-image" alt="post image">` : ''}
+
+    <div class="post-actions mt-3">
+    <button class="btn btn-sm ${post.userLiked ? 'btn-success' : 'btn-outline-success'} like-btn" 
+    onclick="toggleLike(${post.id})" ${!canInteract ? 'disabled' : ''}>
+    👍 Like (<span class="like-count">${post.likeCount || 0}</span>)
+    </button>
+    <button class="btn btn-sm ${post.userDisliked ? 'btn-danger' : 'btn-outline-danger'} dislike-btn" 
+    onclick="toggleDislike(${post.id})" ${!canInteract ? 'disabled' : ''}>
+    👎 Dislike (<span class="dislike-count">${post.dislikeCount || 0}</span>)
+    </button>
+    <button class="btn btn-sm btn-outline-secondary" onclick="toggleComments(${post.id})">
+    💬 Comment (<span class="comment-count">${post.commentCount || 0}</span>)
+    </button>
+    <div class="btn-group">
+    <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
+    <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Inappropriate'); return false;">Inappropriate</a></li>
+    <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Harmful'); return false;">Harmful</a></li>
+    </ul>
+    </div>
+    </div>
+
+    <div class="comment-section mt-3" id="comments-${post.id}" style="display: none;">
+    ${canInteract ? `
+    <div class="d-flex align-items-center mb-3">
+    <input type="text" class="form-control form-control-sm me-2" 
+    id="comment-input-${post.id}" placeholder="Write a comment...">
+    <button class="btn btn-sm btn-primary" onclick="addComment(${post.id})">Post</button>
+    </div>
+    ` : '<p class="text-muted">Login to comment</p>'}
+
+    <div id="comment-list-${post.id}"></div>
+    </div>
+    </div>
+    </div>
+    `;
+    }).join('');
     }
 
     // Load user profile
     async function loadUserProfile(username) {
-      try {
-        const response = await fetch(`${API_URL}/users/${username}`);
-        
-        if (!response.ok) {
-          throw new Error('User not found');
-        }
+    try {
+    const response = await fetch(`${API_URL}/users/${username}`);
 
-        const user = await response.json();
-        displayProfile(user);
-      } catch (error) {
-        console.error('Error loading profile:', error);
-        document.getElementById('profileContent').innerHTML = `
-          <div class="not-found">
-            <h3>User not found</h3>
-            <p>The user "${username}" could not be found.</p>
-            <a href="index.html" class="btn btn-primary">Go to Home</a>
-          </div>
-        `;
-      }
+    if (!response.ok) {
+    throw new Error('User not found');
+    }
+
+    profileUser = await response.json();
+    displayProfile(profileUser);
+    await loadFollowerCounts(profileUser.id);
+    await checkFollowStatus(profileUser.id);
+    await loadUserPosts(profileUser.id);
+    } catch (error) {
+    console.error('Error loading profile:', error);
+    // Show static profile on backend error
+    displayStaticProfile();
+    }
     }
 
     // Display profile
     function displayProfile(user) {
-      const profilePic = user.profilePictureUrl || 'images/default profile picture.jpg';
-      
-      document.getElementById('profileContent').innerHTML = `
-        <div class="profile-header">
-          <img src="${profilePic}" alt="Profile Picture" class="profile-picture" onerror="this.src='images/default profile picture.jpg'">
-          <h2 class="profile-username">${user.username}</h2>
-          <p class="profile-email">${user.email}</p>
-        </div>
+    const profilePic = user.profilePictureUrl || 'images/default profile picture.jpg';
 
-        <div class="profile-section">
-          <h5>About</h5>
-          <div class="profile-field">
-            <label>Bio</label>
-            <p>${user.bio || 'No bio provided'}</p>
-          </div>
-        </div>
+    document.getElementById('profilePreview').src = profilePic;
+    document.getElementById('displayName').textContent = user.username;
+    document.getElementById('displayBio').textContent = user.bio || 'No bio provided';
+    document.getElementById('displayMajor').textContent = user.major ? `Major: ${user.major}` : 'Major: -';
+    document.getElementById('displayMinor').textContent = user.minor ? `Minor: ${user.minor}` : 'Minor: -';
+    document.getElementById('displayYear').textContent = user.graduationYear ? `Graduation: ${user.graduationYear}` : 'Graduation: -';
 
-        <div class="profile-section">
-          <h5>Academic Information</h5>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="profile-field">
-                <label>Major</label>
-                <p>${user.major || 'Not specified'}</p>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="profile-field">
-                <label>Minor</label>
-                <p>${user.minor || 'Not specified'}</p>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="profile-field">
-                <label>Graduation Year</label>
-                <p>${user.graduationYear || 'Not specified'}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
+    document.getElementById('postsTitle').textContent = `${user.username}'s Posts`;
+
+    // Hide loading, show profile
+    document.getElementById('loadingContainer').style.display = 'none';
+    document.getElementById('profileCard').style.display = 'block';
+    document.getElementById('userPostsCard').style.display = 'block';
     }
 
-    // ===== SEARCH FUNCTIONALITY =====
+    // Load follower and following counts
+    async function loadFollowerCounts(userId) {
+    try {
+    const followerRes = await fetch(`${API_BASE}/api/users/${userId}/followers/count`);
+    const followingRes = await fetch(`${API_BASE}/api/users/${userId}/following/count`);
+
+    if (followerRes.ok && followingRes.ok) {
+    const followerData = await followerRes.json();
+    const followingData = await followingRes.json();
+
+    document.getElementById('displayFollowers').textContent = `Followers: ${followerData.count}`;
+    document.getElementById('displayFollowing').textContent = `Following: ${followingData.count}`;
+    }
+    } catch (e) {
+    console.warn('Failed to load follower counts', e);
+    }
+    }
+
+    // Check if current user is following this profile
+    async function checkFollowStatus(userId) {
+    if (!currentUser) {
+    document.getElementById('followButton').style.display = 'none';
+    return;
+    }
+
+    try {
+    const response = await fetch(`${API_URL}/users/${userId}/is-following?followerId=${currentUser.id}`);
+    if (!response.ok) return;
+
+    const data = await response.json();
+    const followButton = document.getElementById('followButton');
+
+    if (data.isFollowing) {
+    followButton.classList.remove('btn-outline-success');
+    followButton.classList.add('btn-danger');
+    followButton.innerHTML = 'Unfollow 👤-';
+    } else {
+    followButton.classList.remove('btn-danger');
+    followButton.classList.add('btn-outline-success');
+    followButton.innerHTML = 'Follow 👤+';
+    }
+    } catch (error) {
+    console.error('Error checking follow status:', error);
+    }
+    }
+
+    // Toggle follow/unfollow
+    async function toggleFollowProfile() {
+    if (!currentUser) {
+    alert('Please login to follow users');
+    window.location.href = 'login.html';
+    return;
+    }
+
+    if (!profileUser) return;
+
+    const followButton = document.getElementById('followButton');
+    const isFollowing = followButton.classList.contains('btn-danger');
+    const endpoint = isFollowing ? 'unfollow' : 'follow';
+
+    try {
+    const response = await fetch(`${API_URL}/users/${profileUser.id}/${endpoint}?followerId=${currentUser.id}`, {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    }
+    });
+
+    if (!response.ok) throw new Error(`Failed to ${endpoint} user`);
+
+    // Update button state
+    if (isFollowing) {
+    followButton.classList.remove('btn-danger');
+    followButton.classList.add('btn-outline-success');
+    followButton.innerHTML = 'Follow 👤+';
+    } else {
+    followButton.classList.remove('btn-outline-success');
+    followButton.classList.add('btn-danger');
+    followButton.innerHTML = 'Unfollow 👤-';
+    }
+
+    // Update follower counts
+    await loadFollowerCounts(profileUser.id);
+
+    } catch (error) {
+    console.error(`Error ${endpoint}ing user:`, error);
+    alert(`Failed to ${endpoint} user`);
+    }
+    }
+
+    // Load user's posts
+    async function loadUserPosts(userId) {
+    try {
+    const res = await fetch(`${API_BASE}/api/posts/user/${userId}`);
+    if (!res.ok) throw new Error('Failed to load posts');
+
+    const posts = await res.json();
+    const postsContainer = document.getElementById('userPosts');
+
+    if (posts.length === 0) {
+    postsContainer.innerHTML = '<p class="text-center text-muted">No posts yet.</p>';
+    return;
+    }
+
+    postsContainer.innerHTML = posts.map(post => {
+    const postDate = new Date(post.createdAt);
+    const timeAgo = getTimeAgo(postDate);
+    const canInteract = currentUser !== null;
+
+    return `
+    <div class="card mb-3" data-post-id="${post.id}">
+    <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start">
+    <span class="post-timestamp">${timeAgo}</span>
+    </div>
+    ${post.content ? `<p class="mt-2">${post.content}</p>` : ''}
+    ${post.imageUrl ? `<img src="${API_BASE}${post.imageUrl}" class="post-image" alt="post image">` : ''}
+
+    <div class="post-actions mt-3">
+    <button class="btn btn-sm ${post.userLiked ? 'btn-success' : 'btn-outline-success'} like-btn" 
+    onclick="toggleLike(${post.id})" ${!canInteract ? 'disabled' : ''}>
+    👍 Like (<span class="like-count">${post.likeCount || 0}</span>)
+    </button>
+    <button class="btn btn-sm ${post.userDisliked ? 'btn-danger' : 'btn-outline-danger'} dislike-btn" 
+    onclick="toggleDislike(${post.id})" ${!canInteract ? 'disabled' : ''}>
+    👎 Dislike (<span class="dislike-count">${post.dislikeCount || 0}</span>)
+    </button>
+    <button class="btn btn-sm btn-outline-secondary" onclick="toggleComments(${post.id})">
+    💬 Comment (<span class="comment-count">${post.commentCount || 0}</span>)
+    </button>
+    <div class="btn-group">
+    <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
+    <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Inappropriate'); return false;">Inappropriate</a></li>
+    <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Harmful'); return false;">Harmful</a></li>
+    </ul>
+    </div>
+    </div>
+
+    <div class="comment-section mt-3" id="comments-${post.id}" style="display: none;">
+    ${canInteract ? `
+    <div class="d-flex align-items-center mb-3">
+    <input type="text" class="form-control form-control-sm me-2" 
+    id="comment-input-${post.id}" placeholder="Write a comment...">
+    <button class="btn btn-sm btn-primary" onclick="addComment(${post.id})">Post</button>
+    </div>
+    ` : '<p class="text-muted">Login to comment</p>'}
+
+    <div id="comment-list-${post.id}"></div>
+    </div>
+    </div>
+    </div>
+    `;
+    }).join('');
+
+    } catch (error) {
+    console.error('Error loading posts:', error);
+    document.getElementById('userPosts').innerHTML = '<p class="text-center text-danger">Failed to load posts</p>';
+    }
+    }
+
+    // ==== LIKE/DISLIKE FUNCTIONS (from index.html) ====
+
+    // Toggle Like
+    async function toggleLike(postId) {
+    if (!currentUser) {
+    alert('Please login to like posts');
+    return;
+    }
+
+    try {
+    const response = await fetch(`${API_URL}/posts/${postId}/like?userId=${currentUser.id}`, {
+    method: 'POST'
+    });
+
+    if (!response.ok) throw new Error('Failed to toggle like');
+
+    const data = await response.json();
+    updatePostStats(postId, data);
+    } catch (error) {
+    console.error('Error toggling like:', error);
+    }
+    }
+
+    // Toggle Dislike
+    async function toggleDislike(postId) {
+    if (!currentUser) {
+    alert('Please login to dislike posts');
+    return;
+    }
+
+    try {
+    const response = await fetch(`${API_URL}/posts/${postId}/dislike?userId=${currentUser.id}`, {
+    method: 'POST'
+    });
+
+    if (!response.ok) throw new Error('Failed to toggle dislike');
+
+    const data = await response.json();
+    updatePostStats(postId, data);
+    } catch (error) {
+    console.error('Error toggling dislike:', error);
+    }
+    }
+
+    // Update post statistics in UI
+    function updatePostStats(postId, data) {
+    const postCard = document.querySelector(`[data-post-id="${postId}"]`);
+    if (!postCard) return;
+
+    // Update like button and count
+    const likeBtn = postCard.querySelector('.like-btn');
+    const likeCount = postCard.querySelector('.like-count');
+    if (likeBtn && likeCount) {
+    likeCount.textContent = data.likeCount;
+    if (data.userLiked) {
+    likeBtn.classList.remove('btn-outline-success');
+    likeBtn.classList.add('btn-success');
+    } else {
+    likeBtn.classList.remove('btn-success');
+    likeBtn.classList.add('btn-outline-success');
+    }
+    }
+
+    // Update dislike button and count
+    const dislikeBtn = postCard.querySelector('.dislike-btn');
+    const dislikeCount = postCard.querySelector('.dislike-count');
+    if (dislikeBtn && dislikeCount) {
+    dislikeCount.textContent = data.dislikeCount;
+    if (data.userDisliked) {
+    dislikeBtn.classList.remove('btn-outline-danger');
+    dislikeBtn.classList.add('btn-danger');
+    } else {
+    dislikeBtn.classList.remove('btn-danger');
+    dislikeBtn.classList.add('btn-outline-danger');
+    }
+    }
+    }
+
+    // Toggle comments visibility
+    async function toggleComments(postId) {
+    const commentsSection = document.getElementById(`comments-${postId}`);
+    if (!commentsSection) return;
+
+    if (commentsSection.style.display === 'none') {
+    commentsSection.style.display = 'block';
+    await loadComments(postId);
+    } else {
+    commentsSection.style.display = 'none';
+    }
+    }
+
+    // Load comments for a post (from index.html)
+    async function loadComments(postId) {
+    try {
+    const response = await fetch(`${API_URL}/posts/${postId}/comments`);
+    if (!response.ok) throw new Error('Failed to load comments');
+
+    const comments = await response.json();
+    const commentList = document.getElementById(`comment-list-${postId}`);
+
+    if (comments.length === 0) {
+    commentList.innerHTML = '<p class="text-muted">No comments yet</p>';
+    return;
+    }
+
+    commentList.innerHTML = comments.map(comment => {
+    const commentDate = new Date(comment.createdAt);
+    const timeAgo = getTimeAgo(commentDate);
+    const profilePic = comment.userProfilePicture || 'images/default profile picture.jpg';
+    const isOwnComment = currentUser && currentUser.id === comment.userId;
+    const isAdmin = currentUser && currentUser.role === 'ADMIN';
+    const canDeleteComment = isOwnComment || isAdmin;
+
+    return `
+    <div class="comment mb-3" data-comment-id="${comment.id}">
+    <div class="d-flex align-items-start">
+    <img src="${profilePic}" alt="User" width="40" height="40" 
+    class="rounded-circle me-2" onerror="this.src='images/default profile picture.jpg'">
+    <div class="flex-grow-1">
+    <div>
+    <strong>${comment.username}</strong>
+    <span class="text-muted ms-2" style="font-size: 0.85rem;">${timeAgo}</span>
+    </div>
+    <p class="mb-1">${comment.commentText}</p>
+    ${canDeleteComment ? `
+    <button class="btn btn-sm btn-outline-danger" onclick="deleteComment(${comment.id}, ${postId})">
+    Delete${isAdmin && !isOwnComment ? ' (Admin)' : ''}
+    </button>
+    ` : ''}
+    </div>
+    </div>
+    </div>
+    `;
+    }).join('');
+    } catch (error) {
+    console.error('Error loading comments:', error);
+    }
+    }
+
+    // Add a new comment (from index.html)
+    async function addComment(postId) {
+    if (!currentUser) {
+    alert('Please login to comment');
+    return;
+    }
+
+    const input = document.getElementById(`comment-input-${postId}`);
+    const commentText = input.value.trim();
+
+    if (!commentText) {
+    alert('Comment cannot be empty');
+    return;
+    }
+
+    try {
+    const response = await fetch(`${API_URL}/posts/${postId}/comments?userId=${currentUser.id}`, {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ commentText })
+    });
+
+    if (!response.ok) throw new Error('Failed to add comment');
+
+    input.value = '';
+    await loadComments(postId);
+
+    // Update comment count
+    const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
+    if (commentCount) {
+    commentCount.textContent = parseInt(commentCount.textContent) + 1;
+    }
+    } catch (error) {
+    console.error('Error adding comment:', error);
+    }
+    }
+
+    // Delete a comment (from index.html)
+    async function deleteComment(commentId, postId) {
+    if (!currentUser) return;
+
+    if (!confirm('Are you sure you want to delete this comment?')) return;
+
+    try {
+    const response = await fetch(`${API_URL}/posts/comments/${commentId}?userId=${currentUser.id}`, {
+    method: 'DELETE'
+    });
+
+    if (!response.ok) throw new Error('Failed to delete comment');
+
+    await loadComments(postId);
+
+    // Update comment count
+    const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
+    if (commentCount) {
+    commentCount.textContent = Math.max(0, parseInt(commentCount.textContent) - 1);
+    }
+    } catch (error) {
+    console.error('Error deleting comment:', error);
+    }
+    }
+
+    // Flag Post Functionality (from index.html) - sends data as URL parameters
+    async function flagPost(postId, reason) {
+    if (!currentUser) {
+    alert('Please login to flag posts');
+    return;
+    }
+
+    try {
+    const response = await fetch(`${API_URL}/flags?postId=${postId}&userId=${currentUser.id}&reason=${encodeURIComponent(reason)}`, {
+    method: 'POST',
+    credentials: 'include'
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+    throw new Error(data.message || 'Failed to flag post');
+    }
+
+    alert(`Post flagged as ${reason} successfully!`);
+
+    } catch (error) {
+    console.error('Error:', error);
+    alert('Error: ' + error.message);
+    }
+    }
+
+    function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hours ago";
+
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " minutes ago";
+
+    return "Just now";
+    }
+
+    // ==== SEARCH FUNCTIONALITY ====
     let searchTimeout;
     const searchInput = document.getElementById('searchInput');
     const searchDropdown = document.getElementById('searchDropdown');
 
     // Live search on input
     searchInput.addEventListener('input', function() {
-      clearTimeout(searchTimeout);
-      const query = this.value.trim();
+    clearTimeout(searchTimeout);
+    const query = this.value.trim();
 
-      if (query.length < 2) {
-        searchDropdown.classList.remove('show');
-        return;
-      }
+    if (query.length < 2) {
+    searchDropdown.classList.remove('show');
+    return;
+    }
 
-      searchTimeout = setTimeout(() => {
-        performLiveSearch(query);
-      }, 300); // Debounce 300ms
+    searchTimeout = setTimeout(() => {
+    performLiveSearch(query);
+    }, 300);
     });
 
     // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
-      if (!e.target.closest('.search-container')) {
-        searchDropdown.classList.remove('show');
-      }
+    if (!e.target.closest('.search-container')) {
+    searchDropdown.classList.remove('show');
+    }
     });
 
     // Perform live search
     async function performLiveSearch(query) {
-      try {
-        const userId = currentUser ? currentUser.id : null;
-        const url = `${API_URL}/users/search?query=${encodeURIComponent(query)}${userId ? '&currentUserId=' + userId : ''}`;
-        
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Search failed');
+    try {
+    const userId = currentUser ? currentUser.id : null;
+    const url = `${API_URL}/users/search?query=${encodeURIComponent(query)}${userId ? '&currentUserId=' + userId : ''}`;
 
-        const results = await response.json();
-        displaySearchResults(results);
-      } catch (error) {
-        console.error('Search error:', error);
-        searchDropdown.innerHTML = '<div class="search-no-results">Search error occurred</div>';
-        searchDropdown.classList.add('show');
-      }
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Search failed');
+
+    const results = await response.json();
+    displaySearchResults(results);
+    } catch (error) {
+    console.error('Search error:', error);
+    searchDropdown.innerHTML = '<div class="search-no-results">Search error occurred</div>';
+    searchDropdown.classList.add('show');
+    }
     }
 
     // Display search results in dropdown
     function displaySearchResults(results) {
-      if (results.length === 0) {
-        searchDropdown.innerHTML = '<div class="search-no-results">No users found</div>';
-      } else {
-        searchDropdown.innerHTML = results.map(user => {
-          const profilePic = user.profilePictureUrl || 'images/default profile picture.jpg';
-          return `
-            <div class="search-result-item" onclick="navigateToProfile('${user.username}')">
-              <img src="${profilePic}" alt="${user.username}" onerror="this.src='images/default profile picture.jpg'">
-              <span class="username">${user.username}</span>
-            </div>
-          `;
-        }).join('');
-      }
-      searchDropdown.classList.add('show');
+    if (results.length === 0) {
+    searchDropdown.innerHTML = '<div class="search-no-results">No users found</div>';
+    } else {
+    searchDropdown.innerHTML = results.map(user => {
+    const profilePic = user.profilePictureUrl || 'images/default profile picture.jpg';
+    return `
+    <div class="search-result-item" onclick="navigateToProfile('${user.username}')">
+    <img src="${profilePic}" alt="${user.username}" onerror="this.src='images/default profile picture.jpg'">
+    <span class="username">${user.username}</span>
+    </div>
+    `;
+    }).join('');
+    }
+    searchDropdown.classList.add('show');
     }
 
     // Perform search (button click or enter key)
     function performSearch() {
-      const query = searchInput.value.trim();
-      if (query.length >= 2) {
-        performLiveSearch(query);
-      }
+    const query = searchInput.value.trim();
+    if (query.length >= 2) {
+    performLiveSearch(query);
+    }
     }
 
     // Handle Enter key in search input
     searchInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        performSearch();
-      }
+    if (e.key === 'Enter') {
+    performSearch();
+    }
     });
 
     // Navigate to user profile
     function navigateToProfile(username) {
-      window.location.href = `user-profile.html?username=${encodeURIComponent(username)}`;
+    window.location.href = `user-profile.html?username=${encodeURIComponent(username)}`;
     }
   </script>
 </body>
