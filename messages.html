@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Messages</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/dark-mode.css">
 
   <style>
     body {
@@ -91,10 +92,9 @@
     }
 
     .message-item img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
     }
 
     .preview-text {
@@ -239,6 +239,13 @@
   </style>
 </head>
 <body>
+  <script>
+    (function() {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
+    })();
+  </script>
 
   <!-- Navbar -->
   <nav class="navbar navbar-dark px-3">
@@ -261,28 +268,27 @@
     <!-- LEFT: Message List -->
     <div class="message-list" id="conversationList">
 
-    <!-- Static Examples -->
-    <div class="message-item static">
-    <div class="message-item-left">
-    <img src="https://via.placeholder.com/40">
-    <div>
-    <strong>User 1</strong>
-    <p class="preview-text">Hello! How are you?</p>
-    </div>
-    </div>
-    <div class="preview-time">3:45 PM</div>
-    </div>
+      <div class="message-item">
+        <div class="message-item-left">
+          <img src="https://via.placeholder.com/40">
+          <div>
+            <strong>User 1</strong>
+            <p class="preview-text">Hello! How are you?</p>
+          </div>
+        </div>
+        <div class="preview-time">3:45 PM</div>
+      </div>
 
-    <div class="message-item static">
-    <div class="message-item-left">
-    <img src="https://via.placeholder.com/40">
-    <div>
-    <strong>User 2</strong>
-    <p class="preview-text">Let's meet tomorrow!</p>
-    </div>
-    </div>
-    <div class="preview-time">10:17 AM</div>
-    </div>
+      <div class="message-item">
+        <div class="message-item-left">
+          <img src="https://via.placeholder.com/40">
+          <div>
+            <strong>User 2</strong>
+            <p class="preview-text">Let's meet tomorrow!</p>
+          </div>
+        </div>
+        <div class="preview-time">10:17 AM</div>
+      </div>
 
     <!-- Divider -->
     <div class="follower-divider"></div>
