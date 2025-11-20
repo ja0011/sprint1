@@ -41,6 +41,8 @@ body.dark-mode .dashboard-card,
 body.dark-mode .profile-card,
 body.dark-mode .post-card,
 body.dark-mode .user-post-card,
+body.dark-mode .message-list,
+body.dark-mode .chat-window,
 body.dark-mode .auth-card,
 body.dark-mode .flagged-card,
 body.dark-mode .user-card,
@@ -104,6 +106,29 @@ body.dark-mode .comment,
 body.dark-mode .static-comment {
   background-color: #212121;
   border-color: #2f2f2f;
+}
+
+body.dark-mode .message-item {
+  background-color: transparent;
+  color: #f5f5f5;
+}
+
+body.dark-mode .message-item:hover {
+  background-color: #2a2a2a;
+}
+
+body.dark-mode .message .message-content {
+  background-color: #2a2a2a;
+  color: #f5f5f5;
+}
+
+body.dark-mode .message.sent .message-content {
+  background-color: #1f3b78;
+  color: #f5f5f5;
+}
+
+body.dark-mode .chat-messages {
+  color: #f5f5f5;
 }
 
 body.dark-mode .text-muted,
