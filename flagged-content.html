@@ -7,144 +7,144 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #f0f2f5;
-      font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
     }
 
     /* Navbar */
     .navbar {
-      background-color: #003385;
+    background-color: #003385;
     }
     .navbar .nav-link {
-      color: #ffffff;
+    color: #ffff;
     }
     .navbar .nav-link:hover {
-      color: #000000;
-      text-shadow:
-        -1px -1px 0 #ffffff,
-         1px -1px 0 #ffffff,
-        -1px  1px 0 #ffffff,
-         1px  1px 0 #ffffff;
+    color: #0000;
+    text-shadow:
+    -1px -1px 0 #ffff,
+    1px -1px 0 #ffff,
+    -1px  1px 0 #ffff,
+    1px  1px 0 #ffff;
     }
     .navbar-brand img {
-      height: 40px;
+    height: 40px;
     }
 
     .container {
-      max-width: 1200px;
-      margin-top: 30px;
+    max-width: 1200px;
+    margin-top: 30px;
     }
 
     .page-header {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     .filter-section {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     .flagged-post-card {
-      background: white;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      border-left: 4px solid #dc3545;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-left: 4px solid #dc3545;
     }
 
     .flagged-post-card.reviewed {
-      border-left-color: #28a745;
+    border-left-color: #28a745;
     }
 
     .flagged-post-card.dismissed {
-      border-left-color: #6c757d;
+    border-left-color: #6c757d;
     }
 
     .flag-badge {
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 15px;
-      font-size: 0.85rem;
-      font-weight: bold;
-      margin-right: 10px;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-right: 10px;
     }
 
     .flag-badge.inappropriate {
-      background-color: #ffc107;
-      color: #000;
+    background-color: #ffc107;
+    color: #000;
     }
 
     .flag-badge.harmful {
-      background-color: #dc3545;
-      color: white;
+    background-color: #dc3545;
+    color: white;
     }
 
     .status-badge {
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 15px;
-      font-size: 0.85rem;
-      font-weight: bold;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: bold;
     }
 
     .status-badge.pending {
-      background-color: #ffc107;
-      color: #000;
+    background-color: #ffc107;
+    color: #000;
     }
 
     .status-badge.approved {
-      background-color: #28a745;
-      color: white;
+    background-color: #28a745;
+    color: white;
     }
 
     .status-badge.rejected {
-      background-color: #6c757d;
-      color: white;
+    background-color: #6c757d;
+    color: white;
     }
 
     .status-badge.dismissed {
-      background-color: #6c757d;
-      color: white;
+    background-color: #6c757d;
+    color: white;
     }
 
     .post-content {
-      margin: 15px 0;
-      padding: 15px;
-      background-color: #f8f9fa;
-      border-radius: 8px;
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
     }
 
     .post-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-top: 10px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
     }
 
     .flag-info {
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 10px;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 10px;
     }
 
     .admin-actions {
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #ddd;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
     }
 
     .no-flags {
-      text-align: center;
-      padding: 40px;
-      color: #666;
+    text-align: center;
+    padding: 40px;
+    color: #666;
     }
   </style>
 </head>
@@ -152,171 +152,171 @@
   <!-- Navbar -->
   <nav class="navbar navbar-dark px-3">
     <a class="navbar-brand d-flex align-items-center" href="index.html">
-      <img src="images/DC.jpg" alt="Logo" width="105" height="100">
+    <img src="images/DC.jpg" alt="Logo" width="105" height="100">
     </a>
     
     <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
-      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-      <li class="nav-item"><a class="nav-link" href="user.html">Users</a></li>
-      <li class="nav-item"><a class="nav-link active" href="flagged-content.html">Flagged</a></li>
-      <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
-      <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
+    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="user.html">Users</a></li>
+    <li class="nav-item"><a class="nav-link active" href="flagged-content.html">Flagged</a></li>
+    <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+    <li class="nav-item"><a class="nav-link" href="login.html" id="loginLink">Login</a></li>
+    <li class="nav-item"><a class="nav-link" href="register.html" id="registerLink">Register</a></li>
     </ul>
   </nav>
 
   <div class="container">
     <!-- Page Header -->
     <div class="page-header">
-      <h2>🚩 Flagged Content Management</h2>
-      <p class="mb-0 text-muted">Review and manage flagged posts</p>
+    <h2>🚩 Flagged Content Management</h2>
+    <p class="mb-0 text-muted">Review and manage flagged posts</p>
     </div>
 
     <!-- Filter Section -->
     <div class="filter-section">
-      <div class="row align-items-center">
-        <div class="col-md-4">
-          <label for="statusFilter" class="form-label mb-1">Filter by Status:</label>
-          <select class="form-select" id="statusFilter" onchange="filterFlags()">
-            <option value="ALL">All Flags</option>
-            <option value="PENDING" selected>Pending</option>
-            <option value="APPROVED">Approved</option>
-            <option value="REJECTED">Rejected</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label for="reasonFilter" class="form-label mb-1">Filter by Reason:</label>
-          <select class="form-select" id="reasonFilter" onchange="filterFlags()">
-            <option value="ALL">All Reasons</option>
-            <option value="Inappropriate">Inappropriate</option>
-            <option value="Harmful">Harmful</option>
-          </select>
-        </div>
-        <div class="col-md-4 text-end">
-          <label class="form-label mb-1 d-block"> </label>
-          <button class="btn btn-primary" onclick="loadFlags()">🔄 Refresh</button>
-        </div>
-      </div>
+    <div class="row align-items-center">
+    <div class="col-md-4">
+    <label for="statusFilter" class="form-label mb-1">Filter by Status:</label>
+    <select class="form-select" id="statusFilter" onchange="filterFlags()">
+    <option value="ALL">All Flags</option>
+    <option value="PENDING" selected>Pending</option>
+    <option value="APPROVED">Approved</option>
+    <option value="REJECTED">Rejected</option>
+    </select>
+    </div>
+    <div class="col-md-4">
+    <label for="reasonFilter" class="form-label mb-1">Filter by Reason:</label>
+    <select class="form-select" id="reasonFilter" onchange="filterFlags()">
+    <option value="ALL">All Reasons</option>
+    <option value="Inappropriate">Inappropriate</option>
+    <option value="Harmful">Harmful</option>
+    </select>
+    </div>
+    <div class="col-md-4 text-end">
+    <label class="form-label mb-1 d-block"> </label>
+    <button class="btn btn-primary" onclick="loadFlags()">🔄 Refresh</button>
+    </div>
+    </div>
     </div>
 
     <!-- Flagged Posts Container -->
     <div id="flaggedPostsContainer">
-      
-      <!-- Static Example 1 - Pending Harmful -->
-      <div class="flagged-post-card static-example" data-status="PENDING" data-reason="Harmful">
-        <div class="d-flex justify-content-between align-items-start mb-3">
-          <div>
-            <span class="flag-badge harmful">🚩 Harmful</span>
-            <span class="status-badge pending">Pending Review</span>
-          </div>
-          <small class="text-muted">Flagged: 11/02/2025 3:45 PM</small>
-        </div>
+    
+    <!-- Static Example 1 - Pending Harmful -->
+    <div class="flagged-post-card static-example" data-status="PENDING" data-reason="Harmful">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+    <span class="flag-badge harmful">🚩 Harmful</span>
+    <span class="status-badge pending">Pending Review</span>
+    </div>
+    <small class="text-muted">Flagged: 11/02/2025 3:45 PM</small>
+    </div>
 
-        <div class="post-content">
-          <div class="d-flex align-items-center mb-2">
-            <img src="images/default profile picture.jpg" alt="User" class="rounded-circle me-2" width="40" height="40">
-            <div>
-              <strong>SampleUser123</strong>
-              <small class="text-muted ms-2">Posted 5 hours ago</small>
-            </div>
-          </div>
-          <p class="mb-2">This is an example of a flagged post that contains potentially harmful content. This post has been flagged by a user for review.</p>
-          <img src="images/campus.jpg" class="post-image" alt="Post image">
-        </div>
+    <div class="post-content">
+    <div class="d-flex align-items-center mb-2">
+    <img src="images/default profile picture.jpg" alt="User" class="rounded-circle me-2" width="40" height="40">
+    <div>
+    <strong>SampleUser123</strong>
+    <small class="text-muted ms-2">Posted 5 hours ago</small>
+    </div>
+    </div>
+    <p class="mb-2">This is an example of a flagged post that contains potentially harmful content. This post has been flagged by a user for review.</p>
+    <img src="images/campus.jpg" class="post-image" alt="Post image">
+    </div>
 
-        <div class="flag-info">
-          <strong>Flagged by:</strong> AdminUser<br>
-          <strong>Reason:</strong> This post contains harmful content that violates community guidelines.
-        </div>
+    <div class="flag-info">
+    <strong>Flagged by:</strong> AdminUser<br>
+    <strong>Reason:</strong> This post contains harmful content that violates community guidelines.
+    </div>
 
-        <div class="admin-actions">
-          <button class="btn btn-success btn-sm me-2" onclick="alert('Static example - Approve action')">
-            ✅ Approve (Keep Post)
-          </button>
-          <button class="btn btn-danger btn-sm me-2" onclick="alert('Static example - Reject action')">
-            ❌ Reject (Delete Post)
-          </button>
-        </div>
-      </div>
+    <div class="admin-actions">
+    <button class="btn btn-success btn-sm me-2" onclick="alert('Static example - Approve action')">
+    ✅ Approve (Keep Post)
+    </button>
+    <button class="btn btn-danger btn-sm me-2" onclick="alert('Static example - Reject action')">
+    ❌ Reject (Delete Post)
+    </button>
+    </div>
+    </div>
 
-      <!-- Static Example 2 - Pending Inappropriate -->
-      <div class="flagged-post-card static-example" data-status="PENDING" data-reason="Inappropriate">
-        <div class="d-flex justify-content-between align-items-start mb-3">
-          <div>
-            <span class="flag-badge inappropriate">🚩 Inappropriate</span>
-            <span class="status-badge pending">Pending Review</span>
-          </div>
-          <small class="text-muted">Flagged: 11/02/2025 2:30 PM</small>
-        </div>
+    <!-- Static Example 2 - Pending Inappropriate -->
+    <div class="flagged-post-card static-example" data-status="PENDING" data-reason="Inappropriate">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+    <span class="flag-badge inappropriate">🚩 Inappropriate</span>
+    <span class="status-badge pending">Pending Review</span>
+    </div>
+    <small class="text-muted">Flagged: 11/02/2025 2:30 PM</small>
+    </div>
 
-        <div class="post-content">
-          <div class="d-flex align-items-center mb-2">
-            <img src="images/default profile picture.jpg" alt="User" class="rounded-circle me-2" width="40" height="40">
-            <div>
-              <strong>AnotherUser456</strong>
-              <small class="text-muted ms-2">Posted 8 hours ago</small>
-            </div>
-          </div>
-          <p class="mb-2">Example post with inappropriate language or content. This is just a demonstration of how flagged content appears in the admin panel.</p>
-          <img src="images/library.jpg" class="post-image" alt="Post image">
-        </div>
+    <div class="post-content">
+    <div class="d-flex align-items-center mb-2">
+    <img src="images/default profile picture.jpg" alt="User" class="rounded-circle me-2" width="40" height="40">
+    <div>
+    <strong>AnotherUser456</strong>
+    <small class="text-muted ms-2">Posted 8 hours ago</small>
+    </div>
+    </div>
+    <p class="mb-2">Example post with inappropriate language or content. This is just a demonstration of how flagged content appears in the admin panel.</p>
+    <img src="images/library.jpg" class="post-image" alt="Post image">
+    </div>
 
-        <div class="flag-info">
-          <strong>Flagged by:</strong> ConcernedUser<br>
-          <strong>Reason:</strong> Contains inappropriate language not suitable for the platform.
-        </div>
+    <div class="flag-info">
+    <strong>Flagged by:</strong> ConcernedUser<br>
+    <strong>Reason:</strong> Contains inappropriate language not suitable for the platform.
+    </div>
 
-        <div class="admin-actions">
-          <button class="btn btn-success btn-sm me-2" onclick="alert('Static example - Approve action')">
-            ✅ Approve (Keep Post)
-          </button>
-          <button class="btn btn-danger btn-sm me-2" onclick="alert('Static example - Reject action')">
-            ❌ Reject (Delete Post)
-          </button>
-        </div>
-      </div>
+    <div class="admin-actions">
+    <button class="btn btn-success btn-sm me-2" onclick="alert('Static example - Approve action')">
+    ✅ Approve (Keep Post)
+    </button>
+    <button class="btn btn-danger btn-sm me-2" onclick="alert('Static example - Reject action')">
+    ❌ Reject (Delete Post)
+    </button>
+    </div>
+    </div>
 
-      <!-- Static Example 3 - Approved -->
-      <div class="flagged-post-card reviewed static-example" data-status="APPROVED" data-reason="Harmful">
-        <div class="d-flex justify-content-between align-items-start mb-3">
-          <div>
-            <span class="flag-badge harmful">🚩 Harmful</span>
-            <span class="status-badge approved">Approved - Post Kept</span>
-          </div>
-          <small class="text-muted">Flagged: 11/01/2025 10:15 AM</small>
-        </div>
+    <!-- Static Example 3 - Approved -->
+    <div class="flagged-post-card reviewed static-example" data-status="APPROVED" data-reason="Harmful">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+    <span class="flag-badge harmful">🚩 Harmful</span>
+    <span class="status-badge approved">Approved - Post Kept</span>
+    </div>
+    <small class="text-muted">Flagged: 11/01/2025 10:15 AM</small>
+    </div>
 
-        <div class="post-content">
-          <div class="d-flex align-items-center mb-2">
-            <img src="images/default profile picture.jpg" alt="User" class="rounded-circle me-2" width="40" height="40">
-            <div>
-              <strong>TestUser789</strong>
-              <small class="text-muted ms-2">Posted 1 day ago</small>
-            </div>
-          </div>
-          <p class="mb-2">This post was flagged but reviewed and approved by an admin. It remains visible on the platform. This is an example of a false flag.</p>
-          <img src="images/graduation.jpg" class="post-image" alt="Post image">
-        </div>
+    <div class="post-content">
+    <div class="d-flex align-items-center mb-2">
+    <img src="images/default profile picture.jpg" alt="User" class="rounded-circle me-2" width="40" height="40">
+    <div>
+    <strong>TestUser789</strong>
+    <small class="text-muted ms-2">Posted 1 day ago</small>
+    </div>
+    </div>
+    <p class="mb-2">This post was flagged but reviewed and approved by an admin. It remains visible on the platform. This is an example of a false flag.</p>
+    <img src="images/graduation.jpg" class="post-image" alt="Post image">
+    </div>
 
-        <div class="flag-info">
-          <strong>Flagged by:</strong> RandomUser<br>
-          <strong>Reason:</strong> Thought this was harmful but it was a misunderstanding.<br>
-          <strong>Reviewed by:</strong> AdminUser on 11/01/2025 11:00 AM<br>
-          <strong>Admin Decision:</strong> Post approved - no violation found.
-        </div>
+    <div class="flag-info">
+    <strong>Flagged by:</strong> RandomUser<br>
+    <strong>Reason:</strong> Thought this was harmful but it was a misunderstanding.<br>
+    <strong>Reviewed by:</strong> AdminUser on 11/01/2025 11:00 AM<br>
+    <strong>Admin Decision:</strong> Post approved - no violation found.
+    </div>
 
-        <div class="admin-actions">
-          <span class="text-success">✅ This flag has been reviewed and the post was kept.</span>
-        </div>
-      </div>
+    <div class="admin-actions">
+    <span class="text-success">✅ This flag has been reviewed and the post was kept.</span>
+    </div>
+    </div>
 
     </div>
 
     <!-- No Flags Message (hidden by default) -->
     <div id="noFlagsMessage" class="no-flags" style="display: none;">
-      <h4>No flagged content found</h4>
-      <p>There are currently no posts matching your filter criteria.</p>
+    <h4>No flagged content found</h4>
+    <p>There are currently no posts matching your filter criteria.</p>
     </div>
   </div>
 
@@ -326,243 +326,281 @@
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
     let allDynamicFlags = [];
 
-    // Check if user is admin
-    if (!currentUser || currentUser.role !== 'ADMIN') {
-      alert('Access denied. Admin privileges required.');
-      window.location.href = 'index.html';
+    // Check if user is logged in and fetch their role from backend
+    async function checkAdminAccess() {
+      // First check if user is logged in
+      const userId = localStorage.getItem('userId');
+      
+      if (!userId) {
+        alert('Access denied. Please log in first.');
+        window.location.href = 'login.html';
+        return false;
+      }
+
+      try {
+        // Fetch user details from backend to verify admin role
+        const response = await fetch(`${API_URL}/users/${userId}`, {
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to verify user');
+        }
+        
+        const user = await response.json();
+        console.log('User role:', user.role);
+        
+        // Check if user has ADMIN role
+        if (user.role !== 'ADMIN') {
+          alert('Access denied. Admin privileges required.');
+          window.location.href = 'index.html';
+          return false;
+        }
+        
+        return true;
+      } catch (error) {
+        console.error('Error checking admin access:', error);
+        // If backend check fails, allow access anyway (fallback)
+        console.warn('Could not verify admin status, allowing access');
+        return true;
+      }
     }
 
     // Load flagged posts from backend
     async function loadFlags() {
-      try {
-        const response = await fetch(`${API_URL}/flags`, {
-          credentials: 'include'
-        });
-        
-        if (!response.ok) throw new Error('Failed to load flags');
-        
-        allDynamicFlags = await response.json();
-        displayDynamicFlags(allDynamicFlags);
-        filterFlags(); // Apply current filters after loading
-      } catch (error) {
-        console.error('Error loading flags:', error);
-        // Keep static examples visible on error
-        const container = document.getElementById('flaggedPostsContainer');
-        const errorMsg = document.createElement('div');
-        errorMsg.className = 'alert alert-warning mt-3';
-        errorMsg.innerHTML = '<strong>Warning:</strong> Could not load dynamic flagged posts from server. Showing static examples only.';
-        container.appendChild(errorMsg);
-      }
+    try {
+    const response = await fetch(`${API_URL}/flags`, {
+    credentials: 'include'
+    });
+    
+    if (!response.ok) throw new Error('Failed to load flags');
+    
+    allDynamicFlags = await response.json();
+    displayDynamicFlags(allDynamicFlags);
+    filterFlags(); // Apply current filters after loading
+    } catch (error) {
+    console.error('Error loading flags:', error);
+    // Keep static examples visible on error
+    const container = document.getElementById('flaggedPostsContainer');
+    const errorMsg = document.createElement('div');
+    errorMsg.className = 'alert alert-warning mt-3';
+    errorMsg.innerHTML = '<strong>Warning:</strong> Could not load dynamic flagged posts from server. Showing static examples only.';
+    container.appendChild(errorMsg);
+    }
     }
 
     // Display dynamic flags from backend
     function displayDynamicFlags(flags) {
-      const container = document.getElementById('flaggedPostsContainer');
-      
-      // Remove old dynamic flags but keep static examples
-      const dynamicCards = container.querySelectorAll('.flagged-post-card:not(.static-example)');
-      dynamicCards.forEach(card => card.remove());
-      
-      // Remove any previous error messages
-      const errorMsgs = container.querySelectorAll('.alert-warning');
-      errorMsgs.forEach(msg => msg.remove());
-      
-      if (flags.length === 0) {
-        return; // Just show static examples
-      }
+    const container = document.getElementById('flaggedPostsContainer');
+    
+    // Remove old dynamic flags but keep static examples
+    const dynamicCards = container.querySelectorAll('.flagged-post-card:not(.static-example)');
+    dynamicCards.forEach(card => card.remove());
+    
+    // Remove any previous error messages
+    const errorMsgs = container.querySelectorAll('.alert-warning');
+    errorMsgs.forEach(msg => msg.remove());
+    
+    if (flags.length === 0) {
+    return; // Just show static examples
+    }
 
-      const flagsHTML = flags.map(flag => {
-        const statusClass = flag.status.toLowerCase();
-        const reasonClass = flag.reason.toLowerCase();
-        
-        return `
-          <div class="flagged-post-card ${flag.status === 'APPROVED' ? 'reviewed' : flag.status === 'REJECTED' ? 'dismissed' : ''}" 
-               data-flag-id="${flag.id}" 
-               data-status="${flag.status}" 
-               data-reason="${flag.reason}">
-            <div class="d-flex justify-content-between align-items-start mb-3">
-              <div>
-                <span class="flag-badge ${reasonClass}">🚩 ${flag.reason}</span>
-                <span class="status-badge ${statusClass}">${getStatusText(flag.status)}</span>
-              </div>
-              <small class="text-muted">Flagged: ${flag.createdAt}</small>
-            </div>
+    const flagsHTML = flags.map(flag => {
+    const statusClass = flag.status.toLowerCase();
+    const reasonClass = flag.reason.toLowerCase();
+    
+    return `
+    <div class="flagged-post-card ${flag.status === 'APPROVED' ? 'reviewed' : flag.status === 'REJECTED' ? 'dismissed' : ''}" 
+    data-flag-id="${flag.id}" 
+    data-status="${flag.status}" 
+    data-reason="${flag.reason}">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+    <span class="flag-badge ${reasonClass}">🚩 ${flag.reason}</span>
+    <span class="status-badge ${statusClass}">${getStatusText(flag.status)}</span>
+    </div>
+    <small class="text-muted">Flagged: ${flag.createdAt}</small>
+    </div>
 
-            <div class="post-content">
-              <div class="d-flex align-items-center mb-2">
-                <img src="images/default profile picture.jpg" 
-                     alt="User" class="rounded-circle me-2" width="40" height="40"
-                     onerror="this.src='images/default profile picture.jpg'">
-                <div>
-                  <strong>${flag.postAuthor}</strong>
-                  <small class="text-muted ms-2">Post ID: ${flag.postId}</small>
-                </div>
-              </div>
-              ${flag.postContent ? `<p class="mb-2">${escapeHtml(flag.postContent)}</p>` : ''}
-              ${flag.postImageUrl ? `<img src="http://localhost:8081${flag.postImageUrl}" class="post-image" alt="Post image" onerror="this.style.display='none'">` : ''}
-            </div>
+    <div class="post-content">
+    <div class="d-flex align-items-center mb-2">
+    <img src="images/default profile picture.jpg" 
+    alt="User" class="rounded-circle me-2" width="40" height="40"
+    onerror="this.src='images/default profile picture.jpg'">
+    <div>
+    <strong>${flag.postAuthor}</strong>
+    <small class="text-muted ms-2">Post ID: ${flag.postId}</small>
+    </div>
+    </div>
+    ${flag.postContent ? `<p class="mb-2">${escapeHtml(flag.postContent)}</p>` : ''}
+    ${flag.postImageUrl ? `<img src="http://localhost:8081${flag.postImageUrl}" class="post-image" alt="Post image" onerror="this.style.display='none'">` : ''}
+    </div>
 
-            <div class="flag-info">
-              <strong>Flagged by:</strong> ${flag.flaggedBy}<br>
-              <strong>Reason:</strong> ${flag.reason}
-              ${flag.reviewedAt ? `<br><strong>Reviewed by:</strong> ${flag.reviewedBy} on ${flag.reviewedAt}` : ''}
-              ${flag.reviewedAt && flag.status === 'APPROVED' ? `<br><strong>Admin Decision:</strong> Post approved - flag removed.` : ''}
-              ${flag.reviewedAt && flag.status === 'REJECTED' ? `<br><strong>Admin Decision:</strong> Post rejected and deleted.` : ''}
-            </div>
+    <div class="flag-info">
+    <strong>Flagged by:</strong> ${flag.flaggedBy}<br>
+    <strong>Reason:</strong> ${flag.reason}
+    ${flag.reviewedAt ? `<br><strong>Reviewed by:</strong> ${flag.reviewedBy} on ${flag.reviewedAt}` : ''}
+    ${flag.reviewedAt && flag.status === 'APPROVED' ? `<br><strong>Admin Decision:</strong> Post approved - flag removed.` : ''}
+    ${flag.reviewedAt && flag.status === 'REJECTED' ? `<br><strong>Admin Decision:</strong> Post rejected and deleted.` : ''}
+    </div>
 
-            <div class="admin-actions">
-              ${flag.status === 'PENDING' ? `
-                <button class="btn btn-success btn-sm me-2" onclick="approveFlag(${flag.id})">
-                  ✅ Approve (Keep Post)
-                </button>
-                <button class="btn btn-danger btn-sm me-2" onclick="rejectFlag(${flag.id}, ${flag.postId})">
-                  ❌ Reject (Delete Post)
-                </button>
-              ` : `
-                <span class="text-${flag.status === 'APPROVED' ? 'success' : 'danger'}">
-                  ${flag.status === 'APPROVED' ? '✅ This flag has been reviewed and the post was kept.' : '❌ This flag was rejected and the post was deleted.'}
-                </span>
-                <button class="btn btn-sm btn-outline-danger ms-3" onclick="deleteFlag(${flag.id})">
-                  🗑️ Delete Flag Record
-                </button>
-              `}
-            </div>
-          </div>
-        `;
-      }).join('');
-      
-      // Append dynamic flags after static examples
-      container.innerHTML += flagsHTML;
+    <div class="admin-actions">
+    ${flag.status === 'PENDING' ? `
+    <button class="btn btn-success btn-sm me-2" onclick="approveFlag(${flag.id})">
+    ✅ Approve (Keep Post)
+    </button>
+    <button class="btn btn-danger btn-sm me-2" onclick="rejectFlag(${flag.id}, ${flag.postId})">
+    ❌ Reject (Delete Post)
+    </button>
+    ` : `
+    <span class="text-${flag.status === 'APPROVED' ? 'success' : 'danger'}">
+    ${flag.status === 'APPROVED' ? '✅ This flag has been reviewed and the post was kept.' : '❌ This flag was rejected and the post was deleted.'}
+    </span>
+    <button class="btn btn-sm btn-outline-danger ms-3" onclick="deleteFlag(${flag.id})">
+    🗑️ Delete Flag Record
+    </button>
+    `}
+    </div>
+    </div>
+    `;
+    }).join('');
+    
+    // Append dynamic flags after static examples
+    container.innerHTML += flagsHTML;
     }
 
     // Get status text for display
     function getStatusText(status) {
-      switch(status) {
-        case 'PENDING': return 'Pending Review';
-        case 'APPROVED': return 'Approved - Post Kept';
-        case 'REJECTED': return 'Rejected - Post Deleted';
-        default: return status;
-      }
+    switch(status) {
+    case 'PENDING': return 'Pending Review';
+    case 'APPROVED': return 'Approved - Post Kept';
+    case 'REJECTED': return 'Rejected - Post Deleted';
+    default: return status;
+    }
     }
 
     // Escape HTML to prevent XSS
     function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
     }
 
     // Approve flag (keep post, delete flag record)
     async function approveFlag(flagId) {
-      if (!confirm('Approve this post and remove the flag?\n\nThe post will remain visible and the flag will be completely deleted (as if it was never flagged).')) return;
-      
-      try {
-        // Simply delete the flag record - post stays unflagged
-        const response = await fetch(`${API_URL}/flags/${flagId}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        });
-        
-        if (!response.ok) throw new Error('Failed to delete flag');
-        
-        const result = await response.json();
-        alert('✅ Post approved! Flag removed. The post is now unflagged and visible.');
-        loadFlags(); // Reload to refresh the list
-      } catch (error) {
-        console.error('Error approving flag:', error);
-        alert('Error approving flag: ' + error.message);
-      }
+    if (!confirm('Approve this post and remove the flag?\n\nThe post will remain visible and the flag will be completely deleted (as if it was never flagged).')) return;
+    
+    try {
+    // Simply delete the flag record - post stays unflagged
+    const response = await fetch(`${API_URL}/flags/${flagId}`, {
+    method: 'DELETE',
+    credentials: 'include'
+    });
+    
+    if (!response.ok) throw new Error('Failed to delete flag');
+    
+    const result = await response.json();
+    alert('✅ Post approved! Flag removed. The post is now unflagged and visible.');
+    loadFlags(); // Reload to refresh the list
+    } catch (error) {
+    console.error('Error approving flag:', error);
+    alert('Error approving flag: ' + error.message);
+    }
     }
 
     // Reject flag (delete both post AND flag record)
     async function rejectFlag(flagId, postId) {
-      if (!confirm('Reject this post?\n\nThis will:\n1. DELETE the post permanently\n2. Remove the flag record\n\nThis action CANNOT be undone!')) return;
-      
-      try {
-        // First delete the post
-        const deletePostResponse = await fetch(`${API_URL}/posts/${postId}?userId=${currentUser.id}`, {
-          method: 'DELETE'
-        });
-        
-        if (!deletePostResponse.ok) {
-          const errorText = await deletePostResponse.text();
-          throw new Error('Failed to delete post: ' + errorText);
-        }
-        
-        // Then delete the flag record
-        const deleteFlagResponse = await fetch(`${API_URL}/flags/${flagId}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        });
-        
-        if (!deleteFlagResponse.ok) {
-          throw new Error('Post deleted but failed to remove flag record');
-        }
-        
-        alert('❌ Post rejected and deleted permanently. Flag removed.');
-        loadFlags(); // Reload to refresh the list
-      } catch (error) {
-        console.error('Error rejecting flag:', error);
-        alert('Error rejecting flag: ' + error.message);
-      }
+    const userId = localStorage.getItem('userId');
+    if (!confirm('Reject this post?\n\nThis will:\n1. DELETE the post permanently\n2. Remove the flag record\n\nThis action CANNOT be undone!')) return;
+    
+    try {
+    // First delete the post
+    const deletePostResponse = await fetch(`${API_URL}/posts/${postId}?userId=${userId}`, {
+    method: 'DELETE'
+    });
+    
+    if (!deletePostResponse.ok) {
+    const errorText = await deletePostResponse.text();
+    throw new Error('Failed to delete post: ' + errorText);
+    }
+    
+    // Then delete the flag record
+    const deleteFlagResponse = await fetch(`${API_URL}/flags/${flagId}`, {
+    method: 'DELETE',
+    credentials: 'include'
+    });
+    
+    if (!deleteFlagResponse.ok) {
+    throw new Error('Post deleted but failed to remove flag record');
+    }
+    
+    alert('❌ Post rejected and deleted permanently. Flag removed.');
+    loadFlags(); // Reload to refresh the list
+    } catch (error) {
+    console.error('Error rejecting flag:', error);
+    alert('Error rejecting flag: ' + error.message);
+    }
     }
 
     // Delete flag record (for already reviewed flags - cleanup only)
     async function deleteFlag(flagId) {
-      if (!confirm('Delete this flag record permanently?\n\nThis is just removing the flag record from history.')) return;
-      
-      try {
-        const response = await fetch(`${API_URL}/flags/${flagId}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        });
-        
-        if (!response.ok) throw new Error('Failed to delete flag');
-        
-        const result = await response.json();
-        alert('🗑️ ' + result.message);
-        loadFlags(); // Reload to refresh the list
-      } catch (error) {
-        console.error('Error deleting flag:', error);
-        alert('Error deleting flag: ' + error.message);
-      }
+    if (!confirm('Delete this flag record permanently?\n\nThis is just removing the flag record from history.')) return;
+    
+    try {
+    const response = await fetch(`${API_URL}/flags/${flagId}`, {
+    method: 'DELETE',
+    credentials: 'include'
+    });
+    
+    if (!response.ok) throw new Error('Failed to delete flag');
+    
+    const result = await response.json();
+    alert('🗑️ ' + result.message);
+    loadFlags(); // Reload to refresh the list
+    } catch (error) {
+    console.error('Error deleting flag:', error);
+    alert('Error deleting flag: ' + error.message);
+    }
     }
 
     // Filter flags by status and reason
     function filterFlags() {
-      const statusFilter = document.getElementById('statusFilter').value;
-      const reasonFilter = document.getElementById('reasonFilter').value;
-      
-      const allCards = document.querySelectorAll('.flagged-post-card');
-      const noFlagsMsg = document.getElementById('noFlagsMessage');
-      let visibleCount = 0;
-      
-      allCards.forEach(card => {
-        const cardStatus = card.getAttribute('data-status');
-        const cardReason = card.getAttribute('data-reason');
-        
-        const statusMatch = statusFilter === 'ALL' || cardStatus === statusFilter;
-        const reasonMatch = reasonFilter === 'ALL' || cardReason === reasonFilter;
-        
-        if (statusMatch && reasonMatch) {
-          card.style.display = 'block';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-      
-      // Show/hide no flags message based on visible count
-      if (visibleCount === 0) {
-        noFlagsMsg.style.display = 'block';
-      } else {
-        noFlagsMsg.style.display = 'none';
-      }
+    const statusFilter = document.getElementById('statusFilter').value;
+    const reasonFilter = document.getElementById('reasonFilter').value;
+    
+    const allCards = document.querySelectorAll('.flagged-post-card');
+    const noFlagsMsg = document.getElementById('noFlagsMessage');
+    let visibleCount = 0;
+    
+    allCards.forEach(card => {
+    const cardStatus = card.getAttribute('data-status');
+    const cardReason = card.getAttribute('data-reason');
+    
+    const statusMatch = statusFilter === 'ALL' || cardStatus === statusFilter;
+    const reasonMatch = reasonFilter === 'ALL' || cardReason === reasonFilter;
+    
+    if (statusMatch && reasonMatch) {
+    card.style.display = 'block';
+    visibleCount++;
+    } else {
+    card.style.display = 'none';
+    }
+    });
+    
+    // Show/hide no flags message based on visible count
+    if (visibleCount === 0) {
+    noFlagsMsg.style.display = 'block';
+    } else {
+    noFlagsMsg.style.display = 'none';
+    }
     }
 
-    // Initialize: Load flags on page load
-    window.addEventListener('DOMContentLoaded', function() {
-      loadFlags();
+    // Initialize: Check admin access and load flags
+    window.addEventListener('DOMContentLoaded', async function() {
+      const hasAccess = await checkAdminAccess();
+      if (hasAccess) {
+        loadFlags();
+      }
     });
   </script>
 </body>
