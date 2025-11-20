@@ -2,169 +2,239 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta-name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Messages</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
     body {
-      background-color: #f0f2f5;
-      font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
     }
 
    /* Navbar */
    .navbar {
-      background-color: #003385;
+    background-color: #003385;
     }
     .navbar .nav-link {
-      color: #ffffff; 
+    color: #ffff; 
     }
     .navbar .nav-link:hover {
-    color: #000000;
+    color: #0000;
     text-shadow:
-      -1px -1px 0 #ffffff,
-       1px -1px 0 #ffffff,
-      -1px  1px 0 #ffffff,
-       1px  1px 0 #ffffff;
-      }
+    -1px -1px 0 #ffff,
+    1px -1px 0 #ffff,
+    -1px  1px 0 #ffff,
+    1px  1px 0 #ffff;
+    }
     .navbar-brand img {
-      height: 40px;
+    height: 40px;
     }
     .navbar-nav {
-      flex-direction: row;
-      flex-wrap: nowrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
     }
 
     .navbar-nav .nav-item {
-      white-space: nowrap;
+    white-space: nowrap;
     }
     .navbar-nav .nav-link {
-      padding-left: 0.8rem;
-      padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
     }
 
 
     /* Layout */
     .message-container {
-      display: flex;
-      height: 80vh;
-      margin-top: 20px;
-      gap: 15px;
+    display: flex;
+    height: 80vh;
+    margin-top: 20px;
+    gap: 15px;
     }
 
     /* Sidebar */
     .message-list {
-      width: 300px;
-      background: #ffffff;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      overflow-y: auto;
-      padding: 10px;
+    width: 300px;
+    background: #ffff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    overflow-y: auto;
+    padding: 10px;
     }
 
     .message-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px;
-      border-radius: 6px;
-      cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
     }
-    .message-item:hover {
-      background-color: #f8f9fa;
+    
+    .message-item.static {
+    cursor: default;
+    opacity: 0.7;
+    }
+    
+    .message-item:not(.static):hover {
+    background-color: #f8f9fa;
+    }
+    
+    .message-item.active {
+    background-color: #e3f2fd;
     }
 
     .message-item-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     }
 
     .message-item img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
     }
 
     .preview-text {
-      margin: 0;
-      font-size: 14px;
-      color: #6c757d;
-      max-width: 150px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    margin: 0;
+    font-size: 14px;
+    color: #6c757d;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     }
 
     .preview-time {
-      font-size: 12px;
-      color: #999;
-      white-space: nowrap;
+    font-size: 12px;
+    color: #999;
+    white-space: nowrap;
+    }
+    
+    .follower-divider {
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+    padding-top: 10px;
+    }
+    
+    .follower-header {
+    font-size: 12px;
+    color: #999;
+    font-weight: bold;
+    padding: 5px 8px;
+    text-transform: uppercase;
     }
 
     /* Chat Window */
     .chat-window {
-      flex-grow: 1;
-      background: #ffffff;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-      display: flex;
-      flex-direction: column;
-      padding: 15px;
+    flex-grow: 1;
+    background: #ffff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    }
+    
+    .chat-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+    }
+    
+    .chat-header h5 {
+    margin: 0;
+    color: #003385;
     }
 
     .chat-messages {
-      flex-grow: 1;
-      overflow-y: auto;
-      padding-right: 10px;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 10px;
     }
 
     .message {
-      margin-bottom: 10px;
-      max-width: 75%;
+    margin-bottom: 10px;
+    max-width: 75%;
     }
 
     .message .message-content {
-      padding: 10px;
-      border-radius: 10px;
-      background: #e4e6eb;
-      position: relative;
+    padding: 10px;
+    border-radius: 10px;
+    background: #e4e6eb;
+    position: relative;
+    word-wrap: break-word;
     }
 
     .message.sent {
-      margin-left: auto;
-      text-align: right;
+    margin-left: auto;
+    text-align: right;
     }
     .message.sent .message-content {
-      background: #003385;
-      color: white;
+    background: #003385;
+    color: white;
     }
 
     .timestamp {
-      font-size: 11px;
-      color: #888;
-      margin-top: 2px;
+    font-size: 11px;
+    color: #888;
+    margin-top: 2px;
     }
 
     .message-form {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
     }
 
     .message-form input {
-      flex-grow: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
     }
 
     .message-form button {
-      background-color: #003385;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
+    background-color: #003385;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    }
+    
+    .message-form button:hover {
+    background-color: #002266;
+    }
+    
+    .message-form button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    }
+    
+    .empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #999;
+    font-size: 16px;
+    }
+    
+    .connection-status {
+    font-size: 11px;
+    color: #999;
+    margin-left: 10px;
+    }
+    
+    .connection-status.connected {
+    color: #28a745;
+    }
+    
+    .connection-status.disconnected {
+    color: #dc3545;
     }
   </style>
 </head>
@@ -173,15 +243,15 @@
   <!-- Navbar -->
   <nav class="navbar navbar-dark px-3">
     <a class="navbar-brand d-flex align-items-center" href="index.html">
-      <img src="images/DC.jpg" width="105" height="100">
+    <img src="images/DC.jpg" width="105" height="100">
     </a>
     <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
-      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="notifications.html">Notifications</a></li>
-      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-      <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
-      <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="notifications.html">Notifications</a></li>
+    <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+    <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
     </ul>
   </nav>
 
@@ -189,57 +259,317 @@
   <div class="container message-container">
 
     <!-- LEFT: Message List -->
-    <div class="message-list">
+    <div class="message-list" id="conversationList">
 
-      <div class="message-item">
-        <div class="message-item-left">
-          <img src="https://via.placeholder.com/40">
-          <div>
-            <strong>User 1</strong>
-            <p class="preview-text">Hello! How are you?</p>
-          </div>
-        </div>
-        <div class="preview-time">3:45 PM</div>
-      </div>
+    <!-- Static Examples -->
+    <div class="message-item static">
+    <div class="message-item-left">
+    <img src="https://via.placeholder.com/40">
+    <div>
+    <strong>User 1</strong>
+    <p class="preview-text">Hello! How are you?</p>
+    </div>
+    </div>
+    <div class="preview-time">3:45 PM</div>
+    </div>
 
-      <div class="message-item">
-        <div class="message-item-left">
-          <img src="https://via.placeholder.com/40">
-          <div>
-            <strong>User 2</strong>
-            <p class="preview-text">Let's meet tomorrow!</p>
-          </div>
-        </div>
-        <div class="preview-time">10:17 AM</div>
-      </div>
+    <div class="message-item static">
+    <div class="message-item-left">
+    <img src="https://via.placeholder.com/40">
+    <div>
+    <strong>User 2</strong>
+    <p class="preview-text">Let's meet tomorrow!</p>
+    </div>
+    </div>
+    <div class="preview-time">10:17 AM</div>
+    </div>
+
+    <!-- Divider -->
+    <div class="follower-divider"></div>
+    <div class="follower-header">Your Followers</div>
+
+    <!-- Dynamic Followers List (populated by JavaScript) -->
+    <div id="followersList"></div>
 
     </div>
 
     <!-- RIGHT: Chat Window -->
     <div class="chat-window">
+    <div class="chat-header" id="chatHeader">
+    <h5 id="chatUsername">Select a conversation</h5>
+    <span class="connection-status" id="connectionStatus">Disconnected</span>
+    </div>
 
-      <div class="chat-messages">
+    <div class="chat-messages" id="chatMessages">
+    <div class="empty-state">Select a follower to start messaging</div>
+    </div>
 
-        <div class="message sent">
-          <div class="message-content">Hey, how's it going?</div>
-          <div class="timestamp">3:42 PM</div>
-        </div>
-
-        <div class="message received">
-          <div class="message-content">Good! What about you?</div>
-          <div class="timestamp">3:43 PM</div>
-        </div>
-
-      </div>
-
-      <div class="message-form">
-        <input type="text" placeholder="Type a message...">
-        <button>Send</button>
-      </div>
+    <div class="message-form" id="messageForm">
+    <input type="text" id="messageInput" placeholder="Type a message...">
+    <button id="sendButton">Send</button>
+    </div>
 
     </div>
 
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  <script>
+    // Configuration
+    const API_BASE_URL = 'http://localhost:8081/api';
+    const WS_URL = 'http://localhost:8081/ws';
+    
+    // Get current user ID from localStorage (set during login)
+    const CURRENT_USER_ID = localStorage.getItem('userId') ? parseInt(localStorage.getItem('userId')) : null;
+
+    let currentConversationUserId = null;
+    let stompClient = null;
+    let isConnected = false;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+    if (!CURRENT_USER_ID) {
+    alert('Please log in first');
+    window.location.href = 'login.html';
+    return;
+    }
+    
+    connectWebSocket();
+    loadFollowers();
+    setupEventListeners();
+    });
+
+    // Connect to WebSocket
+    function connectWebSocket() {
+    const socket = new SockJS(WS_URL);
+    stompClient = Stomp.over(socket);
+    
+    stompClient.connect({}, function(frame) {
+    console.log('Connected: ' + frame);
+    isConnected = true;
+    updateConnectionStatus(true);
+    
+    // Subscribe to personal message queue
+    stompClient.subscribe(`/queue/messages/${CURRENT_USER_ID}`, function(message) {
+    const msg = JSON.parse(message.body);
+    handleIncomingMessage(msg);
+    });
+    }, function(error) {
+    console.error('WebSocket connection error:', error);
+    isConnected = false;
+    updateConnectionStatus(false);
+    
+    // Retry connection after 5 seconds
+    setTimeout(connectWebSocket, 5000);
+    });
+    }
+
+    // Update connection status indicator
+    function updateConnectionStatus(connected) {
+    const statusEl = document.getElementById('connectionStatus');
+    if (connected) {
+    statusEl.textContent = 'Connected';
+    statusEl.className = 'connection-status connected';
+    } else {
+    statusEl.textContent = 'Disconnected - Reconnecting...';
+    statusEl.className = 'connection-status disconnected';
+    }
+    }
+
+    // Handle incoming WebSocket message
+    function handleIncomingMessage(msg) {
+    // If the message is from the current conversation, add it to the chat
+    if (currentConversationUserId && 
+    (msg.senderId === currentConversationUserId || msg.receiverId === currentConversationUserId)) {
+    addMessageToChat(msg);
+    }
+    }
+
+    // Add message to chat window
+    function addMessageToChat(msg) {
+    const chatMessages = document.getElementById('chatMessages');
+    
+    // Remove empty state if present
+    const emptyState = chatMessages.querySelector('.empty-state');
+    if (emptyState) {
+    emptyState.remove();
+    }
+    
+    const messageDiv = document.createElement('div');
+    const isSent = msg.senderId === CURRENT_USER_ID;
+    messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+    
+    const timestamp = msg.timestamp || new Date().toLocaleTimeString('en-US', { 
+    hour: 'numeric', 
+    minute: '2-digit' 
+    });
+    
+    messageDiv.innerHTML = `
+    <div class="message-content">${escapeHtml(msg.content)}</div>
+    <div class="timestamp">${timestamp}</div>
+    `;
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+    const sendButton = document.getElementById('sendButton');
+    const messageInput = document.getElementById('messageInput');
+
+    sendButton.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+    sendMessage();
+    }
+    });
+    }
+
+    // Load all followers
+    async function loadFollowers() {
+    try {
+    const response = await fetch(`${API_BASE_URL}/users/${CURRENT_USER_ID}/followers`);
+    const followers = await response.json();
+
+    const followersList = document.getElementById('followersList');
+    
+    if (followers.length === 0) {
+    followersList.innerHTML = '<div style="padding: 10px; color: #999; font-size: 14px;">No followers yet</div>';
+    return;
+    }
+
+    followersList.innerHTML = '';
+    
+    followers.forEach(follower => {
+    const messageItem = document.createElement('div');
+    messageItem.className = 'message-item';
+    messageItem.dataset.userId = follower.id;
+    
+    const profilePic = follower.profilePictureUrl || 'https://via.placeholder.com/40';
+    
+    messageItem.innerHTML = `
+    <div class="message-item-left">
+    <img src="${profilePic}" alt="${follower.username}">
+    <div>
+    <strong>${follower.username}</strong>
+    </div>
+    </div>
+    `;
+    
+    messageItem.addEventListener('click', () => openConversation(follower.id, follower.username));
+    followersList.appendChild(messageItem);
+    });
+
+    } catch (error) {
+    console.error('Error loading followers:', error);
+    document.getElementById('followersList').innerHTML = 
+    '<div style="padding: 10px; color: #999; font-size: 14px;">Error loading followers</div>';
+    }
+    }
+
+    // Open a conversation
+    async function openConversation(userId, username) {
+    currentConversationUserId = userId;
+    
+    // Update active state
+    document.querySelectorAll('.message-item:not(.static)').forEach(item => {
+    item.classList.remove('active');
+    });
+    document.querySelector(`[data-user-id="${userId}"]`)?.classList.add('active');
+    
+    // Update chat header
+    document.getElementById('chatUsername').textContent = username;
+    
+    // Load messages
+    await loadMessages(userId);
+    }
+
+    // Load messages for a conversation
+    async function loadMessages(otherUserId) {
+    try {
+    const response = await fetch(
+    `${API_BASE_URL}/messages/conversation/${otherUserId}?userId=${CURRENT_USER_ID}`
+    );
+    const messages = await response.json();
+
+    const chatMessages = document.getElementById('chatMessages');
+    
+    if (messages.error) {
+    chatMessages.innerHTML = `<div class="empty-state">${messages.error}</div>`;
+    return;
+    }
+    
+    if (messages.length === 0) {
+    chatMessages.innerHTML = '<div class="empty-state">No messages yet. Start the conversation!</div>';
+    return;
+    }
+
+    chatMessages.innerHTML = '';
+    
+    messages.forEach(msg => {
+    addMessageToChat(msg);
+    });
+
+    } catch (error) {
+    console.error('Error loading messages:', error);
+    document.getElementById('chatMessages').innerHTML = 
+    '<div class="empty-state">Error loading messages</div>';
+    }
+    }
+
+    // Send a message
+    function sendMessage() {
+    const messageInput = document.getElementById('messageInput');
+    const content = messageInput.value.trim();
+
+    if (!content || !currentConversationUserId) {
+    return;
+    }
+
+    if (!isConnected || !stompClient) {
+    alert('Not connected to server. Please wait...');
+    return;
+    }
+
+    const sendButton = document.getElementById('sendButton');
+    sendButton.disabled = true;
+
+    try {
+    const messageData = {
+    senderId: CURRENT_USER_ID,
+    receiverId: currentConversationUserId,
+    content: content
+    };
+
+    // Send via WebSocket only
+    stompClient.send("/app/chat", {}, JSON.stringify(messageData));
+    messageInput.value = '';
+
+    } catch (error) {
+    console.error('Error sending message:', error);
+    alert('Failed to send message');
+    } finally {
+    sendButton.disabled = false;
+    messageInput.focus();
+    }
+    }
+
+    // Utility function to escape HTML
+    function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+    }
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', function() {
+    if (stompClient) {
+    stompClient.disconnect();
+    }
+    });
+  </script>
 
 </body>
 </html>

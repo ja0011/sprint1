@@ -6,15 +6,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +31,12 @@ import com.example.socialapp.model.User;
 import com.example.socialapp.repository.UserRepository;
 import com.example.socialapp.service.UserFollowService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Validated
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
   private final UserRepository userRepository;
@@ -60,59 +62,82 @@ public class UserController {
     }
   }
 
-  // ===== DTOs =====
+  // ==== DTOs ====
   public record UserProfileResponse(
-      Long id,
-      String username,
-      String email,
-      String bio,
-      Integer graduationYear,
-      String major,
-      String minor,
-      String profilePictureUrl
+    Long id,
+    String username,
+    String email,
+    String bio,
+    Integer graduationYear,
+    String major,
+    String minor,
+    String profilePictureUrl
   ) {}
 
   public record UpdateProfileRequest(
-      String bio,
-      Integer graduationYear,
-      String major,
-      String minor
+    String bio,
+    Integer graduationYear,
+    String major,
+    String minor
   ) {}
 
   public record UserSearchResult(
-      Long id,
-      String username,
-      String profilePictureUrl,
-      String role
+    Long id,
+    String username,
+    String profilePictureUrl,
+    String role
   ) {}
 
-  // ===== Endpoints =====
+  // ==== Endpoints ====
+
+  // GET current logged-in user
+  @GetMapping("/current")
+  public ResponseEntity<?> getCurrentUser(HttpSession session) {
+    System.out.println("[UserController] Getting current user from session");
+    Long userId = (Long) session.getAttribute("userId");
+    
+    System.out.println("[UserController] Session userId: " + userId);
+    
+    if (userId == null) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        .body(Map.of("error", "Not logged in"));
+    }
+    
+    Optional<User> user = userRepository.findById(userId);
+    if (user.isPresent()) {
+      System.out.println("[UserController] Found user: " + user.get().getUsername());
+      return ResponseEntity.ok(user.get());
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(Map.of("error", "User not found"));
+    }
+  }
 
   // GET user profile by username
   @GetMapping("/{username}")
   public ResponseEntity<?> getUserProfile(@PathVariable String username) {
     return userRepository.findByUsername(username.toLowerCase())
-        .<ResponseEntity<?>>map(u -> ResponseEntity.ok(new UserProfileResponse(
-            u.getId(),
-            u.getUsername(),
-            u.getEmail(),
-            u.getBio(),
-            u.getGraduationYear(),
-            u.getMajor(),
-            u.getMinor(),
-            u.getProfilePictureUrl()
-        )))
-        .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "user_not_found")));
+      .<ResponseEntity<?>>map(u -> ResponseEntity.ok(new UserProfileResponse(
+        u.getId(),
+        u.getUsername(),
+        u.getEmail(),
+        u.getBio(),
+        u.getGraduationYear(),
+        u.getMajor(),
+        u.getMinor(),
+        u.getProfilePictureUrl()
+      )))
+      .orElseGet(() -> ResponseEntity.status(404).body(Map.of("error", "user_not_found")));
   }
 
   // UPDATE user profile
   @PutMapping("/{username}")
   public ResponseEntity<?> updateUserProfile(
-      @PathVariable String username,
-      @Valid @RequestBody UpdateProfileRequest request) {
+    @PathVariable String username,
+    @Valid @RequestBody UpdateProfileRequest request) {
     
     User user = userRepository.findByUsername(username.toLowerCase())
-        .orElseThrow(() -> new RuntimeException("User not found"));
+      .orElseThrow(() -> new RuntimeException("User not found"));
 
     // Update profile fields
     user.setBio(request.bio());
@@ -123,22 +148,22 @@ public class UserController {
     userRepository.save(user);
 
     return ResponseEntity.ok(new UserProfileResponse(
-        user.getId(),
-        user.getUsername(),
-        user.getEmail(),
-        user.getBio(),
-        user.getGraduationYear(),
-        user.getMajor(),
-        user.getMinor(),
-        user.getProfilePictureUrl()
+      user.getId(),
+      user.getUsername(),
+      user.getEmail(),
+      user.getBio(),
+      user.getGraduationYear(),
+      user.getMajor(),
+      user.getMinor(),
+      user.getProfilePictureUrl()
     ));
   }
 
   // UPLOAD profile picture
   @PostMapping("/{username}/profile-picture")
   public ResponseEntity<?> uploadProfilePicture(
-      @PathVariable String username,
-      @RequestParam("file") MultipartFile file) {
+    @PathVariable String username,
+    @RequestParam("file") MultipartFile file) {
     
     System.out.println("[UserController] Upload request received for user: " + username);
     System.out.println("[UserController] File: " + file.getOriginalFilename() + ", Size: " + file.getSize() + ", Type: " + file.getContentType());
@@ -157,7 +182,7 @@ public class UserController {
 
     try {
       User user = userRepository.findByUsername(username.toLowerCase())
-          .orElseThrow(() -> new RuntimeException("User not found"));
+        .orElseThrow(() -> new RuntimeException("User not found"));
 
       System.out.println("[UserController] User found: " + user.getUsername());
 
@@ -185,8 +210,8 @@ public class UserController {
       System.out.println("[UserController] User profile updated with image URL: " + imageUrl);
 
       return ResponseEntity.ok(Map.of(
-          "message", "Profile picture uploaded successfully",
-          "profilePictureUrl", imageUrl
+        "message", "Profile picture uploaded successfully",
+        "profilePictureUrl", imageUrl
       ));
 
     } catch (IOException e) {
@@ -203,8 +228,8 @@ public class UserController {
   // SEARCH users with role-based filtering
   @GetMapping("/search")
   public ResponseEntity<?> searchUsers(
-      @RequestParam String query,
-      @RequestParam(required = false) Long currentUserId) {
+    @RequestParam String query,
+    @RequestParam(required = false) Long currentUserId) {
     
     System.out.println("[UserController] Search request - query: " + query + ", currentUserId: " + currentUserId);
     
@@ -227,8 +252,8 @@ public class UserController {
           // If USER, filter out ADMIN accounts
           if (currentUser.getRole() == User.Role.USER) {
             filteredUsers = allMatches.stream()
-                .filter(u -> u.getRole() != User.Role.ADMIN)
-                .collect(Collectors.toList());
+              .filter(u -> u.getRole() != User.Role.ADMIN)
+              .collect(Collectors.toList());
             System.out.println("[UserController] USER role - filtered out ADMIN accounts");
           }
           // If ADMIN, show all users (no filtering needed)
@@ -240,14 +265,14 @@ public class UserController {
       
       // Convert to search result DTOs
       List<UserSearchResult> results = filteredUsers.stream()
-          .map(u -> new UserSearchResult(
-              u.getId(),
-              u.getUsername(),
-              u.getProfilePictureUrl(),
-              u.getRole().toString()
-          ))
-          .limit(10) // Limit to 10 results
-          .collect(Collectors.toList());
+        .map(u -> new UserSearchResult(
+          u.getId(),
+          u.getUsername(),
+          u.getProfilePictureUrl(),
+          u.getRole().toString()
+        ))
+        .limit(10) // Limit to 10 results
+        .collect(Collectors.toList());
       
       System.out.println("[UserController] Returning " + results.size() + " search results");
       return ResponseEntity.ok(results);
@@ -259,13 +284,13 @@ public class UserController {
     }
   }
 
-  // ===== Follow/Unfollow Endpoints =====
+  // ==== Follow/Unfollow Endpoints ====
 
   // Follow a user
   @PostMapping("/{userId}/follow")
   public ResponseEntity<?> followUser(
-      @PathVariable Long userId,
-      @RequestParam Long followerId) {
+    @PathVariable Long userId,
+    @RequestParam Long followerId) {
     
     System.out.println("[UserController] Follow request - follower: " + followerId + ", followed: " + userId);
     
@@ -273,14 +298,14 @@ public class UserController {
     
     if (success) {
       return ResponseEntity.ok(Map.of(
-          "message", "Successfully followed user",
-          "isFollowing", true,
-          "followerCount", userFollowService.getFollowerCount(userId),
-          "followingCount", userFollowService.getFollowingCount(followerId)
+        "message", "Successfully followed user",
+        "isFollowing", true,
+        "followerCount", userFollowService.getFollowerCount(userId),
+        "followingCount", userFollowService.getFollowingCount(followerId)
       ));
     } else {
       return ResponseEntity.badRequest().body(Map.of(
-          "error", "Cannot follow user (already following or self-follow)"
+        "error", "Cannot follow user (already following or self-follow)"
       ));
     }
   }
@@ -288,8 +313,8 @@ public class UserController {
   // Unfollow a user
   @PostMapping("/{userId}/unfollow")
   public ResponseEntity<?> unfollowUser(
-      @PathVariable Long userId,
-      @RequestParam Long followerId) {
+    @PathVariable Long userId,
+    @RequestParam Long followerId) {
     
     System.out.println("[UserController] Unfollow request - follower: " + followerId + ", followed: " + userId);
     
@@ -297,14 +322,14 @@ public class UserController {
     
     if (success) {
       return ResponseEntity.ok(Map.of(
-          "message", "Successfully unfollowed user",
-          "isFollowing", false,
-          "followerCount", userFollowService.getFollowerCount(userId),
-          "followingCount", userFollowService.getFollowingCount(followerId)
+        "message", "Successfully unfollowed user",
+        "isFollowing", false,
+        "followerCount", userFollowService.getFollowerCount(userId),
+        "followingCount", userFollowService.getFollowingCount(followerId)
       ));
     } else {
       return ResponseEntity.badRequest().body(Map.of(
-          "error", "Cannot unfollow user (not following)"
+        "error", "Cannot unfollow user (not following)"
       ));
     }
   }
@@ -312,13 +337,13 @@ public class UserController {
   // Check if a user is following another user
   @GetMapping("/{userId}/is-following")
   public ResponseEntity<?> isFollowing(
-      @PathVariable Long userId,
-      @RequestParam Long followerId) {
+    @PathVariable Long userId,
+    @RequestParam Long followerId) {
     
     boolean isFollowing = userFollowService.isFollowing(followerId, userId);
     
     return ResponseEntity.ok(Map.of(
-        "isFollowing", isFollowing
+      "isFollowing", isFollowing
     ));
   }
 
@@ -334,5 +359,34 @@ public class UserController {
   public ResponseEntity<?> getFollowingCount(@PathVariable Long userId) {
     long count = userFollowService.getFollowingCount(userId);
     return ResponseEntity.ok(Map.of("count", count));
+  }
+
+  // Get list of followers
+  @GetMapping("/{userId}/followers")
+  public ResponseEntity<?> getUserFollowers(@PathVariable Long userId) {
+    System.out.println("[UserController] Get followers request for userId: " + userId);
+    
+    try {
+      List<User> followers = userFollowService.getFollowers(userId);
+      
+      List<Map<String, Object>> followerList = followers.stream()
+        .map(follower -> {
+          Map<String, Object> followerData = new HashMap<>();
+          followerData.put("id", follower.getId());
+          followerData.put("username", follower.getUsername());
+          followerData.put("profilePictureUrl", follower.getProfilePictureUrl());
+          return followerData;
+        })
+        .collect(Collectors.toList());
+      
+      System.out.println("[UserController] Returning " + followerList.size() + " followers");
+      return ResponseEntity.ok(followerList);
+      
+    } catch (Exception e) {
+      System.err.println("[UserController] Error loading followers: " + e.getMessage());
+      logger.error("Error loading followers", e);
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(Map.of("error", "Failed to load followers"));
+    }
   }
 }

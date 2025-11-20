@@ -1,17 +1,25 @@
 package com.example.socialapp.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.socialapp.model.User;
 import com.example.socialapp.model.UserFollow;
 import com.example.socialapp.repository.UserFollowRepository;
+import com.example.socialapp.repository.UserRepository;
 
 @Service
 public class UserFollowService {
     
     @Autowired
     private UserFollowRepository userFollowRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
     
     // Follow a user
     @Transactional
@@ -54,5 +62,14 @@ public class UserFollowService {
     // Get following count
     public long getFollowingCount(Long userId) {
         return userFollowRepository.countByFollowerId(userId);
+    }
+
+    // Get list of users who follow the given user
+    public List<User> getFollowers(Long userId) {
+        List<UserFollow> follows = userFollowRepository.findByFollowedId(userId);
+        return follows.stream()
+                .map(follow -> userRepository.findById(follow.getFollowerId()).orElse(null))
+                .filter(user -> user != null)
+                .collect(Collectors.toList());
     }
 }

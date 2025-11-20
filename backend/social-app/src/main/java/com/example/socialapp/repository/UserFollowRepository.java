@@ -1,5 +1,6 @@
 package com.example.socialapp.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,4 +25,7 @@ public interface UserFollowRepository extends JpaRepository<UserFollow, Long> {
     
     // Delete a follow relationship
     void deleteByFollowerIdAndFollowedId(Long followerId, Long followedId);
+    
+    // Get all followers of a user (NEW)
+    List<UserFollow> findByFollowedId(Long followedId);
 }

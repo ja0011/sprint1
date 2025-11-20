@@ -18,25 +18,31 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-      .csrf(csrf -> csrf.disable())
-      .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/api/auth/**").permitAll()
-        .requestMatchers("/api/users/**").permitAll()
-        .requestMatchers("/api/admin/**").permitAll()
-        .requestMatchers("/api/posts/**").permitAll()
-        .requestMatchers("/api/flags/**").permitAll()
-        .requestMatchers("/images/**").permitAll()
-        .requestMatchers("/uploads/**").permitAll()
-        .anyRequest().authenticated()
-      );
+    .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+    .csrf(csrf -> csrf.disable())
+    .authorizeHttpRequests(auth -> auth
+    .requestMatchers("/api/auth/**").permitAll()
+    .requestMatchers("/api/users/**").permitAll()
+    .requestMatchers("/api/admin/**").permitAll()
+    .requestMatchers("/api/posts/**").permitAll()
+    .requestMatchers("/api/flags/**").permitAll()
+    .requestMatchers("/api/messages/**").permitAll()
+    .requestMatchers("/ws/**").permitAll()  // Added WebSocket endpoint
+    .requestMatchers("/images/**").permitAll()
+    .requestMatchers("/uploads/**").permitAll()
+    .anyRequest().authenticated()
+    );
     return http.build();
   }
 
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5500", "http://localhost:5500"));
+    // Changed from setAllowedOrigins to setAllowedOriginPatterns
+    configuration.setAllowedOriginPatterns(Arrays.asList(
+        "http://127.0.0.1:*", 
+        "http://localhost:*"
+    ));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("*"));
     configuration.setAllowCredentials(true);

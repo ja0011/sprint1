@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.socialapp.model.User;
 import com.example.socialapp.repository.UserRepository;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -24,7 +25,7 @@ import jakarta.validation.constraints.NotBlank;
 @CrossOrigin(origins = {
   "http://127.0.0.1:5500", "http://localhost:5500",
   "http://127.0.0.1:3000", "http://localhost:3000"
-})
+}, allowCredentials = "true")
 public class AuthController {
 
   private final UserRepository users;
@@ -34,24 +35,24 @@ public class AuthController {
     this.users = users;
   }
 
-  // ===== DTOs =====
+  // ==== DTOs ====
   public record RegisterReq(
-      @NotBlank String username,
-      @NotBlank @Email String email,
-      @NotBlank String password
+    @NotBlank String username,
+    @NotBlank @Email String email,
+    @NotBlank String password
   ) {}
   
   public record LoginReq(
-      @NotBlank String username,
-      @NotBlank String password
+    @NotBlank String username,
+    @NotBlank String password
   ) {}
 
   public record ResetReq(
-      @NotBlank @Email String email,
-      @NotBlank String newPassword
+    @NotBlank @Email String email,
+    @NotBlank String newPassword
   ) {}
 
-  // ===== Endpoints =====
+  // ==== Endpoints ====
 
   @PostMapping("/register")
   public ResponseEntity<?> register(@Valid @RequestBody RegisterReq body) {
@@ -78,20 +79,23 @@ public class AuthController {
     users.save(u);
 
     return ResponseEntity.ok(Map.of(
-        "id", u.getId(), 
-        "username", u.getUsername(), 
-        "email", u.getEmail(),
-        "role", u.getRole().name()
+      "id", u.getId(), 
+      "username", u.getUsername(), 
+      "email", u.getEmail(),
+      "role", u.getRole().name()
     ));
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> login(@Valid @RequestBody LoginReq body){
+  public ResponseEntity<?> login(@Valid @RequestBody LoginReq body, HttpSession session) {
+    System.out.println("[AuthController] Login attempt for username: " + body.username());
+    
     final String username = body.username().trim().toLowerCase();
     
     // First, check if user exists and password matches
     var userOpt = users.findByUsername(username);
     if (userOpt.isEmpty()) {
+      System.out.println("[AuthController] User not found: " + username);
       return ResponseEntity.status(401).body(Map.of("error", "invalid_credentials"));
     }
     
@@ -99,23 +103,30 @@ public class AuthController {
     
     // Check password
     if (!encoder.matches(body.password(), user.getPasswordHash())) {
+      System.out.println("[AuthController] Invalid password for user: " + username);
       return ResponseEntity.status(401).body(Map.of("error", "invalid_credentials"));
     }
     
     // Check if account is active
     if (!user.getActive()) {
+      System.out.println("[AuthController] Account suspended: " + username);
       return ResponseEntity.status(403).body(Map.of(
-          "error", "account_suspended", 
-          "message", "Your account has been suspended. Please contact an administrator."
+        "error", "account_suspended", 
+        "message", "Your account has been suspended. Please contact an administrator."
       ));
     }
     
+    // Store userId in session
+    session.setAttribute("userId", user.getId());
+    System.out.println("[AuthController] Login successful - userId " + user.getId() + " stored in session");
+    System.out.println("[AuthController] Session ID: " + session.getId());
+    
     // All checks passed - return success
     return ResponseEntity.ok(Map.of(
-        "id", user.getId(),
-        "username", user.getUsername(),
-        "email", user.getEmail(),
-        "role", user.getRole().name()
+      "id", user.getId(),
+      "username", user.getUsername(),
+      "email", user.getEmail(),
+      "role", user.getRole().name()
     ));
   }
 
@@ -129,6 +140,6 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("message", "password_reset_success"));
       })
       .orElseGet(() -> ResponseEntity.status(404)
-          .body(Map.of("error", "email_not_found")));
+        .body(Map.of("error", "email_not_found")));
   }
 }
