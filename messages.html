@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta-name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: Arial, sans-serif;
+    }
+
+   /* Navbar */
+   .navbar {
+      background-color: #003385;
+    }
+    .navbar .nav-link {
+      color: #ffffff; 
+    }
+    .navbar .nav-link:hover {
+    color: #000000;
+    text-shadow:
+      -1px -1px 0 #ffffff,
+       1px -1px 0 #ffffff,
+      -1px  1px 0 #ffffff,
+       1px  1px 0 #ffffff;
+      }
+    .navbar-brand img {
+      height: 40px;
+    }
+    .navbar-nav {
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
+
+    .navbar-nav .nav-item {
+      white-space: nowrap;
+    }
+    .navbar-nav .nav-link {
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+    }
+
+
+    /* Layout */
+    .message-container {
+      display: flex;
+      height: 80vh;
+      margin-top: 20px;
+      gap: 15px;
+    }
+
+    /* Sidebar */
+    .message-list {
+      width: 300px;
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    .message-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .message-item:hover {
+      background-color: #f8f9fa;
+    }
+
+    .message-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .message-item img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+
+    .preview-text {
+      margin: 0;
+      font-size: 14px;
+      color: #6c757d;
+      max-width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .preview-time {
+      font-size: 12px;
+      color: #999;
+      white-space: nowrap;
+    }
+
+    /* Chat Window */
+    .chat-window {
+      flex-grow: 1;
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      max-width: 75%;
+    }
+
+    .message .message-content {
+      padding: 10px;
+      border-radius: 10px;
+      background: #e4e6eb;
+      position: relative;
+    }
+
+    .message.sent {
+      margin-left: auto;
+      text-align: right;
+    }
+    .message.sent .message-content {
+      background: #003385;
+      color: white;
+    }
+
+    .timestamp {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .message-form {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .message-form input {
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+    }
+
+    .message-form button {
+      background-color: #003385;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark px-3">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="images/DC.jpg" width="105" height="100">
+    </a>
+    <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="notifications.html">Notifications</a></li>
+      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+      <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+      <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+    </ul>
+  </nav>
+
+  <!-- Messaging UI -->
+  <div class="container message-container">
+
+    <!-- LEFT: Message List -->
+    <div class="message-list">
+
+      <div class="message-item">
+        <div class="message-item-left">
+          <img src="https://via.placeholder.com/40">
+          <div>
+            <strong>User 1</strong>
+            <p class="preview-text">Hello! How are you?</p>
+          </div>
+        </div>
+        <div class="preview-time">3:45 PM</div>
+      </div>
+
+      <div class="message-item">
+        <div class="message-item-left">
+          <img src="https://via.placeholder.com/40">
+          <div>
+            <strong>User 2</strong>
+            <p class="preview-text">Let's meet tomorrow!</p>
+          </div>
+        </div>
+        <div class="preview-time">10:17 AM</div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Chat Window -->
+    <div class="chat-window">
+
+      <div class="chat-messages">
+
+        <div class="message sent">
+          <div class="message-content">Hey, how's it going?</div>
+          <div class="timestamp">3:42 PM</div>
+        </div>
+
+        <div class="message received">
+          <div class="message-content">Good! What about you?</div>
+          <div class="timestamp">3:43 PM</div>
+        </div>
+
+      </div>
+
+      <div class="message-form">
+        <input type="text" placeholder="Type a message...">
+        <button>Send</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
