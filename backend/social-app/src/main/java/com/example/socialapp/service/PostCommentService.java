@@ -14,6 +14,8 @@ import com.example.socialapp.model.User;
 import com.example.socialapp.repository.PostCommentRepository;
 import com.example.socialapp.repository.PostRepository;
 import com.example.socialapp.repository.UserRepository;
+import com.example.socialapp.model.Notification;
+import com.example.socialapp.repository.NotificationRepository;
 
 @Service
 public class PostCommentService {
@@ -21,13 +23,16 @@ public class PostCommentService {
     private final PostCommentRepository postCommentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final NotificationRepository notificationRepository;
 
     public PostCommentService(PostCommentRepository postCommentRepository,
                              PostRepository postRepository,
-                             UserRepository userRepository) {
+                             UserRepository userRepository,
+                             NotificationRepository notificationRepository) {
         this.postCommentRepository = postCommentRepository;
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.notificationRepository = notificationRepository;
     }
 
     public record CommentResponse(
@@ -50,6 +55,21 @@ public class PostCommentService {
 
         PostComment comment = new PostComment(post, user, commentText);
         comment = postCommentRepository.save(comment);
+
+        // Create notification for post owner (if not commenting on own post)
+        if (!post.getUser().getId().equals(userId)) {
+            Notification notification = new Notification();
+            notification.setUserId(post.getUser().getId());
+            notification.setType("COMMENT");
+            notification.setActorId(userId);
+            notification.setActorUsername(user.getUsername());
+            notification.setPostId(postId);
+            notification.setCommentText(commentText);
+            notification.setIsRead(false);
+            notificationRepository.save(notification);
+
+            System.out.println("[PostCommentService] Created COMMENT notification for user " + post.getUser().getId());
+        }
 
         return mapToResponse(comment);
     }

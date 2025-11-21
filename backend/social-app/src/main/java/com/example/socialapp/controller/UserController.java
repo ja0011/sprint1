@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.socialapp.model.User;
 import com.example.socialapp.repository.UserRepository;
+import com.example.socialapp.service.NotificationService;
 import com.example.socialapp.service.UserFollowService;
 
 import jakarta.servlet.http.HttpSession;
@@ -41,12 +42,14 @@ public class UserController {
 
   private final UserRepository userRepository;
   private final UserFollowService userFollowService;
+  private final NotificationService notificationService;
   private static final String UPLOAD_DIR = "target/classes/static/images/";
   private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-  public UserController(UserRepository userRepository, UserFollowService userFollowService) {
+  public UserController(UserRepository userRepository, UserFollowService userFollowService, NotificationService notificationService) {
     this.userRepository = userRepository;
     this.userFollowService = userFollowService;
+    this.notificationService = notificationService;
     // Create images directory if it doesn't exist
     try {
       File uploadDir = new File(UPLOAD_DIR);
@@ -297,6 +300,9 @@ public class UserController {
     boolean success = userFollowService.followUser(followerId, userId);
     
     if (success) {
+      // Create notification for the followed user
+      notificationService.createFollowNotification(userId, followerId);
+      
       return ResponseEntity.ok(Map.of(
         "message", "Successfully followed user",
         "isFollowing", true,

@@ -27,7 +27,8 @@ public class SecurityConfig {
     .requestMatchers("/api/posts/**").permitAll()
     .requestMatchers("/api/flags/**").permitAll()
     .requestMatchers("/api/messages/**").permitAll()
-    .requestMatchers("/ws/**").permitAll()  // Added WebSocket endpoint
+    .requestMatchers("/api/notifications/**").permitAll()
+    .requestMatchers("/ws/**").permitAll()
     .requestMatchers("/images/**").permitAll()
     .requestMatchers("/uploads/**").permitAll()
     .anyRequest().authenticated()
@@ -40,13 +41,13 @@ public class SecurityConfig {
     CorsConfiguration configuration = new CorsConfiguration();
     // Changed from setAllowedOrigins to setAllowedOriginPatterns
     configuration.setAllowedOriginPatterns(Arrays.asList(
-        "http://127.0.0.1:*", 
-        "http://localhost:*"
+    "http://127.0.0.1:*", 
+    "http://localhost:*"
     ));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("*"));
     configuration.setAllowCredentials(true);
-    
+
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;
