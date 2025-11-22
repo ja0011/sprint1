@@ -1,11 +1,11 @@
-
 package com.example.socialapp.service;
 
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.socialapp.model.Notification;
 import com.example.socialapp.model.Post;
-import com.example.socialapp.model.PostDislike;
 import com.example.socialapp.model.PostLike;
 import com.example.socialapp.model.User;
 import com.example.socialapp.repository.PostDislikeRepository;
@@ -20,15 +20,21 @@ public class PostLikeService {
     private final PostDislikeRepository postDislikeRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     public PostLikeService(PostLikeRepository postLikeRepository, 
                           PostDislikeRepository postDislikeRepository,
                           PostRepository postRepository, 
-                          UserRepository userRepository) {
+                          UserRepository userRepository,
+                          NotificationService notificationService,
+                          SimpMessagingTemplate messagingTemplate) {
         this.postLikeRepository = postLikeRepository;
         this.postDislikeRepository = postDislikeRepository;
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
+        this.messagingTemplate = messagingTemplate;
     }
 
     @Transactional
@@ -50,6 +56,23 @@ public class PostLikeService {
             // Add the like
             PostLike like = new PostLike(post, user);
             postLikeRepository.save(like);
+            
+            // Create notification if the liker is not the post owner
+            if (!post.getUser().getId().equals(userId)) {
+                Notification notification = notificationService.createLikeNotification(
+                    post.getUser().getId(), 
+                    userId, 
+                    postId
+                );
+                
+                // Send real-time notification via WebSocket
+                if (notification != null) {
+                    messagingTemplate.convertAndSend(
+                        "/topic/notifications/" + post.getUser().getId(),
+                        notification
+                    );
+                }
+            }
         }
     }
 

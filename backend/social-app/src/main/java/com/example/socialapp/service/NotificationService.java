@@ -40,6 +40,25 @@ public class NotificationService {
         return null;
     }
 
+    // Create a like notification
+    @Transactional
+    public Notification createLikeNotification(Long postOwnerId, Long likerUserId, Long postId) {
+        Optional<User> liker = userRepository.findById(likerUserId);
+        
+        if (liker.isPresent()) {
+            Notification notification = new Notification();
+            notification.setUserId(postOwnerId);
+            notification.setType("LIKE");
+            notification.setActorId(likerUserId);
+            notification.setActorUsername(liker.get().getUsername());
+            notification.setPostId(postId);
+            
+            return notificationRepository.save(notification);
+        }
+        
+        return null;
+    }
+
     // Get all notifications for a user
     public List<Notification> getUserNotifications(Long userId) {
         return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);
