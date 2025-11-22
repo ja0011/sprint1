@@ -328,42 +328,42 @@
 
     // Check if user is logged in and fetch their role from backend
     async function checkAdminAccess() {
-      // First check if user is logged in
-      const userId = localStorage.getItem('userId');
-      
-      if (!userId) {
-        alert('Access denied. Please log in first.');
-        window.location.href = 'login.html';
-        return false;
-      }
+    // First check if user is logged in
+    const userId = localStorage.getItem('userId');
+    
+    if (!userId) {
+    alert('Access denied. Please log in first.');
+    window.location.href = 'login.html';
+    return false;
+    }
 
-      try {
-        // Fetch user details from backend to verify admin role
-        const response = await fetch(`${API_URL}/users/${userId}`, {
-          credentials: 'include'
-        });
-        
-        if (!response.ok) {
-          throw new Error('Failed to verify user');
-        }
-        
-        const user = await response.json();
-        console.log('User role:', user.role);
-        
-        // Check if user has ADMIN role
-        if (user.role !== 'ADMIN') {
-          alert('Access denied. Admin privileges required.');
-          window.location.href = 'index.html';
-          return false;
-        }
-        
-        return true;
-      } catch (error) {
-        console.error('Error checking admin access:', error);
-        // If backend check fails, allow access anyway (fallback)
-        console.warn('Could not verify admin status, allowing access');
-        return true;
-      }
+    try {
+    // Fetch user details from backend to verify admin role
+    const response = await fetch(`${API_URL}/users/${userId}`, {
+    credentials: 'include'
+    });
+    
+    if (!response.ok) {
+    throw new Error('Failed to verify user');
+    }
+    
+    const user = await response.json();
+    console.log('User role:', user.role);
+    
+    // Check if user has ADMIN role
+    if (user.role !== 'ADMIN') {
+    alert('Access denied. Admin privileges required.');
+    window.location.href = 'index.html';
+    return false;
+    }
+    
+    return true;
+    } catch (error) {
+    console.error('Error checking admin access:', error);
+    // If backend check fails, allow access anyway (fallback)
+    console.warn('Could not verify admin status, allowing access');
+    return true;
+    }
     }
 
     // Load flagged posts from backend
@@ -440,7 +440,7 @@
     <strong>Flagged by:</strong> ${flag.flaggedBy}<br>
     <strong>Reason:</strong> ${flag.reason}
     ${flag.reviewedAt ? `<br><strong>Reviewed by:</strong> ${flag.reviewedBy} on ${flag.reviewedAt}` : ''}
-    ${flag.reviewedAt && flag.status === 'APPROVED' ? `<br><strong>Admin Decision:</strong> Post approved - flag removed.` : ''}
+    ${flag.reviewedAt && flag.status === 'APPROVED' ? `<br><strong>Admin Decision:</strong> Post approved - flag dismissed.` : ''}
     ${flag.reviewedAt && flag.status === 'REJECTED' ? `<br><strong>Admin Decision:</strong> Post rejected and deleted.` : ''}
     </div>
 
@@ -454,7 +454,7 @@
     </button>
     ` : `
     <span class="text-${flag.status === 'APPROVED' ? 'success' : 'danger'}">
-    ${flag.status === 'APPROVED' ? '✅ This flag has been reviewed and the post was kept.' : '❌ This flag was rejected and the post was deleted.'}
+    ${flag.status === 'APPROVED' ? '✅ This flag has been reviewed and the post was kept.' : '❌ This flag was approved and the post was deleted.'}
     </span>
     <button class="btn btn-sm btn-outline-danger ms-3" onclick="deleteFlag(${flag.id})">
     🗑️ Delete Flag Record
@@ -486,35 +486,45 @@
     return div.innerHTML;
     }
 
-    // Approve flag (keep post, delete flag record)
+    // Approve flag (keep post, dismiss flag by marking as APPROVED)
     async function approveFlag(flagId) {
-    if (!confirm('Approve this post and remove the flag?\n\nThe post will remain visible and the flag will be completely deleted (as if it was never flagged).')) return;
+    const userId = localStorage.getItem('userId');
+    if (!confirm('Approve this post and dismiss the flag?\n\nThe post will remain visible and the flag will be marked as approved.')) return;
     
     try {
-    // Simply delete the flag record - post stays unflagged
-    const response = await fetch(`${API_URL}/flags/${flagId}`, {
-    method: 'DELETE',
+    const response = await fetch(`${API_URL}/flags/${flagId}/status?status=APPROVED&reviewerId=${userId}`, {
+    method: 'PUT',
     credentials: 'include'
     });
     
-    if (!response.ok) throw new Error('Failed to delete flag');
+    if (!response.ok) throw new Error('Failed to update flag status');
     
     const result = await response.json();
-    alert('✅ Post approved! Flag removed. The post is now unflagged and visible.');
-    loadFlags(); // Reload to refresh the list
+    alert('✅ Post approved! Flag dismissed.');
+    loadFlags();
     } catch (error) {
     console.error('Error approving flag:', error);
     alert('Error approving flag: ' + error.message);
     }
     }
 
-    // Reject flag (delete both post AND flag record)
+    // Reject flag (delete post and mark flag as REJECTED)
     async function rejectFlag(flagId, postId) {
     const userId = localStorage.getItem('userId');
-    if (!confirm('Reject this post?\n\nThis will:\n1. DELETE the post permanently\n2. Remove the flag record\n\nThis action CANNOT be undone!')) return;
+    if (!confirm('Reject this post?\n\nThis will:\n1. DELETE the post permanently\n2. Mark the flag as rejected\n\nThis action CANNOT be undone!')) return;
     
     try {
-    // First delete the post
+    // CRITICAL FIX: Update flag status FIRST (creates notification while post still exists)
+    const updateFlagResponse = await fetch(`${API_URL}/flags/${flagId}/status?status=REJECTED&reviewerId=${userId}`, {
+    method: 'PUT',
+    credentials: 'include'
+    });
+    
+    if (!updateFlagResponse.ok) {
+    throw new Error('Failed to update flag status');
+    }
+    
+    // THEN delete the post
     const deletePostResponse = await fetch(`${API_URL}/posts/${postId}?userId=${userId}`, {
     method: 'DELETE'
     });
@@ -524,18 +534,8 @@
     throw new Error('Failed to delete post: ' + errorText);
     }
     
-    // Then delete the flag record
-    const deleteFlagResponse = await fetch(`${API_URL}/flags/${flagId}`, {
-    method: 'DELETE',
-    credentials: 'include'
-    });
-    
-    if (!deleteFlagResponse.ok) {
-    throw new Error('Post deleted but failed to remove flag record');
-    }
-    
-    alert('❌ Post rejected and deleted permanently. Flag removed.');
-    loadFlags(); // Reload to refresh the list
+    alert('❌ Post rejected and deleted permanently.');
+    loadFlags();
     } catch (error) {
     console.error('Error rejecting flag:', error);
     alert('Error rejecting flag: ' + error.message);
@@ -597,10 +597,10 @@
 
     // Initialize: Check admin access and load flags
     window.addEventListener('DOMContentLoaded', async function() {
-      const hasAccess = await checkAdminAccess();
-      if (hasAccess) {
-        loadFlags();
-      }
+    const hasAccess = await checkAdminAccess();
+    if (hasAccess) {
+    loadFlags();
+    }
     });
   </script>
 </body>

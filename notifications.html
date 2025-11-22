@@ -11,102 +11,102 @@
 <body>
   <script>
     (function() {
-      if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-      }
+    if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    }
     })();
   </script>
 
   <!-- Navbar -->
   <nav class="navbar navbar-dark px-3">
     <a class="navbar-brand d-flex align-items-center" href="index.html">
-      <img src="images/DC.jpg" width="105" height="100" alt="Logo">
+    <img src="images/DC.jpg" width="105" height="100" alt="Logo">
     </a>
     <ul class="navbar-nav ms-auto d-flex flex-row mb-0 align-items-center">
-      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="messages.html">Messages</a></li>
-      <li class="nav-item"><a class="nav-link active" href="notifications.html">Notifications</a></li>
-      <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-      <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
-      <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-      <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="messages.html">Messages</a></li>
+    <li class="nav-item"><a class="nav-link active" href="notifications.html">Notifications</a></li>
+    <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+    <li class="nav-item"><a class="nav-link" href="settings.html">Settings</a></li>
+    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+    <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
     </ul>
   </nav>
 
   <main class="notifications-shell" aria-label="Notifications">
     <header class="notifications-top">
-      <div>
-        <h1 class="page-title mb-1">Notifications</h1>
-      </div>
-      <div class="pill-set" role="group" aria-label="Notification filters">
-        <button class="pill active" type="button" id="allBtn">All</button>
-        <button class="pill" type="button" id="unreadBtn">Unread</button>
-      </div>
+    <div>
+    <h1 class="page-title mb-1">Notifications</h1>
+    </div>
+    <div class="pill-set" role="group" aria-label="Notification filters">
+    <button class="pill active" type="button" id="allBtn">All</button>
+    <button class="pill" type="button" id="unreadBtn">Unread</button>
+    </div>
     </header>
 
     <section class="notification-feed" aria-live="polite">
-      <!-- Static examples (keep these) -->
-      <article class="ig-notification unread" data-notification-type="flagged" data-state="unread">
-        <div class="avatar-ring">
-          <img src="images/default profile picture.jpg" alt="Moderation team">
-        </div>
-        <div class="ig-copy">
-          <p class="ig-text"><span class="handle">Moderation</span> flagged your post for review.</p>
-          <div class="ig-meta">
-            <span class="time">4h</span>
-            <span class="dot" aria-hidden="true"></span>
-            <span class="context">Post #2481</span>
-          </div>
-        </div>
-        <button class="cta-text" type="button">View</button>
-      </article>
+    <!-- Static examples (keep these) -->
+    <article class="ig-notification unread" data-notification-type="flagged" data-state="unread">
+    <div class="avatar-ring">
+    <img src="images/default profile picture.jpg" alt="Moderation team">
+    </div>
+    <div class="ig-copy">
+    <p class="ig-text"><span class="handle">Moderation</span> flagged your post for review.</p>
+    <div class="ig-meta">
+    <span class="time">4h</span>
+    <span class="dot" aria-hidden="true"></span>
+    <span class="context">Post #2481</span>
+    </div>
+    </div>
+    <button class="cta-text" type="button">View</button>
+    </article>
 
-      <article class="ig-notification unread" data-notification-type="follow" data-state="unread">
-        <div class="avatar-ring">
-          <img src="images/user1.jpg" alt="Jordan Park">
-        </div>
-        <div class="ig-copy">
-          <p class="ig-text"><span class="handle">Jordan Park</span> started following you.</p>
-          <div class="ig-meta">
-            <span class="time">2h</span>
-            <span class="dot" aria-hidden="true"></span>
-        <span class="context">Followers</span>
-          </div>
-        </div>
-        <button class="cta-follow" type="button">Follow back</button>
-      </article>
+    <article class="ig-notification unread" data-notification-type="follow" data-state="unread">
+    <div class="avatar-ring">
+    <img src="images/user1.jpg" alt="Jordan Park">
+    </div>
+    <div class="ig-copy">
+    <p class="ig-text"><span class="handle">Jordan Park</span> started following you.</p>
+    <div class="ig-meta">
+    <span class="time">2h</span>
+    <span class="dot" aria-hidden="true"></span>
+    <span class="context">Followers</span>
+    </div>
+    </div>
+    <button class="cta-follow" type="button">Follow back</button>
+    </article>
 
-      <article class="ig-notification" data-notification-type="comment" data-state="read">
-        <div class="avatar-ring">
-          <img src="images/user2.jpg" alt="Ava Chen">
-        </div>
-        <div class="ig-copy">
-          <p class="ig-text"><span class="handle">Ava Chen</span> commented: "Nice update!"</p>
-          <div class="ig-meta">
-            <span class="time">2h</span>
-            <span class="dot" aria-hidden="true"></span>
-            <span class="context">Post #2481</span>
-          </div>
-        </div>
-        <div class="post-thumb" style="background-image: url('images/campus.jpg');" aria-label="Post preview"></div>
-      </article>
+    <article class="ig-notification" data-notification-type="comment" data-state="read">
+    <div class="avatar-ring">
+    <img src="images/user2.jpg" alt="Ava Chen">
+    </div>
+    <div class="ig-copy">
+    <p class="ig-text"><span class="handle">Ava Chen</span> commented: "Nice update!"</p>
+    <div class="ig-meta">
+    <span class="time">2h</span>
+    <span class="dot" aria-hidden="true"></span>
+    <span class="context">Post #2481</span>
+    </div>
+    </div>
+    <div class="post-thumb" style="background-image: url('images/campus.jpg');" aria-label="Post preview"></div>
+    </article>
 
-      <article class="ig-notification" data-notification-type="like" data-state="read">
-        <div class="avatar-ring">
-          <img src="images/user1.jpg" alt="People who liked your post">
-        </div>
-        <div class="ig-copy">
-          <p class="ig-text"><span class="handle">6 people</span> liked your post.</p>
-          <div class="ig-meta">
-            <span class="time">2h</span>
-            <span class="dot" aria-hidden="true"></span>
-            <span class="context">Post #2481</span>
-          </div>
-        </div>
-        <div class="post-thumb" style="background-image: url('images/library.jpg');" aria-label="Post preview"></div>
-      </article>
+    <article class="ig-notification" data-notification-type="like" data-state="read">
+    <div class="avatar-ring">
+    <img src="images/user1.jpg" alt="People who liked your post">
+    </div>
+    <div class="ig-copy">
+    <p class="ig-text"><span class="handle">6 people</span> liked your post.</p>
+    <div class="ig-meta">
+    <span class="time">2h</span>
+    <span class="dot" aria-hidden="true"></span>
+    <span class="context">Post #2481</span>
+    </div>
+    </div>
+    <div class="post-thumb" style="background-image: url('images/library.jpg');" aria-label="Post preview"></div>
+    </article>
 
-      <!-- Dynamic notifications will be inserted here -->
+    <!-- Dynamic notifications will be inserted here -->
     </section>
   </main>
 
@@ -121,416 +121,468 @@
 
     // Load current user and notifications on page load
     document.addEventListener('DOMContentLoaded', async function () {
-      console.log('Page loaded, initializing...');
-      loadCurrentUser();
-      if (currentUserId) {
-        await loadNotifications();
-        connectWebSocket();
-      }
-      setupEventListeners();
+    console.log('Page loaded, initializing...');
+    loadCurrentUser();
+    if (currentUserId) {
+    await loadNotifications();
+    connectWebSocket();
+    }
+    setupEventListeners();
     });
 
     // Connect to WebSocket for real-time notifications
     function connectWebSocket() {
-      const socket = new SockJS('http://localhost:8081/ws');
-      stompClient = Stomp.over(socket);
-      
-      stompClient.connect({}, function(frame) {
-        console.log('Connected to WebSocket:', frame);
-        
-        // Subscribe to user's notification channel
-        stompClient.subscribe(`/topic/notifications/${currentUserId}`, function(message) {
-          console.log('Received notification:', message.body);
-          const notification = JSON.parse(message.body);
-          
-          // Add to notifications array and render
-          allNotifications.unshift(notification);
-          renderNotifications();
-        });
-      }, function(error) {
-        console.error('WebSocket connection error:', error);
-      });
+    const socket = new SockJS('http://localhost:8081/ws');
+    stompClient = Stomp.over(socket);
+    
+    stompClient.connect({}, function(frame) {
+    console.log('Connected to WebSocket:', frame);
+    
+    // Subscribe to user's notification channel
+    stompClient.subscribe(`/topic/notifications/${currentUserId}`, function(message) {
+    console.log('Received notification:', message.body);
+    const notification = JSON.parse(message.body);
+    
+    // Add to notifications array and render
+    allNotifications.unshift(notification);
+    renderNotifications();
+    });
+    }, function(error) {
+    console.error('WebSocket connection error:', error);
+    });
     }
 
     // Load current user from localStorage
     function loadCurrentUser() {
-      try {
-        console.log('Loading current user from localStorage...');
-        const userId = localStorage.getItem('userId');
-        const currentUser = localStorage.getItem('currentUser');
-        
-        if (userId) {
-          currentUserId = parseInt(userId);
-          console.log('Current user loaded:', currentUserId);
-          if (currentUser) {
-            console.log('User data:', JSON.parse(currentUser));
-          }
-        } else {
-          console.error('No user logged in');
-        }
-      } catch (error) {
-        console.error('Error loading current user:', error);
-      }
+    try {
+    console.log('Loading current user from localStorage...');
+    const userId = localStorage.getItem('userId');
+    const currentUser = localStorage.getItem('currentUser');
+    
+    if (userId) {
+    currentUserId = parseInt(userId);
+    console.log('Current user loaded:', currentUserId);
+    if (currentUser) {
+    console.log('User data:', JSON.parse(currentUser));
+    }
+    } else {
+    console.error('No user logged in');
+    }
+    } catch (error) {
+    console.error('Error loading current user:', error);
+    }
     }
 
     // Load notifications from API
     async function loadNotifications() {
-      if (!currentUserId) {
-        console.log('No user logged in, skipping notifications load');
-        return;
-      }
+    if (!currentUserId) {
+    console.log('No user logged in, skipping notifications load');
+    return;
+    }
 
-      try {
-        const endpoint = currentFilter === 'unread' 
-          ? `${API_BASE_URL}/notifications/unread?userId=${currentUserId}`
-          : `${API_BASE_URL}/notifications?userId=${currentUserId}`;
+    try {
+    const endpoint = currentFilter === 'unread' 
+    ? `${API_BASE_URL}/notifications/unread?userId=${currentUserId}`
+    : `${API_BASE_URL}/notifications?userId=${currentUserId}`;
 
-        console.log('Fetching notifications from:', endpoint);
-        const response = await fetch(endpoint);
+    console.log('Fetching notifications from:', endpoint);
+    const response = await fetch(endpoint);
 
-        if (response.ok) {
-          allNotifications = await response.json();
-          console.log('Notifications loaded:', allNotifications.length, allNotifications);
-          renderNotifications();
-        } else {
-          console.error('Failed to load notifications, status:', response.status);
-          const errorText = await response.text();
-          console.error('Error response:', errorText);
-        }
-      } catch (error) {
-        console.error('Error loading notifications:', error);
-      }
+    if (response.ok) {
+    allNotifications = await response.json();
+    console.log('Notifications loaded:', allNotifications.length, allNotifications);
+    renderNotifications();
+    } else {
+    console.error('Failed to load notifications, status:', response.status);
+    const errorText = await response.text();
+    console.error('Error response:', errorText);
+    }
+    } catch (error) {
+    console.error('Error loading notifications:', error);
+    }
     }
 
     // Render notifications dynamically
     function renderNotifications() {
-      console.log('Rendering notifications...');
-      const feed = document.querySelector('.notification-feed');
-      
-      // Remove previously added dynamic notifications
-      const dynamicNotifications = feed.querySelectorAll('.ig-notification[data-dynamic="true"]');
-      console.log('Removing', dynamicNotifications.length, 'old dynamic notifications');
-      dynamicNotifications.forEach(notif => notif.remove());
+    console.log('Rendering notifications...');
+    const feed = document.querySelector('.notification-feed');
+    
+    // Remove previously added dynamic notifications
+    const dynamicNotifications = feed.querySelectorAll('.ig-notification[data-dynamic="true"]');
+    console.log('Removing', dynamicNotifications.length, 'old dynamic notifications');
+    dynamicNotifications.forEach(notif => notif.remove());
 
-      // Add dynamic notifications
-      if (allNotifications.length === 0) {
-        console.log('No notifications to render');
-        return;
-      }
+    // Add dynamic notifications
+    if (allNotifications.length === 0) {
+    console.log('No notifications to render');
+    return;
+    }
 
-      allNotifications.forEach(notification => {
-        console.log('Creating notification element for:', notification);
-        const notificationElement = createNotificationElement(notification);
-        feed.appendChild(notificationElement);
-      });
-      
-      console.log('Rendered', allNotifications.length, 'notifications');
+    allNotifications.forEach(notification => {
+    console.log('Creating notification element for:', notification);
+    const notificationElement = createNotificationElement(notification);
+    feed.appendChild(notificationElement);
+    });
+    
+    console.log('Rendered', allNotifications.length, 'notifications');
     }
 
     // Check follow status for notification button
     async function checkFollowStatusForNotification(actorId, button) {
-      if (!currentUserId) return;
+    if (!currentUserId) return;
 
-      try {
-        const response = await fetch(`${API_BASE_URL}/users/${actorId}/is-following?followerId=${currentUserId}`);
-        if (!response.ok) return;
+    try {
+    const response = await fetch(`${API_BASE_URL}/users/${actorId}/is-following?followerId=${currentUserId}`);
+    if (!response.ok) return;
 
-        const data = await response.json();
+    const data = await response.json();
 
-        if (data.isFollowing) {
-          button.textContent = 'Ok!';
-        }
-      } catch (error) {
-        console.error('Error checking follow status:', error);
-      }
+    if (data.isFollowing) {
+    button.textContent = 'Ok!';
+    }
+    } catch (error) {
+    console.error('Error checking follow status:', error);
+    }
     }
 
     // Create notification HTML element
     function createNotificationElement(notification) {
-      const article = document.createElement('article');
-      article.className = `ig-notification ${notification.isRead ? '' : 'unread'}`;
-      article.setAttribute('data-notification-type', notification.type.toLowerCase());
-      article.setAttribute('data-state', notification.isRead ? 'read' : 'unread');
-      article.setAttribute('data-notification-id', notification.id);
-      article.setAttribute('data-dynamic', 'true');
+    const article = document.createElement('article');
+    article.className = `ig-notification ${notification.isRead ? '' : 'unread'}`;
+    article.setAttribute('data-notification-type', notification.type.toLowerCase());
+    article.setAttribute('data-state', notification.isRead ? 'read' : 'unread');
+    article.setAttribute('data-notification-id', notification.id);
+    article.setAttribute('data-dynamic', 'true');
 
-      // Avatar
-      const avatarDiv = document.createElement('div');
-      avatarDiv.className = 'avatar-ring';
-      const avatarImg = document.createElement('img');
-      avatarImg.src = notification.actorProfilePicture || 'images/default profile picture.jpg';
-      avatarImg.alt = notification.actorUsername;
-      avatarDiv.appendChild(avatarImg);
+    // Avatar
+    const avatarDiv = document.createElement('div');
+    avatarDiv.className = 'avatar-ring';
+    const avatarImg = document.createElement('img');
+    avatarImg.src = notification.actorProfilePicture || 'images/default profile picture.jpg';
+    avatarImg.alt = notification.actorUsername;
+    avatarDiv.appendChild(avatarImg);
 
-      // Copy (text content)
-      const copyDiv = document.createElement('div');
-      copyDiv.className = 'ig-copy';
+    // Copy (text content)
+    const copyDiv = document.createElement('div');
+    copyDiv.className = 'ig-copy';
 
-      const textP = document.createElement('p');
-      textP.className = 'ig-text';
+    const textP = document.createElement('p');
+    textP.className = 'ig-text';
 
-      const handleSpan = document.createElement('span');
-      handleSpan.className = 'handle';
-      handleSpan.textContent = notification.actorUsername;
+    const handleSpan = document.createElement('span');
+    handleSpan.className = 'handle';
+    handleSpan.textContent = notification.actorUsername;
 
-      textP.appendChild(handleSpan);
+    textP.appendChild(handleSpan);
 
-      // Notification text based on type
-      if (notification.type === 'FOLLOW') {
-        textP.appendChild(document.createTextNode(' started following you.'));
-      } else if (notification.type === 'COMMENT') {
-        textP.appendChild(document.createTextNode(' commented: "' + notification.commentText + '"'));
-      } else if (notification.type === 'LIKE') {
-        textP.appendChild(document.createTextNode(' liked your post.'));
-      }
+    // Notification text based on type
+    if (notification.type === 'FOLLOW') {
+    textP.appendChild(document.createTextNode(' started following you.'));
+    } else if (notification.type === 'COMMENT') {
+    textP.appendChild(document.createTextNode(' commented: "' + notification.commentText + '"'));
+    } else if (notification.type === 'LIKE') {
+    textP.appendChild(document.createTextNode(' liked your post.'));
+    } else if (notification.type === 'FLAG_CREATED') {
+    textP.appendChild(document.createTextNode(' Your post has been flagged for review.'));
+    } else if (notification.type === 'FLAG_APPROVED') {
+    textP.appendChild(document.createTextNode(' Your flagged post was reviewed and approved.'));
+    } else if (notification.type === 'FLAG_REJECTED') {
+    textP.appendChild(document.createTextNode(' Your flagged post was reviewed and removed.'));
+    }
 
-      const metaDiv = document.createElement('div');
-      metaDiv.className = 'ig-meta';
+    const metaDiv = document.createElement('div');
+    metaDiv.className = 'ig-meta';
 
-      const timeSpan = document.createElement('span');
-      timeSpan.className = 'time';
-      timeSpan.textContent = notification.timeAgo;
+    const timeSpan = document.createElement('span');
+    timeSpan.className = 'time';
+    timeSpan.textContent = notification.timeAgo;
 
-      const dotSpan = document.createElement('span');
-      dotSpan.className = 'dot';
-      dotSpan.setAttribute('aria-hidden', 'true');
+    const dotSpan = document.createElement('span');
+    dotSpan.className = 'dot';
+    dotSpan.setAttribute('aria-hidden', 'true');
 
-      const contextSpan = document.createElement('span');
-      contextSpan.className = 'context';
-      if (notification.type === 'FOLLOW') {
-        contextSpan.textContent = 'Followers';
-      } else if (notification.type === 'COMMENT' || notification.type === 'LIKE') {
-        contextSpan.textContent = 'Post #' + notification.postId;
-      }
+    const contextSpan = document.createElement('span');
+    contextSpan.className = 'context';
+    if (notification.type === 'FOLLOW') {
+    contextSpan.textContent = 'Followers';
+    } else if (notification.type === 'COMMENT' || notification.type === 'LIKE' || notification.type === 'FLAG_CREATED' || notification.type === 'FLAG_APPROVED' || notification.type === 'FLAG_REJECTED') {
+    if (notification.postId) {
+    contextSpan.textContent = 'Post #' + notification.postId;
+    } else {
+    contextSpan.textContent = 'Post deleted';
+    }
+    }
 
-      metaDiv.appendChild(timeSpan);
-      metaDiv.appendChild(dotSpan);
-      metaDiv.appendChild(contextSpan);
+    metaDiv.appendChild(timeSpan);
+    metaDiv.appendChild(dotSpan);
+    metaDiv.appendChild(contextSpan);
 
-      copyDiv.appendChild(textP);
-      copyDiv.appendChild(metaDiv);
+    copyDiv.appendChild(textP);
+    copyDiv.appendChild(metaDiv);
 
-      // Button based on notification type
-      let ctaButton = null;
-      if (notification.type === 'FOLLOW') {
-        ctaButton = document.createElement('button');
-        ctaButton.className = 'cta-follow';
-        ctaButton.type = 'button';
-        ctaButton.textContent = 'Follow back';
-        ctaButton.setAttribute('data-actor-id', notification.actorId);
+    // Button based on notification type and post existence
+    let ctaButton = null;
+    const isFlagNotification = notification.type === 'FLAG_CREATED' || notification.type === 'FLAG_APPROVED' || notification.type === 'FLAG_REJECTED';
+    const postExists = notification.postId !== null;
 
-        // Check if already following and update button text
-        checkFollowStatusForNotification(notification.actorId, ctaButton);
-      } else if (notification.type === 'COMMENT') {
-        ctaButton = document.createElement('button');
-        ctaButton.className = 'cta-text';
-        ctaButton.type = 'button';
-        ctaButton.textContent = 'View';
-        ctaButton.setAttribute('data-post-id', notification.postId);
-        ctaButton.setAttribute('data-notification-id', notification.id);
-      } else if (notification.type === 'LIKE') {
-        ctaButton = document.createElement('button');
-        ctaButton.className = 'cta-text';
-        ctaButton.type = 'button';
-        ctaButton.textContent = 'Ok!';
-        ctaButton.setAttribute('data-notification-id', notification.id);
-      }
+    if (notification.type === 'FOLLOW') {
+    ctaButton = document.createElement('button');
+    ctaButton.className = 'cta-follow';
+    ctaButton.type = 'button';
+    ctaButton.textContent = 'Follow back';
+    ctaButton.setAttribute('data-actor-id', notification.actorId);
 
-      // Post thumbnail for comment and like notifications
-      let postThumb = null;
-      if (notification.type === 'COMMENT' || notification.type === 'LIKE') {
-        console.log('🖼️ Notification data:', notification);
-        console.log('🖼️ postImageUrl value:', notification.postImageUrl);
-        console.log('🖼️ postId value:', notification.postId);
+    // Check if already following and update button text
+    checkFollowStatusForNotification(notification.actorId, ctaButton);
+    } else if (isFlagNotification) {
+    // Flag notifications
+    ctaButton = document.createElement('button');
+    ctaButton.className = 'cta-text';
+    ctaButton.type = 'button';
+    
+    if (notification.type === 'FLAG_CREATED' && postExists) {
+    // FLAG_CREATED with existing post - show View button
+    ctaButton.textContent = 'View';
+    ctaButton.setAttribute('data-post-id', notification.postId);
+    ctaButton.setAttribute('data-notification-id', notification.id);
+    } else {
+    // FLAG_APPROVED, FLAG_REJECTED, or deleted post - show OK button
+    ctaButton.textContent = 'OK';
+    ctaButton.setAttribute('data-notification-id', notification.id);
+    ctaButton.setAttribute('data-delete-only', 'true');
+    }
+    } else if (notification.type === 'COMMENT') {
+    ctaButton = document.createElement('button');
+    ctaButton.className = 'cta-text';
+    ctaButton.type = 'button';
+    ctaButton.textContent = 'View';
+    ctaButton.setAttribute('data-post-id', notification.postId);
+    ctaButton.setAttribute('data-notification-id', notification.id);
+    } else if (notification.type === 'LIKE') {
+    ctaButton = document.createElement('button');
+    ctaButton.className = 'cta-text';
+    ctaButton.type = 'button';
+    ctaButton.textContent = 'Ok!';
+    ctaButton.setAttribute('data-notification-id', notification.id);
+    }
 
-        postThumb = document.createElement('div');
-        postThumb.className = 'post-thumb';
+    // Post thumbnail for comment and like notifications
+    let postThumb = null;
+    if (notification.type === 'COMMENT' || notification.type === 'LIKE') {
+    console.log('🖼️ Notification data:', notification);
+    console.log('🖼️ postImageUrl value:', notification.postImageUrl);
+    console.log('🖼️ postId value:', notification.postId);
 
-        // Set background image if available, otherwise show placeholder
-        if (notification.postImageUrl) {
-          // Prepend backend URL if path is relative
-          let imageUrl = notification.postImageUrl;
-          if (imageUrl.startsWith('/')) {
-            imageUrl = 'http://localhost:8081' + imageUrl;
-          }
-          postThumb.style.backgroundImage = `url('${imageUrl}')`;
-          console.log('✅ Setting background image to:', imageUrl);
-        } else {
-          postThumb.style.backgroundColor = '#f0f0f0';
-          console.log('❌ No postImageUrl - showing gray placeholder');
-        }
-        postThumb.setAttribute('aria-label', 'Post preview');
-      }
+    postThumb = document.createElement('div');
+    postThumb.className = 'post-thumb';
 
-      // Assemble article
-      article.appendChild(avatarDiv);
-      article.appendChild(copyDiv);
-      if (ctaButton) {
-        article.appendChild(ctaButton);
-      }
-      if (postThumb) {
-        article.appendChild(postThumb);
-      }
+    // Set background image if available, otherwise show placeholder
+    if (notification.postImageUrl) {
+    // Prepend backend URL if path is relative
+    let imageUrl = notification.postImageUrl;
+    if (imageUrl.startsWith('/')) {
+    imageUrl = 'http://localhost:8081' + imageUrl;
+    }
+    postThumb.style.backgroundImage = `url('${imageUrl}')`;
+    console.log('✅ Setting background image to:', imageUrl);
+    } else {
+    postThumb.style.backgroundColor = '#f0f0f0';
+    console.log('❌ No postImageUrl - showing gray placeholder');
+    }
+    postThumb.setAttribute('aria-label', 'Post preview');
+    }
 
-      return article;
+    // Assemble article
+    article.appendChild(avatarDiv);
+    article.appendChild(copyDiv);
+    if (ctaButton) {
+    article.appendChild(ctaButton);
+    }
+    if (postThumb) {
+    article.appendChild(postThumb);
+    }
+
+    return article;
     }
 
     // Setup event listeners
     function setupEventListeners() {
-      const feed = document.querySelector('.notification-feed');
-      const allBtn = document.getElementById('allBtn');
-      const unreadBtn = document.getElementById('unreadBtn');
+    const feed = document.querySelector('.notification-feed');
+    const allBtn = document.getElementById('allBtn');
+    const unreadBtn = document.getElementById('unreadBtn');
 
-      // Filter buttons
-      allBtn.addEventListener('click', () => {
-        currentFilter = 'all';
-        allBtn.classList.add('active');
-        unreadBtn.classList.remove('active');
-        loadNotifications();
-      });
+    // Filter buttons
+    allBtn.addEventListener('click', () => {
+    currentFilter = 'all';
+    allBtn.classList.add('active');
+    unreadBtn.classList.remove('active');
+    loadNotifications();
+    });
 
-      unreadBtn.addEventListener('click', () => {
-        currentFilter = 'unread';
-        unreadBtn.classList.add('active');
-        allBtn.classList.remove('active');
-        loadNotifications();
-      });
+    unreadBtn.addEventListener('click', () => {
+    currentFilter = 'unread';
+    unreadBtn.classList.add('active');
+    allBtn.classList.remove('active');
+    loadNotifications();
+    });
 
-      // Notification interactions
-      feed.addEventListener('click', async function (event) {
-        // Follow back button
-        const followBtn = event.target.closest('.cta-follow');
-        if (followBtn) {
-          const actorId = followBtn.getAttribute('data-actor-id');
-          await handleFollowBack(actorId, followBtn);
-          return;
-        }
+    // Notification interactions
+    feed.addEventListener('click', async function (event) {
+    // Follow back button
+    const followBtn = event.target.closest('.cta-follow');
+    if (followBtn) {
+    const actorId = followBtn.getAttribute('data-actor-id');
+    await handleFollowBack(actorId, followBtn);
+    return;
+    }
 
-        // View button for comments
-        const viewBtn = event.target.closest('.cta-text[data-post-id]');
-        if (viewBtn) {
-          const postId = viewBtn.getAttribute('data-post-id');
-          const notificationId = viewBtn.getAttribute('data-notification-id');
-          handleViewComment(postId, notificationId);
-          return;
-        }
+    // OK button for deleted posts (flag notifications)
+    const okDeleteBtn = event.target.closest('.cta-text[data-delete-only="true"]');
+    if (okDeleteBtn) {
+    const notificationId = okDeleteBtn.getAttribute('data-notification-id');
+    await deleteNotificationImmediately(notificationId);
+    const notificationElement = okDeleteBtn.closest('.ig-notification');
+    notificationElement.remove();
+    return;
+    }
 
-        // Ok button for likes
-        const okBtn = event.target.closest('.cta-text:not([data-post-id])');
-        if (okBtn) {
-          const notificationId = okBtn.getAttribute('data-notification-id');
-          handleOkButton(notificationId, okBtn);
-          return;
-        }
+    // View button for comments and flagged posts
+    const viewBtn = event.target.closest('.cta-text[data-post-id]');
+    if (viewBtn) {
+    const postId = viewBtn.getAttribute('data-post-id');
+    const notificationId = viewBtn.getAttribute('data-notification-id');
+    handleViewComment(postId, notificationId);
+    return;
+    }
 
-        // Mark as read when clicked
-        const notification = event.target.closest('.ig-notification[data-dynamic="true"]');
-        if (notification && notification.classList.contains('unread')) {
-          const notificationId = notification.getAttribute('data-notification-id');
-          await markAsRead(notificationId);
-          notification.classList.remove('unread');
-          notification.setAttribute('data-state', 'read');
-        }
-      });
+    // Ok button for likes
+    const okBtn = event.target.closest('.cta-text:not([data-post-id]):not([data-delete-only])');
+    if (okBtn) {
+    const notificationId = okBtn.getAttribute('data-notification-id');
+    handleOkButton(notificationId, okBtn);
+    return;
+    }
+
+    // Mark as read when clicked
+    const notification = event.target.closest('.ig-notification[data-dynamic="true"]');
+    if (notification && notification.classList.contains('unread')) {
+    const notificationId = notification.getAttribute('data-notification-id');
+    await markAsRead(notificationId);
+    notification.classList.remove('unread');
+    notification.setAttribute('data-state', 'read');
+    }
+    });
     }
 
     // Handle Ok button for like notifications
     function handleOkButton(notificationId, button) {
-      button.disabled = true;
-      
-      // Start 5-second deletion timer
-      setTimeout(async () => {
-        await deleteNotification(notificationId);
-        const notificationElement = button.closest('.ig-notification');
-        notificationElement.remove();
-      }, 5000);
+    button.disabled = true;
+    
+    // Start 5-second deletion timer
+    setTimeout(async () => {
+    await deleteNotification(notificationId);
+    const notificationElement = button.closest('.ig-notification');
+    notificationElement.remove();
+    }, 5000);
     }
 
     // Handle follow back
     async function handleFollowBack(actorId, button) {
-      if (!currentUserId || !actorId) return;
+    if (!currentUserId || !actorId) return;
 
-      try {
-        // Check if already following
-        const checkResponse = await fetch(`${API_BASE_URL}/users/${actorId}/is-following?followerId=${currentUserId}`);
-        const checkData = await checkResponse.json();
+    try {
+    // Check if already following
+    const checkResponse = await fetch(`${API_BASE_URL}/users/${actorId}/is-following?followerId=${currentUserId}`);
+    const checkData = await checkResponse.json();
 
-        if (checkData.isFollowing) {
-          // Already following - show "Ok!" button
-          button.textContent = 'Ok!';
-          button.disabled = true;
+    if (checkData.isFollowing) {
+    // Already following - show "Ok!" button
+    button.textContent = 'Ok!';
+    button.disabled = true;
 
-          // Get notification ID from parent element
-          const notificationElement = button.closest('.ig-notification');
-          const notificationId = notificationElement.getAttribute('data-notification-id');
+    // Get notification ID from parent element
+    const notificationElement = button.closest('.ig-notification');
+    const notificationId = notificationElement.getAttribute('data-notification-id');
 
-          // Delete notification after 5 seconds
-          setTimeout(async () => {
-            await deleteNotification(notificationId);
-            notificationElement.remove();
-          }, 5000);
-        } else {
-          // Not following - follow the user
-          const response = await fetch(`${API_BASE_URL}/users/${actorId}/follow?followerId=${currentUserId}`, {
-            method: 'POST'
-          });
+    // Delete notification after 5 seconds
+    setTimeout(async () => {
+    await deleteNotification(notificationId);
+    notificationElement.remove();
+    }, 5000);
+    } else {
+    // Not following - follow the user
+    const response = await fetch(`${API_BASE_URL}/users/${actorId}/follow?followerId=${currentUserId}`, {
+    method: 'POST'
+    });
 
-          if (response.ok) {
-            button.textContent = 'Following';
-            button.disabled = true;
-            button.classList.add('is-following');
-            button.setAttribute('aria-pressed', 'true');
+    if (response.ok) {
+    button.textContent = 'Following';
+    button.disabled = true;
+    button.classList.add('is-following');
+    button.setAttribute('aria-pressed', 'true');
 
-            // Get notification ID from parent element
-            const notificationElement = button.closest('.ig-notification');
-            const notificationId = notificationElement.getAttribute('data-notification-id');
+    // Get notification ID from parent element
+    const notificationElement = button.closest('.ig-notification');
+    const notificationId = notificationElement.getAttribute('data-notification-id');
 
-            // Delete notification after 5 seconds
-            setTimeout(async () => {
-              await deleteNotification(notificationId);
-              notificationElement.remove();
-            }, 5000);
-          } else {
-            console.error('Failed to follow user');
-          }
-        }
-      } catch (error) {
-        console.error('Error handling follow back:', error);
-      }
+    // Delete notification after 5 seconds
+    setTimeout(async () => {
+    await deleteNotification(notificationId);
+    notificationElement.remove();
+    }, 5000);
+    } else {
+    console.error('Failed to follow user');
+    }
+    }
+    } catch (error) {
+    console.error('Error handling follow back:', error);
+    }
     }
 
     // Handle view comment button
     function handleViewComment(postId, notificationId) {
-      // Start 5-second deletion timer
-      setTimeout(async () => {
-        await deleteNotification(notificationId);
-      }, 5000);
+    // Start 5-second deletion timer
+    setTimeout(async () => {
+    await deleteNotification(notificationId);
+    }, 5000);
 
-      // Redirect to profile.html with post ID
-      window.location.href = `profile.html?postId=${postId}`;
+    // Redirect to profile.html with post ID
+    window.location.href = `profile.html?postId=${postId}`;
+    }
+
+    // Delete notification immediately (for OK button on deleted posts)
+    async function deleteNotificationImmediately(notificationId) {
+    try {
+    await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
+    method: 'DELETE'
+    });
+    console.log('Notification deleted immediately:', notificationId);
+    } catch (error) {
+    console.error('Error deleting notification:', error);
+    }
     }
 
     // Delete notification
     async function deleteNotification(notificationId) {
-      try {
-        await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
-          method: 'DELETE'
-        });
-        console.log('Notification deleted:', notificationId);
-      } catch (error) {
-        console.error('Error deleting notification:', error);
-      }
+    try {
+    await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
+    method: 'DELETE'
+    });
+    console.log('Notification deleted:', notificationId);
+    } catch (error) {
+    console.error('Error deleting notification:', error);
+    }
     }
 
     // Mark notification as read
     async function markAsRead(notificationId) {
-      try {
-        await fetch(`${API_BASE_URL}/notifications/${notificationId}/read`, {
-          method: 'PUT'
-        });
-      } catch (error) {
-        console.error('Error marking notification as read:', error);
-      }
+    try {
+    await fetch(`${API_BASE_URL}/notifications/${notificationId}/read`, {
+    method: 'PUT'
+    });
+    } catch (error) {
+    console.error('Error marking notification as read:', error);
+    }
     }
   </script>
 </body>

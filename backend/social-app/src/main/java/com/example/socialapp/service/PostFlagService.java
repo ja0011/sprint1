@@ -27,59 +27,92 @@ public class PostFlagService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Transactional
     public PostFlag flagPost(Long postId, Long userId, String reason) {
-        // Check if post exists
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+    // Check if post exists
+    Post post = postRepository.findById(postId)
+    .orElseThrow(() -> new RuntimeException("Post not found"));
 
-        // Check if user exists
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    // Check if user exists
+    User user = userRepository.findById(userId)
+    .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Check if post is already flagged
-        if (postFlagRepository.existsByPostId(postId)) {
-            throw new RuntimeException("Post is already flagged");
-        }
+    // REMOVED: Check if post is already flagged - allow multiple flags
+    // Multiple users can flag the same post, or same user can flag with different reason
 
-        // Create new flag
-        PostFlag postFlag = new PostFlag(post, user, reason);
-        return postFlagRepository.save(postFlag);
+    // Create new flag
+    PostFlag postFlag = new PostFlag(post, user, reason);
+    PostFlag savedFlag = postFlagRepository.save(postFlag);
+
+    // Create notification for post owner
+    notificationService.createFlaggedNotification(post.getUser().getId(), postId);
+
+    return savedFlag;
     }
 
     public List<PostFlag> getAllFlags() {
-        return postFlagRepository.findAllByOrderByCreatedAtDesc();
+    return postFlagRepository.findAllByOrderByCreatedAtDesc();
     }
 
     public List<PostFlag> getFlagsByStatus(String status) {
-        return postFlagRepository.findByStatusOrderByCreatedAtDesc(status);
+    return postFlagRepository.findByStatusOrderByCreatedAtDesc(status);
     }
 
     public Optional<PostFlag> getFlagByPostId(Long postId) {
-        return postFlagRepository.findByPostId(postId);
+    return postFlagRepository.findByPostId(postId);
     }
 
     public boolean isPostFlagged(Long postId) {
-        return postFlagRepository.existsByPostId(postId);
+    return postFlagRepository.existsByPostId(postId);
     }
 
     @Transactional
     public PostFlag updateFlagStatus(Long flagId, String status, Long reviewerId) {
-        PostFlag flag = postFlagRepository.findById(flagId)
-                .orElseThrow(() -> new RuntimeException("Flag not found"));
+    System.out.println("====");
+    System.out.println("UPDATE FLAG STATUS IN SERVICE");
+    System.out.println("FlagId: " + flagId);
+    System.out.println("Status: " + status);
+    System.out.println("ReviewerId: " + reviewerId);
+    System.out.println("====");
+    
+    PostFlag flag = postFlagRepository.findById(flagId)
+    .orElseThrow(() -> new RuntimeException("Flag not found"));
 
-        User reviewer = userRepository.findById(reviewerId)
-                .orElseThrow(() -> new RuntimeException("Reviewer not found"));
+    User reviewer = userRepository.findById(reviewerId)
+    .orElseThrow(() -> new RuntimeException("Reviewer not found"));
 
-        flag.setStatus(status);
-        flag.setReviewedAt(Instant.now());
-        flag.setReviewedByUser(reviewer);
+    flag.setStatus(status);
+    flag.setReviewedAt(Instant.now());
+    flag.setReviewedByUser(reviewer);
 
-        return postFlagRepository.save(flag);
+    PostFlag updatedFlag = postFlagRepository.save(flag);
+
+    // Create notification for post owner based on flag status
+    Long postOwnerId = flag.getPost().getUser().getId();
+    Long postId = flag.getPost().getId();
+
+    System.out.println("Creating notification for post owner: " + postOwnerId);
+    System.out.println("Post ID: " + postId);
+    System.out.println("Status: " + status);
+
+    if ("APPROVED".equals(status)) {
+    System.out.println("Calling createFlagApprovedNotification");
+    notificationService.createFlagApprovedNotification(postOwnerId, postId);
+    } else if ("REJECTED".equals(status)) {
+    System.out.println("Calling createFlagRejectedNotification");
+    notificationService.createFlagRejectedNotification(postOwnerId, postId);
+    }
+
+    System.out.println("Notification creation completed");
+
+    return updatedFlag;
     }
 
     @Transactional
     public void deleteFlag(Long flagId) {
-        postFlagRepository.deleteById(flagId);
+    postFlagRepository.deleteById(flagId);
     }
 }
