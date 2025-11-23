@@ -28,6 +28,7 @@ public class SecurityConfig {
     .requestMatchers("/api/flags/**").permitAll()
     .requestMatchers("/api/messages/**").permitAll()
     .requestMatchers("/api/notifications/**").permitAll()
+    .requestMatchers("/api/warnings/**").permitAll()  // ADDED THIS LINE
     .requestMatchers("/ws/**").permitAll()
     .requestMatchers("/images/**").permitAll()
     .requestMatchers("/uploads/**").permitAll()

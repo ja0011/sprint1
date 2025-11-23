@@ -98,6 +98,19 @@ public class NotificationService {
     return notificationRepository.save(notification);
     }
 
+    // Create a warning notification
+    @Transactional
+    public Notification createWarningNotification(Long userId, Long adminId, String message) {
+    Notification notification = new Notification();
+    notification.setUserId(userId);
+    notification.setType("WARNING");
+    notification.setActorId(adminId);
+    notification.setActorUsername("Admin");
+    notification.setCommentText(message); // Store warning message in comment_text field
+    
+    return notificationRepository.save(notification);
+    }
+
     // Get all notifications for a user
     public List<Notification> getUserNotifications(Long userId) {
     return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);

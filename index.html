@@ -8,273 +8,273 @@
   <link rel="stylesheet" href="css/dark-mode.css">
   <style>
     body {
-      background-color: #f0f2f5;
-      color: #111827;
-      font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #111827;
+    font-family: Arial, sans-serif;
     }
 
     /* Navbar */
     .navbar {
-      background-color: #003385;
+    background-color: #003385;
     }
     .navbar .nav-link {
-      color: #ffffff;
+    color: #ffff;
     }
     .navbar .nav-link:hover {
-      color: #000000;
-      text-shadow:
-        -1px -1px 0 #ffffff,
-         1px -1px 0 #ffffff,
-        -1px  1px 0 #ffffff,
-         1px  1px 0 #ffffff;
+    color: #0000;
+    text-shadow:
+    -1px -1px 0 #ffff,
+    1px -1px 0 #ffff,
+    -1px  1px 0 #ffff,
+    1px  1px 0 #ffff;
     }
     .navbar-brand img {
-      height: 40px;
+    height: 40px;
     }
     .navbar-nav {
-      flex-direction: row;
-      flex-wrap: nowrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
     }
     .navbar-nav .nav-item {
-      white-space: nowrap;
+    white-space: nowrap;
     }
     .navbar-nav .nav-link {
-      padding-left: 0.8rem;
-      padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
     }
 
     /* Search Bar Styles */
     .search-container {
-      position: relative;
-      margin-left: 1rem;
-      margin-right: 1rem;
+    position: relative;
+    margin-left: 1rem;
+    margin-right: 1rem;
     }
     .search-input {
-      width: 250px;
-      padding: 0.375rem 0.75rem;
-      border-radius: 20px;
-      border: 1px solid #ddd;
-      background-color: #f0f2f5;
+    width: 250px;
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: #f0f2f5;
     }
     .search-input:focus {
-      outline: none;
-      border-color: #003385;
-      background-color: white;
+    outline: none;
+    border-color: #003385;
+    background-color: white;
     }
     .search-button {
-      background-color: #003385;
-      color: white;
-      border: none;
-      padding: 0.375rem 1rem;
-      border-radius: 20px;
-      margin-left: 0.5rem;
-      cursor: pointer;
+    background-color: #003385;
+    color: white;
+    border: none;
+    padding: 0.375rem 1rem;
+    border-radius: 20px;
+    margin-left: 0.5rem;
+    cursor: pointer;
     }
     .search-button:hover {
-      background-color: #002266;
+    background-color: #002266;
     }
     .search-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 250px;
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin-top: 5px;
-      max-height: 300px;
-      overflow-y: auto;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      z-index: 1000;
-      display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 250px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: none;
     }
     .search-dropdown.show {
-      display: block;
+    display: block;
     }
     .search-result-item {
-      padding: 10px 15px;
-      cursor: pointer;
-      border-bottom: 1px solid #f0f2f5;
-      display: flex;
-      align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f2f5;
+    display: flex;
+    align-items: center;
     }
     .search-result-item:hover {
-      background-color: #f0f2f5;
+    background-color: #f0f2f5;
     }
     .search-result-item img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-right: 10px;
-      object-fit: cover;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
     }
     .search-result-item .username {
-      font-weight: 500;
-      color: #003385;
+    font-weight: 500;
+    color: #003385;
     }
     .search-no-results {
-      padding: 15px;
-      text-align: center;
-      color: #666;
+    padding: 15px;
+    text-align: center;
+    color: #666;
     }
 
     /* Story Circles */
     .story img {
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border: 2px solid #003385;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid #003385;
     }
 
     /* Feed + Post */
     .feed-card {
-      margin-bottom: 20px;
-      border-radius: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
     }
     .create-post-box {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      width: 100%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 100%;
     }
     .create-post-box textarea {
-      width: 100%;
-      resize: none;
+    width: 100%;
+    resize: none;
     }
     .btn-create-post {
-      background-color: #003385;
-      color: white;
-      border: none;
-      width: 100%;
-      padding: 10px;
-      text-align: center;
-      border-radius: 25px;
-      margin-top: 10px;
+    background-color: #003385;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 25px;
+    margin-top: 10px;
     }
     .btn-create-post:hover {
-      background-color: #002266;
+    background-color: #002266;
     }
     .btn-create-post:disabled {
-      background-color: #6c757d;
-      cursor: not-allowed;
+    background-color: #6c757d;
+    cursor: not-allowed;
     }
 
     .follow-btn {
-      margin-left: 0.2rem;
+    margin-left: 0.2rem;
     }
 
     #follow {
-      display:inline-block;
+    display:inline-block;
     }
 
     /* Comments Section */
     .comment-section {
-      margin-top: 10px;
-      border-top: 1px solid #ddd;
-      padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
     }
 
     .comment {
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 10px;
-      margin-bottom: 10px;
+    background-color: #ffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
     }
 
     .comment-text {
-      font-size: 0.95rem;
+    font-size: 0.95rem;
     }
 
     .comment-actions button {
-      margin-right: 5px;
-      border-radius: 20px;
-      font-size: 0.8rem;
+    margin-right: 5px;
+    border-radius: 20px;
+    font-size: 0.8rem;
     }
 
     .comment-actions button:hover {
-      opacity: 0.9;
+    opacity: 0.9;
     }
 
     .post-actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
     }
 
     .post-actions button {
-      margin-right: 0;
+    margin-right: 0;
     }
 
     .post-actions .btn-group {
-      margin-left: 0;
+    margin-left: 0;
     }
 
     /* Timestamp */
     .post-timestamp {
-      font-size: 0.85rem;
-      color: gray;
-      margin-left: 10px;
+    font-size: 0.85rem;
+    color: gray;
+    margin-left: 10px;
     }
 
     /* Static post styles */
     .static-comment {
-      background-color: #f8f9fa;
-      border-radius: 10px;
-      padding: 10px;
-      margin-bottom: 10px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
     }
 
     .static-comment-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
     }
 
     .static-comment-header img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-right: 8px;
-      object-fit: cover;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
     }
 
     .static-comment-header strong {
-      font-size: 0.95rem;
+    font-size: 0.95rem;
     }
 
     .static-comment-header .text-muted {
-      font-size: 0.85rem;
-      margin-left: 8px;
+    font-size: 0.85rem;
+    margin-left: 8px;
     }
 
     .static-comment-text {
-      font-size: 0.95rem;
-      margin-left: 40px;
-      margin-bottom: 8px;
+    font-size: 0.95rem;
+    margin-left: 40px;
+    margin-bottom: 8px;
     }
 
     .static-comment-actions {
-      margin-left: 40px;
+    margin-left: 40px;
     }
 
     .static-comment-actions button {
-      font-size: 0.8rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 15px;
-      margin-right: 5px;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    margin-right: 5px;
     }
 
     /* Post image styling */
     .post-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-top: 10px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 10px;
     }
   </style>
 </head>
@@ -282,10 +282,10 @@
 <body>
   <script>
     (function() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-      }
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    }
     })();
   </script>
    <!-- Navbar -->
@@ -319,188 +319,188 @@
   <!-- Layout -->
   <div class="container-fluid mt-3">
     <div class="row">
-      
-      <!-- Left Sidebar -->
-      <div class="col-md-2 d-none d-md-block">
-        <div class="sidebar p-3 bg-white rounded shadow-sm">
-          <h6>Menu</h6>
-          <ul class="nav flex-column">
-            <li class="nav-item"><a href="#" class="nav-link">Friends</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Clubs</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Events</a></li>
-          </ul>
-        </div>
-      </div>
+    
+    <!-- Left Sidebar -->
+    <div class="col-md-2 d-none d-md-block">
+    <div class="sidebar p-3 bg-white rounded shadow-sm">
+    <h6>Menu</h6>
+    <ul class="nav flex-column">
+    <li class="nav-item"><a href="#" class="nav-link">Friends</a></li>
+    <li class="nav-item"><a href="#" class="nav-link">Clubs</a></li>
+    <li class="nav-item"><a href="#" class="nav-link">Events</a></li>
+    </ul>
+    </div>
+    </div>
 
-      <!-- Main Feed -->
-      <div class="col-md-7">
-        <!-- Stories -->
-        <div class="d-flex mb-3 align-items-center">
-          <h5 class="me-3">Stories</h5>
-          <div class="me-2 story"><img src="images/campus.jpg" alt="story"></div>
-          <div class="me-2 story"><img src="images/graduation.jpg" alt="story"></div>
-          <div class="me-2 story"><img src="images/library.jpg" alt="story"></div>
-          <div class="me-2 story"><img src="images/Students.jpg" alt="story"></div>
-        </div>
+    <!-- Main Feed -->
+    <div class="col-md-7">
+    <!-- Stories -->
+    <div class="d-flex mb-3 align-items-center">
+    <h5 class="me-3">Stories</h5>
+    <div class="me-2 story"><img src="images/campus.jpg" alt="story"></div>
+    <div class="me-2 story"><img src="images/graduation.jpg" alt="story"></div>
+    <div class="me-2 story"><img src="images/library.jpg" alt="story"></div>
+    <div class="me-2 story"><img src="images/Students.jpg" alt="story"></div>
+    </div>
 
-        <!-- Create Post Box -->
-        <div class="create-post-box" id="createPostBox">
-          <h6 class="mb-3">Create a Post</h6>
-          <textarea class="form-control mb-2" id="postContent" rows="3" placeholder="What's on your mind?"></textarea>
-          <div class="mb-2">
-            <label for="postImage" class="form-label text-muted small">📷 Add an image (optional)</label>
-            <input type="file" class="form-control form-control-sm" id="postImage" accept="image/*">
-          </div>
-          <button class="btn-create-post" onclick="createPost()">Post</button>
-        </div>
+    <!-- Create Post Box -->
+    <div class="create-post-box" id="createPostBox">
+    <h6 class="mb-3">Create a Post</h6>
+    <textarea class="form-control mb-2" id="postContent" rows="3" placeholder="What's on your mind?"></textarea>
+    <div class="mb-2">
+    <label for="postImage" class="form-label text-muted small">📷 Add an image (optional)</label>
+    <input type="file" class="form-control form-control-sm" id="postImage" accept="image/*">
+    </div>
+    <button class="btn-create-post" onclick="createPost()">Post</button>
+    </div>
 
-        <!-- Posts Feed -->
-        <div id="postsFeed">
-          <!-- Welcome message -->
-          <p id="welcomeUser" style="display:none;">
-            Welcome back, <strong id="welcomeName"></strong>!
-          </p>
+    <!-- Posts Feed -->
+    <div id="postsFeed">
+    <!-- Welcome message -->
+    <p id="welcomeUser" style="display:none;">
+    Welcome back, <strong id="welcomeName"></strong>!
+    </p>
 
-          <!-- Static Post 1 -->
-          <div class="card feed-card shadow-lg">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <img src="images/default profile picture.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
-                <div>
-                  <h6 class="card-title mb-0">User Name</h6>
-                  <span class="post-timestamp">10/13/2025 Posted 2 hours ago</span>
-                </div>
-              </div>
-              <p class="card-text mt-2">This is a sample post. Geese almost attacked me at Richland College today. 😭</p>
-              <img src="images/geese.jpg" class="post-image" alt="Geese at campus">
-              
-              <!-- Post Actions -->
-              <div class="post-actions mt-3">
-                <button class="btn btn-sm btn-outline-success" onclick="alert('Login to interact with posts')">
-                  👍 Like (0)
-                </button>
-                <button class="btn btn-sm btn-outline-danger" onclick="alert('Login to interact with posts')">
-                  👎 Dislike (0)
-                </button>
-                <button class="btn btn-sm btn-outline-secondary" onclick="toggleStaticComments('post1')">
-                  💬 Comment (1)
-                </button>
-                <button class="btn btn-sm btn-outline-primary">
-                  ✏️ Edit
-                </button>
-                <button class="btn btn-sm btn-outline-dark">
-                  🗑️ Delete
-                </button>
-                <div class="btn-group">
-                  <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="flagPost('post1','Inappropriate'); return false;">Inappropriate</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="flagPost('post1','Harmful'); return false;">Harmful</a></li>
-                  </ul>
-                </div>
-              </div>
+    <!-- Static Post 1 -->
+    <div class="card feed-card shadow-lg">
+    <div class="card-body">
+    <div class="d-flex align-items-center mb-2">
+    <img src="images/default profile picture.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
+    <div>
+    <h6 class="card-title mb-0">User Name</h6>
+    <span class="post-timestamp">10/13/2025 Posted 2 hours ago</span>
+    </div>
+    </div>
+    <p class="card-text mt-2">This is a sample post. Geese almost attacked me at Richland College today. 😭</p>
+    <img src="images/geese.jpg" class="post-image" alt="Geese at campus">
+    
+    <!-- Post Actions -->
+    <div class="post-actions mt-3">
+    <button class="btn btn-sm btn-outline-success" onclick="alert('Login to interact with posts')">
+    👍 Like (0)
+    </button>
+    <button class="btn btn-sm btn-outline-danger" onclick="alert('Login to interact with posts')">
+    👎 Dislike (0)
+    </button>
+    <button class="btn btn-sm btn-outline-secondary" onclick="toggleStaticComments('post1')">
+    💬 Comment (1)
+    </button>
+    <button class="btn btn-sm btn-outline-primary">
+    ✏️ Edit
+    </button>
+    <button class="btn btn-sm btn-outline-dark">
+    🗑️ Delete
+    </button>
+    <div class="btn-group">
+    <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
+    <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#" onclick="flagPost('post1','Inappropriate'); return false;">Inappropriate</a></li>
+    <li><a class="dropdown-item" href="#" onclick="flagPost('post1','Harmful'); return false;">Harmful</a></li>
+    </ul>
+    </div>
+    </div>
 
-              <!-- Comment Section -->
-              <div class="comment-section mt-3" id="comments-post1" style="display: none;">
-                <div class="d-flex align-items-center mb-3">
-                  <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
-                  <button class="btn btn-sm btn-primary" onclick="alert('Login to comment')">Comment</button>
-                </div>
-                
-                <!-- Static Comment -->
-                <div class="static-comment">
-                  <div class="static-comment-header">
-                    <img src="images/default profile picture.jpg" alt="User">
-                    <div>
-                      <strong>User Name</strong>
-                      <span class="text-muted">10/14/2025 Posted 1 hour ago</span>
-                    </div>
-                  </div>
-                  <p class="static-comment-text mb-1">This is an example comment!</p>
-                  <div class="static-comment-actions">
-                    <button class="btn btn-sm btn-outline-warning">👍 Like (0)</button>
-                    <button class="btn btn-sm btn-outline-danger">👎 Dislike (0)</button>
-                    <button class="btn btn-sm btn-outline-primary">✏️ Edit</button>
-                    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Comment Section -->
+    <div class="comment-section mt-3" id="comments-post1" style="display: none;">
+    <div class="d-flex align-items-center mb-3">
+    <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
+    <button class="btn btn-sm btn-primary" onclick="alert('Login to comment')">Comment</button>
+    </div>
+    
+    <!-- Static Comment -->
+    <div class="static-comment">
+    <div class="static-comment-header">
+    <img src="images/default profile picture.jpg" alt="User">
+    <div>
+    <strong>User Name</strong>
+    <span class="text-muted">10/14/2025 Posted 1 hour ago</span>
+    </div>
+    </div>
+    <p class="static-comment-text mb-1">This is an example comment!</p>
+    <div class="static-comment-actions">
+    <button class="btn btn-sm btn-outline-warning">👍 Like (0)</button>
+    <button class="btn btn-sm btn-outline-danger">👎 Dislike (0)</button>
+    <button class="btn btn-sm btn-outline-primary">✏️ Edit</button>
+    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
 
-          <!-- Static Post 2 -->
-          <div class="card feed-card shadow-lg">
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <img src="images/default profile picture.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
-                <div>
-                  <h6 class="card-title mb-0" id="follow">Different User</h6> <button class="btn follow-btn btn-sm btn-outline-success" id="follow">Follow 👤+</button> 
-                  <!--<button class="btn follow-btn btn-sm btn-outline-danger" id="follow">Unfollow 👤-</button>-->
-                  <span class="post-timestamp">10/13/2025 Posted 5 hours ago</span>
-                </div>
-              </div>
-              <p class="card-text mt-2">This is another sample post. Can't believe it's over!!! 😭</p>
-              <img src="images/graduation.jpg" class="post-image" alt="Graduation ceremony">
-              
-              <!-- Post Actions -->
-              <div class="post-actions mt-3">
-                <button class="btn btn-sm btn-outline-success" onclick="alert('Login to interact with posts')">
-                  👍 Like (0)
-                </button>
-                <button class="btn btn-sm btn-outline-danger" onclick="alert('Login to interact with posts')">
-                  👎 Dislike (0)
-                </button>
-                <button class="btn btn-sm btn-outline-secondary" onclick="toggleStaticComments('post2')">
-                  💬 Comment (1)
-                </button>
-                <button class="btn btn-sm btn-outline-primary">
-                  ✏️ Edit
-                </button>
-                <button class="btn btn-sm btn-outline-dark">
-                  🗑️ Delete
-                </button>
-                <div class="btn-group">
-                  <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="flagPost('post2','Inappropriate'); return false;">Inappropriate</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="flagPost('post2','Harmful'); return false;">Harmful</a></li>
-                  </ul>
-                </div>
-              </div>
+    <!-- Static Post 2 -->
+    <div class="card feed-card shadow-lg">
+    <div class="card-body">
+    <div class="d-flex align-items-center mb-2">
+    <img src="images/default profile picture.jpg" alt="User Profile" class="rounded-circle me-2" width="40" height="40">
+    <div>
+    <h6 class="card-title mb-0" id="follow">Different User</h6> <button class="btn follow-btn btn-sm btn-outline-success" id="follow">Follow 👤+</button> 
+    <!--<button class="btn follow-btn btn-sm btn-outline-danger" id="follow">Unfollow 👤-</button>-->
+    <span class="post-timestamp">10/13/2025 Posted 5 hours ago</span>
+    </div>
+    </div>
+    <p class="card-text mt-2">This is another sample post. Can't believe it's over!!! 😭</p>
+    <img src="images/graduation.jpg" class="post-image" alt="Graduation ceremony">
+    
+    <!-- Post Actions -->
+    <div class="post-actions mt-3">
+    <button class="btn btn-sm btn-outline-success" onclick="alert('Login to interact with posts')">
+    👍 Like (0)
+    </button>
+    <button class="btn btn-sm btn-outline-danger" onclick="alert('Login to interact with posts')">
+    👎 Dislike (0)
+    </button>
+    <button class="btn btn-sm btn-outline-secondary" onclick="toggleStaticComments('post2')">
+    💬 Comment (1)
+    </button>
+    <button class="btn btn-sm btn-outline-primary">
+    ✏️ Edit
+    </button>
+    <button class="btn btn-sm btn-outline-dark">
+    🗑️ Delete
+    </button>
+    <div class="btn-group">
+    <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
+    <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#" onclick="flagPost('post2','Inappropriate'); return false;">Inappropriate</a></li>
+    <li><a class="dropdown-item" href="#" onclick="flagPost('post2','Harmful'); return false;">Harmful</a></li>
+    </ul>
+    </div>
+    </div>
 
-              <!-- Comment Section -->
-              <div class="comment-section mt-3" id="comments-post2" style="display: none;">
-                <div class="d-flex align-items-center mb-3">
-                  <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
-                  <button class="btn btn-sm btn-primary" onclick="alert('Login to comment')">Comment</button>
-                </div>
-                
-                <!-- Static Comment -->
-                <div class="static-comment">
-                  <div class="static-comment-header">
-                    <img src="images/default profile picture.jpg" alt="User">
-                    <div>
-                      <strong>Another Name</strong>
-                      <span class="text-muted">10/13/2025 Posted 30 minutes ago</span>
-                    </div>
-                  </div>
-                  <p class="static-comment-text mb-1">This is an example comment!</p>
-                  <div class="static-comment-actions">
-                    <button class="btn btn-sm btn-outline-warning">👍 Like (0)</button>
-                    <button class="btn btn-sm btn-outline-danger">👎 Dislike (0)</button>
-                    <button class="btn btn-sm btn-outline-primary">✏️ Edit</button>
-                    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
-                  </div>
-                  <div class="mt-2 ms-4" style="font-size: 0.9rem;">
-                    <span style="color: #666;">Welcome back, <strong>admin</strong>!</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Comment Section -->
+    <div class="comment-section mt-3" id="comments-post2" style="display: none;">
+    <div class="d-flex align-items-center mb-3">
+    <input type="text" class="form-control form-control-sm me-2" placeholder="Write a comment...">
+    <button class="btn btn-sm btn-primary" onclick="alert('Login to comment')">Comment</button>
+    </div>
+    
+    <!-- Static Comment -->
+    <div class="static-comment">
+    <div class="static-comment-header">
+    <img src="images/default profile picture.jpg" alt="User">
+    <div>
+    <strong>Another Name</strong>
+    <span class="text-muted">10/13/2025 Posted 30 minutes ago</span>
+    </div>
+    </div>
+    <p class="static-comment-text mb-1">This is an example comment!</p>
+    <div class="static-comment-actions">
+    <button class="btn btn-sm btn-outline-warning">👍 Like (0)</button>
+    <button class="btn btn-sm btn-outline-danger">👎 Dislike (0)</button>
+    <button class="btn btn-sm btn-outline-primary">✏️ Edit</button>
+    <button class="btn btn-sm btn-outline-dark">🗑️ Delete</button>
+    </div>
+    <div class="mt-2 ms-4" style="font-size: 0.9rem;">
+    <span style="color: #666;">Welcome back, <strong>admin</strong>!</span>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
 
-        </div>
-      </div>
+    </div>
+    </div>
     </div>
   </div>
 
@@ -511,698 +511,709 @@
 
     // Show welcome message and create post box if logged in
     if (currentUser) {
-      document.getElementById('welcomeName').textContent = currentUser.username;
-      document.getElementById('welcomeUser').style.display = 'block';
-      const createPostBox = document.getElementById('createPostBox');
-      if (createPostBox) {
-        createPostBox.style.display = 'block';
-      }
+    document.getElementById('welcomeName').textContent = currentUser.username;
+    document.getElementById('welcomeUser').style.display = 'block';
+    const createPostBox = document.getElementById('createPostBox');
+    if (createPostBox) {
+    createPostBox.style.display = 'block';
+    }
     } else {
-      // Hide create post box if not logged in
-      const createPostBox = document.getElementById('createPostBox');
-      if (createPostBox) {
-        createPostBox.style.display = 'none';
-      }
+    // Hide create post box if not logged in
+    const createPostBox = document.getElementById('createPostBox');
+    if (createPostBox) {
+    createPostBox.style.display = 'none';
+    }
     }
 
     // Toggle static comments
     function toggleStaticComments(postId) {
-      const commentsSection = document.getElementById(`comments-${postId}`);
-      if (commentsSection.style.display === 'none') {
-        commentsSection.style.display = 'block';
-      } else {
-        commentsSection.style.display = 'none';
-      }
+    const commentsSection = document.getElementById(`comments-${postId}`);
+    if (commentsSection.style.display === 'none') {
+    commentsSection.style.display = 'block';
+    } else {
+    commentsSection.style.display = 'none';
+    }
     }
 
     // Load dynamic posts
     async function loadPosts() {
-      try {
-        const userId = currentUser ? currentUser.id : null;
-        const url = userId ? `${API_URL}/posts?userId=${userId}` : `${API_URL}/posts`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Failed to load posts');
+    try {
+    const userId = currentUser ? currentUser.id : null;
+    const url = userId ? `${API_URL}/posts?userId=${userId}` : `${API_URL}/posts`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Failed to load posts');
 
-        const posts = await response.json();
-        const feedContainer = document.getElementById('postsFeed');
+    const posts = await response.json();
+    const feedContainer = document.getElementById('postsFeed');
 
-        // Remove old dynamic posts (keep static posts and welcome message)
-        const dynamicPosts = feedContainer.querySelectorAll('[data-post-id]');
-        dynamicPosts.forEach(post => post.remove());
+    // Remove old dynamic posts (keep static posts and welcome message)
+    const dynamicPosts = feedContainer.querySelectorAll('[data-post-id]');
+    dynamicPosts.forEach(post => post.remove());
 
-        if (posts.length === 0) {
-          return; // Keep static posts visible
-        }
+    if (posts.length === 0) {
+    return; // Keep static posts visible
+    }
 
-        // Append dynamic posts after static posts
-        const dynamicPostsHTML = posts.map(post => {
-          const postDate = new Date(post.createdAt);
-          const timeAgo = getTimeAgo(postDate);
-          const profilePic = post.userProfilePicture || 'images/default profile picture.jpg';
-          const isOwnPost = currentUser && currentUser.id === post.userId;
-          const isAdmin = currentUser && currentUser.role === 'ADMIN';
-          const canDelete = isOwnPost || isAdmin;
-          const canInteract = currentUser !== null;
+    // Append dynamic posts after static posts
+    const dynamicPostsHTML = posts.map(post => {
+    const postDate = new Date(post.createdAt);
+    const timeAgo = getTimeAgo(postDate);
+    const profilePic = post.userProfilePicture || 'images/default profile picture.jpg';
+    const isOwnPost = currentUser && currentUser.id === post.userId;
+    const isAdmin = currentUser && currentUser.role === 'ADMIN';
+    const canDelete = isOwnPost || isAdmin;
+    const canInteract = currentUser !== null;
 
-          // Show follow button only if not own post
-          const showFollowButton = currentUser && !isOwnPost;
+    // Show follow button only if not own post
+    const showFollowButton = currentUser && !isOwnPost;
 
-          return `
-            <div class="card feed-card shadow-lg" data-post-id="${post.id}">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                  <img src="${profilePic}" alt="User Profile" class="rounded-circle me-2" width="40" height="40" onerror="this.src='images/default profile picture.jpg'">
-                  <div>
-                    <h6 class="card-title mb-0 d-inline">${post.username}</h6>
-                    ${showFollowButton ? `
-                      <button class="btn follow-btn btn-sm btn-outline-success ms-2 follow-btn-${post.userId}" 
-                              onclick="toggleFollow(${post.userId}, '${post.username}', this)">
-                        Follow 👤+
-                      </button>
-                    ` : ''}
-                    <br>
-                    <span class="post-timestamp">${timeAgo}</span>
-                  </div>
-                </div>
-                ${post.content ? `<p class="card-text mt-2">${post.content}</p>` : ''}
-                ${post.imageUrl ? `<img src="http://localhost:8081${post.imageUrl}" class="post-image" alt="post image" onerror="this.style.display='none'">` : ''}
+    return `
+    <div class="card feed-card shadow-lg" data-post-id="${post.id}">
+    <div class="card-body">
+    <div class="d-flex align-items-center mb-2">
+    <img src="${profilePic}" alt="User Profile" class="rounded-circle me-2" width="40" height="40" onerror="this.src='images/default profile picture.jpg'">
+    <div>
+    <h6 class="card-title mb-0 d-inline">${post.username}</h6>
+    ${showFollowButton ? `
+    <button class="btn follow-btn btn-sm btn-outline-success ms-2 follow-btn-${post.userId}" 
+    onclick="toggleFollow(${post.userId}, '${post.username}', this)">
+    Follow 👤+
+    </button>
+    ` : ''}
+    ${isAdmin && !isOwnPost && post.userRole !== 'ADMIN' ? `
+    <button class="btn btn-sm btn-outline-danger ms-2" 
+    onclick="sendWarning(${post.userId})">
+    ⚠️ Send Warning
+    </button>
+    ` : ''}
+    <br>
+    <span class="post-timestamp">${timeAgo}</span>
+    </div>
+    </div>
+    ${post.content ? `<p class="card-text mt-2">${post.content}</p>` : ''}
+    ${post.imageUrl ? `<img src="http://localhost:8081${post.imageUrl}" class="post-image" alt="post image" onerror="this.style.display='none'">` : ''}
 
-                <!-- Post Actions -->
-                <div class="post-actions mt-3">
-                  <button class="btn btn-sm ${post.userLiked ? 'btn-success' : 'btn-outline-success'} like-btn" 
-                          onclick="toggleLike(${post.id})" ${!canInteract ? 'disabled' : ''}>
-                    👍 Like (<span class="like-count">${post.likeCount}</span>)
-                  </button>
-                  <button class="btn btn-sm ${post.userDisliked ? 'btn-danger' : 'btn-outline-danger'} dislike-btn" 
-                          onclick="toggleDislike(${post.id})" ${!canInteract ? 'disabled' : ''}>
-                    👎 Dislike (<span class="dislike-count">${post.dislikeCount}</span>)
-                  </button>
-                  <button class="btn btn-sm btn-outline-secondary" onclick="toggleComments(${post.id})">
-                    💬 Comment (<span class="comment-count">${post.commentCount}</span>)
-                  </button>
-                  ${isOwnPost ? `
-                    <button class="btn btn-sm btn-outline-primary" onclick="editPost(${post.id}, '${post.content?.replace(/'/g, "\\'")}')">
-                      ✏️ Edit
-                    </button>
-                  ` : ''}
-                  ${canDelete ? `
-                    <button class="btn btn-sm btn-outline-dark" onclick="deletePost(${post.id})">
-                      🗑️ Delete${isAdmin && !isOwnPost ? ' (Admin)' : ''}
-                    </button>
-                  ` : ''}
-                  <div class="btn-group">
-                    <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Inappropriate'); return false;">Inappropriate</a></li>
-                      <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Harmful'); return false;">Harmful</a></li>
-                    </ul>
-                  </div>
-                </div>
+    <!-- Post Actions -->
+    <div class="post-actions mt-3">
+    <button class="btn btn-sm ${post.userLiked ? 'btn-success' : 'btn-outline-success'} like-btn" 
+    onclick="toggleLike(${post.id})" ${!canInteract ? 'disabled' : ''}>
+    👍 Like (<span class="like-count">${post.likeCount}</span>)
+    </button>
+    <button class="btn btn-sm ${post.userDisliked ? 'btn-danger' : 'btn-outline-danger'} dislike-btn" 
+    onclick="toggleDislike(${post.id})" ${!canInteract ? 'disabled' : ''}>
+    👎 Dislike (<span class="dislike-count">${post.dislikeCount}</span>)
+    </button>
+    <button class="btn btn-sm btn-outline-secondary" onclick="toggleComments(${post.id})">
+    💬 Comment (<span class="comment-count">${post.commentCount}</span>)
+    </button>
+    ${isOwnPost ? `
+    <button class="btn btn-sm btn-outline-primary" onclick="editPost(${post.id}, '${post.content?.replace(/'/g, "\\'")}')">
+    ✏️ Edit
+    </button>
+    ` : ''}
+    ${canDelete ? `
+    <button class="btn btn-sm btn-outline-dark" onclick="deletePost(${post.id})">
+    🗑️ Delete${isAdmin && !isOwnPost ? ' (Admin)' : ''}
+    </button>
+    ` : ''}
+    <div class="btn-group">
+    <button class="btn btn-sm btn-outline-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">🚩 Flag</button>
+    <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Inappropriate'); return false;">Inappropriate</a></li>
+    <li><a class="dropdown-item" href="#" onclick="flagPost(${post.id}, 'Harmful'); return false;">Harmful</a></li>
+    </ul>
+    </div>
+    </div>
 
-                <!-- Comment Section -->
-                <div class="comment-section mt-3" id="comments-${post.id}" style="display: none;">
-                  ${canInteract ? `
-                    <div class="d-flex align-items-center mb-3">
-                      <input type="text" class="form-control form-control-sm me-2" 
-                             id="comment-input-${post.id}" placeholder="Write a comment...">
-                      <button class="btn btn-sm btn-primary" onclick="addComment(${post.id})">Post</button>
-                    </div>
-                  ` : '<p class="text-muted">Login to comment</p>'}
+    <!-- Comment Section -->
+    <div class="comment-section mt-3" id="comments-${post.id}" style="display: none;">
+    ${canInteract ? `
+    <div class="d-flex align-items-center mb-3">
+    <input type="text" class="form-control form-control-sm me-2" 
+    id="comment-input-${post.id}" placeholder="Write a comment...">
+    <button class="btn btn-sm btn-primary" onclick="addComment(${post.id})">Post</button>
+    </div>
+    ` : '<p class="text-muted">Login to comment</p>'}
 
-                  <div id="comment-list-${post.id}"></div>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
+    <div id="comment-list-${post.id}"></div>
+    </div>
+    </div>
+    </div>
+    `;
+    }).join('');
 
-        feedContainer.innerHTML += dynamicPostsHTML;
+    feedContainer.innerHTML += dynamicPostsHTML;
 
-        // Check follow status for all follow buttons
-        if (currentUser) {
-          const followButtons = document.querySelectorAll('[class*="follow-btn-"]');
-          followButtons.forEach(button => {
-            const userId = button.className.match(/follow-btn-(\d+)/)[1];
-            checkFollowStatus(userId, button);
-          });
-        }
+    // Check follow status for all follow buttons
+    if (currentUser) {
+    const followButtons = document.querySelectorAll('[class*="follow-btn-"]');
+    followButtons.forEach(button => {
+    const userId = button.className.match(/follow-btn-(\d+)/)[1];
+    checkFollowStatus(userId, button);
+    });
+    }
 
-      } catch (error) {
-        console.error('Error loading posts:', error);
-        // Silently fail - static posts remain visible
-      }
+    } catch (error) {
+    console.error('Error loading posts:', error);
+    // Silently fail - static posts remain visible
+    }
     }
 
     function getTimeAgo(date) {
-      const seconds = Math.floor((new Date() - date) / 1000);
-      
-      let interval = seconds / 31536000;
-      if (interval > 1) return Math.floor(interval) + " years ago";
-      
-      interval = seconds / 2592000;
-      if (interval > 1) return Math.floor(interval) + " months ago";
-      
-      interval = seconds / 86400;
-      if (interval > 1) return Math.floor(interval) + " days ago";
-      
-      interval = seconds / 3600;
-      if (interval > 1) return Math.floor(interval) + " hours ago";
-      
-      interval = seconds / 60;
-      if (interval > 1) return Math.floor(interval) + " minutes ago";
-      
-      return "Just now";
+    const seconds = Math.floor((new Date() - date) / 1000);
+    
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+    
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+    
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+    
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hours ago";
+    
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " minutes ago";
+    
+    return "Just now";
     }
 
     // Flag Post Functionality - sends data as URL parameters
     async function flagPost(postId, reason) {
-        if (!currentUser) {
-            alert('Please login to flag posts');
-            return;
-        }
+    if (!currentUser) {
+    alert('Please login to flag posts');
+    return;
+    }
 
-        try {
-            const response = await fetch(`${API_URL}/flags?postId=${postId}&userId=${currentUser.id}&reason=${encodeURIComponent(reason)}`, {
-                method: 'POST',
-                credentials: 'include'
-            });
+    try {
+    const response = await fetch(`${API_URL}/flags?postId=${postId}&userId=${currentUser.id}&reason=${encodeURIComponent(reason)}`, {
+    method: 'POST',
+    credentials: 'include'
+    });
 
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.message || 'Failed to flag post');
-            }
+    const data = await response.json();
+    
+    if (!response.ok) {
+    throw new Error(data.message || 'Failed to flag post');
+    }
 
-            alert(`Post flagged as ${reason} successfully!`);
-            loadPosts();
-            
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error: ' + error.message);
-        }
+    alert(`Post flagged as ${reason} successfully!`);
+    loadPosts();
+    
+    } catch (error) {
+    console.error('Error:', error);
+    alert('Error: ' + error.message);
+    }
     }
 
     // Check if a post is flagged - with error handling
     async function checkIfPostFlagged(postId) {
-        try {
-            const response = await fetch(`${API_URL}/flags/post/${postId}`);
+    try {
+    const response = await fetch(`${API_URL}/flags/post/${postId}`);
 
-            if (!response.ok) {
-                return { flagged: false };
-            }
-
-            const text = await response.text();
-            if (!text || text.trim() === '') {
-                return { flagged: false };
-            }
-
-            try {
-                const data = JSON.parse(text);
-                return data;
-            } catch (e) {
-                console.error('Error parsing flag check response:', e);
-                return { flagged: false };
-            }
-
-        } catch (error) {
-            console.error('Error checking flag status:', error);
-            return { flagged: false };
-        }
+    if (!response.ok) {
+    return { flagged: false };
     }
 
-    // ===== LIKE/DISLIKE FUNCTIONS =====
+    const text = await response.text();
+    if (!text || text.trim() === '') {
+    return { flagged: false };
+    }
+
+    try {
+    const data = JSON.parse(text);
+    return data;
+    } catch (e) {
+    console.error('Error parsing flag check response:', e);
+    return { flagged: false };
+    }
+
+    } catch (error) {
+    console.error('Error checking flag status:', error);
+    return { flagged: false };
+    }
+    }
+
+    // ==== LIKE/DISLIKE FUNCTIONS ====
     
     // Toggle Like
     async function toggleLike(postId) {
-      if (!currentUser) {
-        alert('Please login to like posts');
-        return;
-      }
-      
-      try {
-        const response = await fetch(`${API_URL}/posts/${postId}/like?userId=${currentUser.id}`, {
-          method: 'POST'
-        });
-        
-        if (!response.ok) throw new Error('Failed to toggle like');
-        
-        const data = await response.json();
-        updatePostStats(postId, data);
-      } catch (error) {
-        console.error('Error toggling like:', error);
-      }
+    if (!currentUser) {
+    alert('Please login to like posts');
+    return;
+    }
+    
+    try {
+    const response = await fetch(`${API_URL}/posts/${postId}/like?userId=${currentUser.id}`, {
+    method: 'POST'
+    });
+    
+    if (!response.ok) throw new Error('Failed to toggle like');
+    
+    const data = await response.json();
+    updatePostStats(postId, data);
+    } catch (error) {
+    console.error('Error toggling like:', error);
+    }
     }
 
     // Toggle Dislike
     async function toggleDislike(postId) {
-      if (!currentUser) {
-        alert('Please login to dislike posts');
-        return;
-      }
-      
-      try {
-        const response = await fetch(`${API_URL}/posts/${postId}/dislike?userId=${currentUser.id}`, {
-          method: 'POST'
-        });
-        
-        if (!response.ok) throw new Error('Failed to toggle dislike');
-        
-        const data = await response.json();
-        updatePostStats(postId, data);
-      } catch (error) {
-        console.error('Error toggling dislike:', error);
-      }
+    if (!currentUser) {
+    alert('Please login to dislike posts');
+    return;
+    }
+    
+    try {
+    const response = await fetch(`${API_URL}/posts/${postId}/dislike?userId=${currentUser.id}`, {
+    method: 'POST'
+    });
+    
+    if (!response.ok) throw new Error('Failed to toggle dislike');
+    
+    const data = await response.json();
+    updatePostStats(postId, data);
+    } catch (error) {
+    console.error('Error toggling dislike:', error);
+    }
     }
 
     // Update post statistics in UI
     function updatePostStats(postId, data) {
-      const postCard = document.querySelector(`[data-post-id="${postId}"]`);
-      if (!postCard) return;
-      
-      // Update like button and count
-      const likeBtn = postCard.querySelector('.like-btn');
-      const likeCount = postCard.querySelector('.like-count');
-      if (likeBtn && likeCount) {
-        likeCount.textContent = data.likeCount;
-        if (data.userLiked) {
-          likeBtn.classList.remove('btn-outline-success');
-          likeBtn.classList.add('btn-success');
-        } else {
-          likeBtn.classList.remove('btn-success');
-          likeBtn.classList.add('btn-outline-success');
-        }
-      }
-      
-      // Update dislike button and count
-      const dislikeBtn = postCard.querySelector('.dislike-btn');
-      const dislikeCount = postCard.querySelector('.dislike-count');
-      if (dislikeBtn && dislikeCount) {
-        dislikeCount.textContent = data.dislikeCount;
-        if (data.userDisliked) {
-          dislikeBtn.classList.remove('btn-outline-danger');
-          dislikeBtn.classList.add('btn-danger');
-        } else {
-          dislikeBtn.classList.remove('btn-danger');
-          dislikeBtn.classList.add('btn-outline-danger');
-        }
-      }
+    const postCard = document.querySelector(`[data-post-id="${postId}"]`);
+    if (!postCard) return;
+    
+    // Update like button and count
+    const likeBtn = postCard.querySelector('.like-btn');
+    const likeCount = postCard.querySelector('.like-count');
+    if (likeBtn && likeCount) {
+    likeCount.textContent = data.likeCount;
+    if (data.userLiked) {
+    likeBtn.classList.remove('btn-outline-success');
+    likeBtn.classList.add('btn-success');
+    } else {
+    likeBtn.classList.remove('btn-success');
+    likeBtn.classList.add('btn-outline-success');
+    }
+    }
+    
+    // Update dislike button and count
+    const dislikeBtn = postCard.querySelector('.dislike-btn');
+    const dislikeCount = postCard.querySelector('.dislike-count');
+    if (dislikeBtn && dislikeCount) {
+    dislikeCount.textContent = data.dislikeCount;
+    if (data.userDisliked) {
+    dislikeBtn.classList.remove('btn-outline-danger');
+    dislikeBtn.classList.add('btn-danger');
+    } else {
+    dislikeBtn.classList.remove('btn-danger');
+    dislikeBtn.classList.add('btn-outline-danger');
+    }
+    }
     }
 
-    // ===== INITIALIZATION =====
+    // ==== INITIALIZATION ====
     
     // Load posts on page load
     loadPosts();
 
     // Minimal personalization: show name saved by login.html
     (function () {
-      const name = localStorage.getItem('username');
-      if (name && !currentUser) {
-        document.getElementById('welcomeName').textContent = name;
-        document.getElementById('welcomeUser').style.display = 'block';
-      }
+    const name = localStorage.getItem('username');
+    if (name && !currentUser) {
+    document.getElementById('welcomeName').textContent = name;
+    document.getElementById('welcomeUser').style.display = 'block';
+    }
     })();
 
     // Toggle comments visibility
     async function toggleComments(postId) {
-      const commentsSection = document.getElementById(`comments-${postId}`);
-      if (!commentsSection) return;
-      
-      if (commentsSection.style.display === 'none') {
-        commentsSection.style.display = 'block';
-        await loadComments(postId);
-      } else {
-        commentsSection.style.display = 'none';
-      }
+    const commentsSection = document.getElementById(`comments-${postId}`);
+    if (!commentsSection) return;
+    
+    if (commentsSection.style.display === 'none') {
+    commentsSection.style.display = 'block';
+    await loadComments(postId);
+    } else {
+    commentsSection.style.display = 'none';
+    }
     }
 
     // Load comments for a post
     async function loadComments(postId) {
-      try {
-        const response = await fetch(`${API_URL}/posts/${postId}/comments`);
-        if (!response.ok) throw new Error('Failed to load comments');
-        
-        const comments = await response.json();
-        const commentList = document.getElementById(`comment-list-${postId}`);
-        
-        if (comments.length === 0) {
-          commentList.innerHTML = '<p class="text-muted">No comments yet</p>';
-          return;
-        }
-        
-        commentList.innerHTML = comments.map(comment => {
-          const commentDate = new Date(comment.createdAt);
-          const timeAgo = getTimeAgo(commentDate);
-          const profilePic = comment.userProfilePicture || 'images/default profile picture.jpg';
-          const isOwnComment = currentUser && currentUser.id === comment.userId;
-          const isAdmin = currentUser && currentUser.role === 'ADMIN';
-          const canDeleteComment = isOwnComment || isAdmin;
-          
-          return `
-            <div class="comment mb-3" data-comment-id="${comment.id}">
-              <div class="d-flex align-items-start">
-                <img src="${profilePic}" alt="User" width="40" height="40" 
-                     class="rounded-circle me-2" onerror="this.src='images/default profile picture.jpg'">
-                <div class="flex-grow-1">
-                  <div>
-                    <strong>${comment.username}</strong>
-                    <span class="text-muted ms-2" style="font-size: 0.85rem;">${timeAgo}</span>
-                  </div>
-                  <p class="mb-1">${comment.commentText}</p>
-                  ${canDeleteComment ? `
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteComment(${comment.id}, ${postId})">
-                      Delete${isAdmin && !isOwnComment ? ' (Admin)' : ''}
-                    </button>
-                  ` : ''}
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
-      } catch (error) {
-        console.error('Error loading comments:', error);
-      }
+    try {
+    const response = await fetch(`${API_URL}/posts/${postId}/comments`);
+    if (!response.ok) throw new Error('Failed to load comments');
+    
+    const comments = await response.json();
+    const commentList = document.getElementById(`comment-list-${postId}`);
+    
+    if (comments.length === 0) {
+    commentList.innerHTML = '<p class="text-muted">No comments yet</p>';
+    return;
+    }
+    
+    commentList.innerHTML = comments.map(comment => {
+    const commentDate = new Date(comment.createdAt);
+    const timeAgo = getTimeAgo(commentDate);
+    const profilePic = comment.userProfilePicture || 'images/default profile picture.jpg';
+    const isOwnComment = currentUser && currentUser.id === comment.userId;
+    const isAdmin = currentUser && currentUser.role === 'ADMIN';
+    const canDeleteComment = isOwnComment || isAdmin;
+    
+    return `
+    <div class="comment mb-3" data-comment-id="${comment.id}">
+    <div class="d-flex align-items-start">
+    <img src="${profilePic}" alt="User" width="40" height="40" 
+    class="rounded-circle me-2" onerror="this.src='images/default profile picture.jpg'">
+    <div class="flex-grow-1">
+    <div>
+    <strong>${comment.username}</strong>
+    <span class="text-muted ms-2" style="font-size: 0.85rem;">${timeAgo}</span>
+    </div>
+    <p class="mb-1">${comment.commentText}</p>
+    ${canDeleteComment ? `
+    <button class="btn btn-sm btn-outline-danger" onclick="deleteComment(${comment.id}, ${postId})">
+    Delete${isAdmin && !isOwnComment ? ' (Admin)' : ''}
+    </button>
+    ` : ''}
+    </div>
+    </div>
+    </div>
+    `;
+    }).join('');
+    } catch (error) {
+    console.error('Error loading comments:', error);
+    }
     }
 
     // Add a new comment
     async function addComment(postId) {
-      if (!currentUser) {
-        alert('Please login to comment');
-        return;
-      }
-      
-      const input = document.getElementById(`comment-input-${postId}`);
-      const commentText = input.value.trim();
-      
-      if (!commentText) {
-        alert('Comment cannot be empty');
-        return;
-      }
-      
-      try {
-        const response = await fetch(`${API_URL}/posts/${postId}/comments?userId=${currentUser.id}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ commentText })
-        });
-        
-        if (!response.ok) throw new Error('Failed to add comment');
-        
-        input.value = '';
-        await loadComments(postId);
-        
-        // Update comment count
-        const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
-        if (commentCount) {
-          commentCount.textContent = parseInt(commentCount.textContent) + 1;
-        }
-      } catch (error) {
-        console.error('Error adding comment:', error);
-      }
+    if (!currentUser) {
+    alert('Please login to comment');
+    return;
+    }
+    
+    const input = document.getElementById(`comment-input-${postId}`);
+    const commentText = input.value.trim();
+    
+    if (!commentText) {
+    alert('Comment cannot be empty');
+    return;
+    }
+    
+    try {
+    const response = await fetch(`${API_URL}/posts/${postId}/comments?userId=${currentUser.id}`, {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ commentText })
+    });
+    
+    if (!response.ok) throw new Error('Failed to add comment');
+    
+    input.value = '';
+    await loadComments(postId);
+    
+    // Update comment count
+    const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
+    if (commentCount) {
+    commentCount.textContent = parseInt(commentCount.textContent) + 1;
+    }
+    } catch (error) {
+    console.error('Error adding comment:', error);
+    }
     }
 
     // Delete a comment
     async function deleteComment(commentId, postId) {
-      if (!currentUser) return;
-      
-      if (!confirm('Are you sure you want to delete this comment?')) return;
-      
-      try {
-        const response = await fetch(`${API_URL}/posts/comments/${commentId}?userId=${currentUser.id}`, {
-          method: 'DELETE'
-        });
-        
-        if (!response.ok) throw new Error('Failed to delete comment');
-        
-        await loadComments(postId);
-        
-        // Update comment count
-        const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
-        if (commentCount) {
-          commentCount.textContent = Math.max(0, parseInt(commentCount.textContent) - 1);
-        }
-      } catch (error) {
-        console.error('Error deleting comment:', error);
-      }
+    if (!currentUser) return;
+    
+    if (!confirm('Are you sure you want to delete this comment?')) return;
+    
+    try {
+    const response = await fetch(`${API_URL}/posts/comments/${commentId}?userId=${currentUser.id}`, {
+    method: 'DELETE'
+    });
+    
+    if (!response.ok) throw new Error('Failed to delete comment');
+    
+    await loadComments(postId);
+    
+    // Update comment count
+    const commentCount = document.querySelector(`[data-post-id="${postId}"] .comment-count`);
+    if (commentCount) {
+    commentCount.textContent = Math.max(0, parseInt(commentCount.textContent) - 1);
+    }
+    } catch (error) {
+    console.error('Error deleting comment:', error);
+    }
     }
 
     // Edit and Delete post functions
     function editPost(postId, content) {
-      console.log('Edit post:', postId, content);
+    console.log('Edit post:', postId, content);
     }
 
     async function deletePost(postId) {
-      if (!currentUser) return;
-      
-      if (!confirm('Are you sure you want to delete this post?')) return;
-      
-      try {
-        const response = await fetch(`${API_URL}/posts/${postId}?userId=${currentUser.id}`, {
-          method: 'DELETE'
-        });
-        
-        if (!response.ok) throw new Error('Failed to delete post');
-        
-        // Remove the post from DOM immediately
-        const postCard = document.querySelector(`[data-post-id="${postId}"]`);
-        if (postCard) {
-          postCard.remove();
-        }
-        
-        alert('✅ Post deleted successfully!');
-      } catch (error) {
-        console.error('Error deleting post:', error);
-        alert('❌ Failed to delete post. Please try again.');
-      }
+    if (!currentUser) return;
+    
+    if (!confirm('Are you sure you want to delete this post?')) return;
+    
+    try {
+    const response = await fetch(`${API_URL}/posts/${postId}?userId=${currentUser.id}`, {
+    method: 'DELETE'
+    });
+    
+    if (!response.ok) throw new Error('Failed to delete post');
+    
+    // Remove the post from DOM immediately
+    const postCard = document.querySelector(`[data-post-id="${postId}"]`);
+    if (postCard) {
+    postCard.remove();
+    }
+    
+    alert('✅ Post deleted successfully!');
+    } catch (error) {
+    console.error('Error deleting post:', error);
+    alert('❌ Failed to delete post. Please try again.');
+    }
     }
 
     // Create a new post
 
-    // ===== Follow/Unfollow Functions =====
+    // ==== Follow/Unfollow Functions ====
 
     async function toggleFollow(userId, username, buttonElement) {
-      if (!currentUser) {
-        alert('Please login to follow users');
-        return;
-      }
+    if (!currentUser) {
+    alert('Please login to follow users');
+    return;
+    }
 
-      const isFollowing = buttonElement.classList.contains('btn-danger');
-      const endpoint = isFollowing ? 'unfollow' : 'follow';
+    const isFollowing = buttonElement.classList.contains('btn-danger');
+    const endpoint = isFollowing ? 'unfollow' : 'follow';
 
-      try {
-        const response = await fetch(`${API_URL}/users/${userId}/${endpoint}?followerId=${currentUser.id}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+    try {
+    const response = await fetch(`${API_URL}/users/${userId}/${endpoint}?followerId=${currentUser.id}`, {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+    }
+    });
 
-        if (!response.ok) throw new Error(`Failed to ${endpoint} user`);
+    if (!response.ok) throw new Error(`Failed to ${endpoint} user`);
 
-        const data = await response.json();
+    const data = await response.json();
 
-        // Update button state
-        if (isFollowing) {
-          buttonElement.classList.remove('btn-danger');
-          buttonElement.classList.add('btn-outline-success');
-          buttonElement.innerHTML = 'Follow 👤+';
-        } else {
-          buttonElement.classList.remove('btn-outline-success');
-          buttonElement.classList.add('btn-danger');
-          buttonElement.innerHTML = 'Unfollow 👤-';
-        }
+    // Update button state
+    if (isFollowing) {
+    buttonElement.classList.remove('btn-danger');
+    buttonElement.classList.add('btn-outline-success');
+    buttonElement.innerHTML = 'Follow 👤+';
+    } else {
+    buttonElement.classList.remove('btn-outline-success');
+    buttonElement.classList.add('btn-danger');
+    buttonElement.innerHTML = 'Unfollow 👤-';
+    }
 
-        // Update follower counts if on profile page
-        await updateFollowerCounts(userId);
+    // Update follower counts if on profile page
+    await updateFollowerCounts(userId);
 
-      } catch (error) {
-        console.error(`Error ${endpoint}ing user:`, error);
-        alert(`Failed to ${endpoint} user`);
-      }
+    } catch (error) {
+    console.error(`Error ${endpoint}ing user:`, error);
+    alert(`Failed to ${endpoint} user`);
+    }
     }
 
     async function checkFollowStatus(userId, buttonElement) {
-      if (!currentUser) return;
+    if (!currentUser) return;
 
-      try {
-        const response = await fetch(`${API_URL}/users/${userId}/is-following?followerId=${currentUser.id}`);
-        if (!response.ok) return;
+    try {
+    const response = await fetch(`${API_URL}/users/${userId}/is-following?followerId=${currentUser.id}`);
+    if (!response.ok) return;
 
-        const data = await response.json();
+    const data = await response.json();
 
-        if (data.isFollowing) {
-          buttonElement.classList.remove('btn-outline-success');
-          buttonElement.classList.add('btn-danger');
-          buttonElement.innerHTML = 'Unfollow 👤-';
-        }
-      } catch (error) {
-        console.error('Error checking follow status:', error);
-      }
+    if (data.isFollowing) {
+    buttonElement.classList.remove('btn-outline-success');
+    buttonElement.classList.add('btn-danger');
+    buttonElement.innerHTML = 'Unfollow 👤-';
+    }
+    } catch (error) {
+    console.error('Error checking follow status:', error);
+    }
     }
 
     async function updateFollowerCounts(userId) {
-      try {
-        const followerResponse = await fetch(`${API_URL}/users/${userId}/followers/count`);
-        const followerData = await followerResponse.json();
+    try {
+    const followerResponse = await fetch(`${API_URL}/users/${userId}/followers/count`);
+    const followerData = await followerResponse.json();
 
-        const followingResponse = await fetch(`${API_URL}/users/${userId}/following/count`);
-        const followingData = await followingResponse.json();
+    const followingResponse = await fetch(`${API_URL}/users/${userId}/following/count`);
+    const followingData = await followingResponse.json();
 
-        // Update counts on profile page if elements exist
-        const followerElement = document.getElementById('displayFollowers');
-        const followingElement = document.getElementById('displayFollowing');
+    // Update counts on profile page if elements exist
+    const followerElement = document.getElementById('displayFollowers');
+    const followingElement = document.getElementById('displayFollowing');
 
-        if (followerElement) {
-          followerElement.textContent = `Followers: ${followerData.count}`;
-        }
-        if (followingElement) {
-          followingElement.textContent = `Following: ${followingData.count}`;
-        }
-      } catch (error) {
-        console.error('Error updating follower counts:', error);
-      }
+    if (followerElement) {
+    followerElement.textContent = `Followers: ${followerData.count}`;
+    }
+    if (followingElement) {
+    followingElement.textContent = `Following: ${followingData.count}`;
+    }
+    } catch (error) {
+    console.error('Error updating follower counts:', error);
+    }
     }
 
     async function createPost() {
-      if (!currentUser) {
-        alert('Please login to create a post');
-        window.location.href = 'login.html';
-        return;
-      }
-      
-      const contentInput = document.getElementById('postContent');
-      const imageInput = document.getElementById('postImage');
-      const content = contentInput.value.trim();
-      const imageFile = imageInput.files[0];
-      
-      if (!content && !imageFile) {
-        alert('Please write something or select an image to post');
-        return;
-      }
-      
-      try {
-        const postButton = document.querySelector('.btn-create-post');
-        const originalText = postButton.textContent;
-        postButton.disabled = true;
-        postButton.textContent = 'Posting...';
-        
-        const formData = new FormData();
-        formData.append('userId', currentUser.id);
-        
-        if (content) {
-          formData.append('content', content);
-        }
-        
-        if (imageFile) {
-          formData.append('image', imageFile);
-        }
-        
-        const response = await fetch(`${API_URL}/posts`, {
-          method: 'POST',
-          body: formData
-        });
-        
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(errorText || 'Failed to create post');
-        }
-        
-        const newPost = await response.json();
-        
-        contentInput.value = '';
-        imageInput.value = '';
-        
-        alert('✅ Post created successfully!');
-        
-        await loadPosts();
-        
-        postButton.disabled = false;
-        postButton.textContent = originalText;
-        
-      } catch (error) {
-        console.error('Error creating post:', error);
-        
-        const postButton = document.querySelector('.btn-create-post');
-        postButton.disabled = false;
-        postButton.textContent = 'Post';
-      }
+    if (!currentUser) {
+    alert('Please login to create a post');
+    window.location.href = 'login.html';
+    return;
+    }
+    
+    const contentInput = document.getElementById('postContent');
+    const imageInput = document.getElementById('postImage');
+    const content = contentInput.value.trim();
+    const imageFile = imageInput.files[0];
+    
+    if (!content && !imageFile) {
+    alert('Please write something or select an image to post');
+    return;
+    }
+    
+    try {
+    const postButton = document.querySelector('.btn-create-post');
+    const originalText = postButton.textContent;
+    postButton.disabled = true;
+    postButton.textContent = 'Posting...';
+    
+    const formData = new FormData();
+    formData.append('userId', currentUser.id);
+    
+    if (content) {
+    formData.append('content', content);
+    }
+    
+    if (imageFile) {
+    formData.append('image', imageFile);
+    }
+    
+    const response = await fetch(`${API_URL}/posts`, {
+    method: 'POST',
+    body: formData
+    });
+    
+    if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(errorText || 'Failed to create post');
+    }
+    
+    const newPost = await response.json();
+    
+    contentInput.value = '';
+    imageInput.value = '';
+    
+    alert('✅ Post created successfully!');
+    
+    await loadPosts();
+    
+    postButton.disabled = false;
+    postButton.textContent = originalText;
+    
+    } catch (error) {
+    console.error('Error creating post:', error);
+    
+    const postButton = document.querySelector('.btn-create-post');
+    postButton.disabled = false;
+    postButton.textContent = 'Post';
+    }
     }
 
-    // ===== SEARCH FUNCTIONALITY =====
+    // ==== SEARCH FUNCTIONALITY ====
     let searchTimeout;
     const searchInput = document.getElementById('searchInput');
     const searchDropdown = document.getElementById('searchDropdown');
 
     searchInput.addEventListener('input', function() {
-      clearTimeout(searchTimeout);
-      const query = this.value.trim();
+    clearTimeout(searchTimeout);
+    const query = this.value.trim();
 
-      if (query.length < 2) {
-        searchDropdown.classList.remove('show');
-        return;
-      }
+    if (query.length < 2) {
+    searchDropdown.classList.remove('show');
+    return;
+    }
 
-      searchTimeout = setTimeout(() => {
-        performLiveSearch(query);
-      }, 300);
+    searchTimeout = setTimeout(() => {
+    performLiveSearch(query);
+    }, 300);
     });
 
     document.addEventListener('click', function(e) {
-      if (!e.target.closest('.search-container')) {
-        searchDropdown.classList.remove('show');
-      }
+    if (!e.target.closest('.search-container')) {
+    searchDropdown.classList.remove('show');
+    }
     });
 
     async function performLiveSearch(query) {
-      try {
-        const userId = currentUser ? currentUser.id : null;
-        const url = `${API_URL}/users/search?query=${encodeURIComponent(query)}${userId ? '&currentUserId=' + userId : ''}`;
-        
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Search failed');
+    try {
+    const userId = currentUser ? currentUser.id : null;
+    const url = `${API_URL}/users/search?query=${encodeURIComponent(query)}${userId ? '&currentUserId=' + userId : ''}`;
+    
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Search failed');
 
-        const results = await response.json();
-        displaySearchResults(results);
-      } catch (error) {
-        console.error('Search error:', error);
-        searchDropdown.innerHTML = '<div class="search-no-results">Search error occurred</div>';
-        searchDropdown.classList.add('show');
-      }
+    const results = await response.json();
+    displaySearchResults(results);
+    } catch (error) {
+    console.error('Search error:', error);
+    searchDropdown.innerHTML = '<div class="search-no-results">Search error occurred</div>';
+    searchDropdown.classList.add('show');
+    }
     }
 
     function displaySearchResults(results) {
-      if (results.length === 0) {
-        searchDropdown.innerHTML = '<div class="search-no-results">No users found</div>';
-      } else {
-        searchDropdown.innerHTML = results.map(user => {
-          const profilePic = user.profilePictureUrl || 'images/default profile picture.jpg';
-          return `
-            <div class="search-result-item" onclick="navigateToProfile('${user.username}')">
-              <img src="${profilePic}" alt="${user.username}" onerror="this.src='images/default profile picture.jpg'">
-              <span class="username">${user.username}</span>
-            </div>
-          `;
-        }).join('');
-      }
-      searchDropdown.classList.add('show');
+    if (results.length === 0) {
+    searchDropdown.innerHTML = '<div class="search-no-results">No users found</div>';
+    } else {
+    searchDropdown.innerHTML = results.map(user => {
+    const profilePic = user.profilePictureUrl || 'images/default profile picture.jpg';
+    return `
+    <div class="search-result-item" onclick="navigateToProfile('${user.username}')">
+    <img src="${profilePic}" alt="${user.username}" onerror="this.src='images/default profile picture.jpg'">
+    <span class="username">${user.username}</span>
+    </div>
+    `;
+    }).join('');
+    }
+    searchDropdown.classList.add('show');
     }
 
     function performSearch() {
-      const query = searchInput.value.trim();
-      if (query.length >= 2) {
-        performLiveSearch(query);
-      }
+    const query = searchInput.value.trim();
+    if (query.length >= 2) {
+    performLiveSearch(query);
+    }
     }
 
     searchInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        performSearch();
-      }
+    if (e.key === 'Enter') {
+    performSearch();
+    }
     });
 
     function navigateToProfile(username) {
-      window.location.href = `user-profile.html?username=${encodeURIComponent(username)}`;
+    window.location.href = `user-profile.html?username=${encodeURIComponent(username)}`;
+    }
+
+    // ==== SEND WARNING FUNCTION ====
+    function sendWarning(userId) {
+      window.location.href = `send-warning.html?userId=${userId}`;
     }
   </script>
 </body>
